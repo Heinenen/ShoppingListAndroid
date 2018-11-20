@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-public class ShoppingListsDatabaseHelper extends SQLiteOpenHelper {
+public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String TAG = "DatabaseHelper";
 
@@ -14,7 +14,7 @@ public class ShoppingListsDatabaseHelper extends SQLiteOpenHelper {
     private static final String COL1 = "ID";
     private static final String COL2 = "name";
 
-    public ShoppingListsDatabaseHelper(Context context){
+    public DatabaseHelper(Context context){
         super(context, TABLE_NAME, null, 1);
     }
 

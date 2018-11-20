@@ -15,7 +15,7 @@ import java.util.List;
 public class CategoryList {
     
     private String name;
-    private List<Category> categories;
+    private List<String> categories;
     private PrintWriter out;
     private File list;
     private String dir;
@@ -37,13 +37,13 @@ public class CategoryList {
         }
     }
     
-    public void addCategory(Category cat){
+    public void addCategory(String cat){
         categories.add(cat);
         try{
             FileWriter fw = new FileWriter(fileName,true);
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter pw = new PrintWriter(bw);
-            pw.println(cat.getName());
+            pw.println(cat);
         } catch (IOException e){
             System.out.println(e);
         }
@@ -54,7 +54,7 @@ public class CategoryList {
         try{
             out = new PrintWriter(fileName);
             for (int i = 0; i < categories.size(); i++){
-                out.println(categories.get(i).getName());
+                out.println(categories.get(i));
             }
             out.close();
         } catch(IOException e){
@@ -62,12 +62,12 @@ public class CategoryList {
         }
     }
     
-    public void removeCategory(Category cat){
+    public void removeCategory(String cat){
         categories.remove(cat);
         saveList();
     }
     
-    public void addCategoryFS(Category cat){
+    public void addCategoryFS(String cat){
         categories.add(cat);
     }
     

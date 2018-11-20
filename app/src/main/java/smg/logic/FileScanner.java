@@ -29,7 +29,7 @@ public class FileScanner {
         }
         
         smg.logic.ShoppingList List1 = new smg.logic.ShoppingList("List1");
-        Category category = new Category("category");
+        String category = "category";
         
         // StringBuilder sb = new StringBuilder();
         String letter;
@@ -100,8 +100,7 @@ public class FileScanner {
         StringBuilder sb = new StringBuilder();
                 try{
             while((letter = reader.readLine()) != null){
-                Category category = new Category(letter);
-                List1.addCategoryFS(category);
+                List1.addCategoryFS(letter);
             }
             
         }catch (IOException f){

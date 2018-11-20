@@ -21,7 +21,7 @@ public class ShoppingList implements Serializable {
     private String name;
     private String fileName;
     private String dir;
-    private List<Item> items;
+    private ArrayList<Item> items;
     private PrintWriter out;
     private File list;
     
@@ -87,7 +87,7 @@ public class ShoppingList implements Serializable {
     }
     
     // Changes Item-properties and refreshes .txt
-    public void editItem(Item item, String name, Category category, Integer priority, String amount, Boolean check){
+    public void editItem(Item item, String name, String category, Integer priority, String amount, Boolean check){
         if(name != null) item.setName(name);
         if(category != null) item.setCategory(category);
         if(priority != null) item.setPriority(priority);

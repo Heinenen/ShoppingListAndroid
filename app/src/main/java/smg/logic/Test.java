@@ -19,22 +19,20 @@ public class Test {
 
     public static void test1() throws IOException{
         ShoppingList shoppingList = new ShoppingList("List1");
-        Category drinks = new Category("Drinks");
-        Category food = new Category("Food");
-        Item milk = new Item("Milch", drinks, 0, null);
-        Item honey = new Item("Honig", food, 1, null);
-        Item nutella = new Item("Nutella", food, 0, "3");
-        Item cheese = new Item("Käse", food, 0, "5");
-        
+        Item milk = new Item("Milch", "drinks", 0, null);
+        Item honey = new Item("Honig", "food", 1, null);
+        Item nutella = new Item("Nutella", "food", 0, "3");
+        Item cheese = new Item("Käse", "food", 0, "5");
+
         shoppingList.addItem(milk);
-        shoppingList.addItem(new Item("Nusseis", food, 2, "10"));
+        shoppingList.addItem(new Item("Nusseis", "food", 2, "10"));
         shoppingList.replaceItem(milk, cheese);
         shoppingList.addItem(honey);
         shoppingList.addItem(nutella);
         shoppingList.removeItem(milk);
         
         // public void editItem(Item item, String name, Category category, Integer priority, String amount, Boolean check)
-        shoppingList.editItem(cheese, "Gouda", drinks, 0, "1", true);
+        shoppingList.editItem(cheese, "Gouda", "drinks", 0, "1", true);
         
         List<Item> it = shoppingList.getItems();
         for (int i = 0; i < it.size(); i++){

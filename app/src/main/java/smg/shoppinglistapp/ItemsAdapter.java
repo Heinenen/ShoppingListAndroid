@@ -34,7 +34,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
 
 
         holder.itemNameTextView.setText(item.getName());
-        holder.itemCategoryTextView.setText(item.getCategory().getName());
+        holder.itemCategoryTextView.setText(item.getCategory());
         holder.itemAmountTextView.setText(item.getAmount());
         holder.itemPriorityTextView.setText(String.valueOf((item.getPriority())));
     }

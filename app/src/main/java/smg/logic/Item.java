@@ -9,13 +9,13 @@ import java.util.Comparator;
  */
 public class Item implements Serializable {
     private String name;
-    private Category category;
+    private String category;
     private int priority;
     private String amount;
     private String seperator;
     private boolean check;
     
-    public Item (String name, Category category, int priority, String amount){
+    public Item (String name, String category, int priority, String amount){
         this.name = name;
         this.category = category;
         this.priority = priority;
@@ -36,7 +36,7 @@ public class Item implements Serializable {
         return amount;
     }
 
-    public Category getCategory() {
+    public String getCategory() {
         return category;
     }
 
@@ -52,7 +52,7 @@ public class Item implements Serializable {
         this.name = name;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 
@@ -73,7 +73,7 @@ public class Item implements Serializable {
     @Override
     public String toString(){
         String txtF = name + seperator 
-                + category.getName() + seperator
+                + category + seperator
                 + String.valueOf(priority)+ seperator
                 + String.valueOf(amount) + seperator
                 + String.valueOf(check);

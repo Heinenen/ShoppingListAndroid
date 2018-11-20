@@ -10,7 +10,6 @@ import android.widget.EditText;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import smg.logic.Category;
 import smg.logic.Item;
 
 public class AddItemActivity extends AppCompatActivity implements Serializable {
@@ -47,11 +46,11 @@ public class AddItemActivity extends AppCompatActivity implements Serializable {
                 }
 
                 // default value for category (-> None)
-                Category itemCategoryCategory;
+                String itemCategoryCategory;
                 if(itemCategory.getText().toString().equals("")){
-                    itemCategoryCategory = new Category(getString(R.string.addItemAct_defaultCategoryName));
+                    itemCategoryCategory = getString(R.string.addItemAct_defaultCategoryName);
                 } else {
-                    itemCategoryCategory = new Category(itemCategory.getText().toString());
+                    itemCategoryCategory = itemCategory.getText().toString();
                 }
 
                 // default value for priority (-> 0)

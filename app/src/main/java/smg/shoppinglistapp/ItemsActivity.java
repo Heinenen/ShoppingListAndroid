@@ -11,7 +11,6 @@ import android.widget.Button;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import smg.logic.Category;
 import smg.logic.Item;
 import smg.logic.ShoppingList;
 
@@ -32,9 +31,9 @@ public class ItemsActivity extends AppCompatActivity implements Serializable {
 
         shoppingList = new ShoppingList("test1");
 
-        Item i1 = new Item("Milk", new Category("drinks"), 0, "1");
-        Item i2 = new Item("Honey", new Category("food"), -1, "500g");
-        Item i3 = new Item("Cookies", new Category("food"), 99, "20");
+        Item i1 = new Item("Milk", "drinks", 0, "1");
+        Item i2 = new Item("Honey", "food", -1, "500g");
+        Item i3 = new Item("Cookies", "food", 99, "20");
 
         shoppingList.addItemFS(i1);
         shoppingList.addItemFS(i2);
