@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="addItemAct_title">Artikel hinzufügen</string>
+    <string name="addItemAct_defaultItemName">Artikel1</string>
+    <string name="addShoppingListAct_title">Einkaufsliste hinzufügen</string>
+    <string name="itemsAct_title">Artikel</string>
+    <string name="shoppingListsAct_title">Einkauflisten</string>
+    <string name="actAddItem_nameHint">Name</string>
+    <string name="actAddItem_categoryHint">Kategorie</string>
+    <string name="actAddItem_priorityHint">Priorität</string>
+    <string name="actAddItem_amountHint">Menge</string>
+    <string name="actAssShoppingList_nameHint">Name</string>
+    <string name="app_name">Einkaufliste</string>
+</resources>

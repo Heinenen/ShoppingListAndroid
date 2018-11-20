@@ -1,0 +1,59 @@
+<resources>
+    <string name="app_name">Shopping List</string>
+
+    <!-- Strings for Classes -->
+
+    <!-- AddItemActivity -->
+    <string name="addItemAct_title">Add new item</string>
+    <string name="addItemAct_defaultItemName">Item1</string>
+    <string name="addItemAct_defaultCategoryName" translatable="false"> </string>
+    <string name="addItemAct_defaultAmount" translatable="false">1</string>
+
+    <!-- AddShoppingListActivity -->
+    <string name="addShoppingListAct_title">Add new shopping list</string>
+
+    <!-- ItemsActivity -->
+    <string name="itemsAct_title">Items</string>
+
+    <!-- ShoppingListsActivity -->
+    <string name="shoppingListsAct_title">Shopping lists</string>
+
+    <!-- Strings for layouts -->
+
+    <!-- activity_add_item -->
+    <string name="actAddItem_nameHint">Name</string>
+    <string name="actAddItem_categoryHint">Category</string>
+    <string name="actAddItem_priorityHint">Priority</string>
+    <string name="actAddItem_amountHint">Amount</string>
+
+    <!-- activity_add_shopping_list -->
+    <string name="actAssShoppingList_nameHint">Name</string>
+
+
+
+
+    <string-array name="shoppingListsStrings">
+        <item>Aldi</item>
+        <item>Lidl</item>
+        <item>Hit</item>
+    </string-array>
+
+    <string-array name="items">
+        <item>honey</item>
+        <item>milk</item>
+        <item>Nutella</item>
+    </string-array>
+
+    <string-array name="prices">
+        <item>0.99€</item>
+        <item>1.99€</item>
+        <item>0.05€</item>
+    </string-array>
+
+    <string-array name="descriptions">
+        <item>cheap</item>
+        <item>discounter</item>
+        <item>quality</item>
+    </string-array>
+
+</resources>

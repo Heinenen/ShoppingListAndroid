@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="smg.shoppinglistapp.AddItemActivity">
+
+    <!--
+    <item
+        android:id="@+id/close_add_Item"
+        android:icon="@drawable/ic_close_dark_material_accent_24dp"
+        android:title="Close"
+        app:showAsAction="always" />
+    -->
+
+</menu>
