@@ -24,6 +24,11 @@ public class AddItemActivity extends AppCompatActivity implements Serializable {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
 
+        addShoppingList();
+    }
+
+
+    public void addShoppingList(){
         Button addShoppingList = findViewById(R.id.addItemBtn);
         addShoppingList.setOnClickListener(new View.OnClickListener() {
             @Override
