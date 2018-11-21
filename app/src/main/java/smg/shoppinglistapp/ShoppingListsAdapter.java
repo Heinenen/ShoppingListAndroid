@@ -11,19 +11,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import smg.logic.ShoppingList;
 
 public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdapter.ViewHolder> {
 
-    private List<ShoppingList> shoppingLists;
     private Context context;
     private DatabaseHelper myDb;
 
-    public ShoppingListsAdapter(Context context, List<ShoppingList> shoppingLists){
+    public ShoppingListsAdapter(Context context){
         this.context = context;
-        this.shoppingLists = shoppingLists;
 
         myDb = new DatabaseHelper(context);
     }
@@ -35,16 +30,15 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
-        ArrayList<String>[] stringss = getShoppingLists();
+        ArrayList<String>[] strings = getShoppingLists();
 
-        holder.nameTextView.setText(stringss[1].get(position));
+        holder.nameTextView.setText(strings[1].get(position));
         holder.descriptionTextView.setText("description");
-        holder.priceTextView.setText(stringss[0].get(position));
+        holder.priceTextView.setText(strings[0].get(position));
         holder.parentView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, ItemsActivity.class);
-//                intent.putExtra("smg.SHOPPING_LISTS", shoppingList);
                 intent.putExtra("smg.INDEX", holder.getAdapterPosition());
                 context.startActivity(intent);
             }
@@ -53,9 +47,9 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
 
     @Override
     public int getItemCount() {
-        ArrayList<String>[] stringss = getShoppingLists();
+        ArrayList<String>[] strings = getShoppingLists();
 
-        return stringss[0].size();
+        return strings[0].size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
@@ -84,9 +78,9 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
 
         }
 
-        ArrayList<String>[] stringss = new ArrayList[]{idStrings, nameStrings};
+        ArrayList<String>[] strings = new ArrayList[]{idStrings, nameStrings};
 
-        return stringss;
+        return strings;
     }
 
 }

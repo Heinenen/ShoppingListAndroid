@@ -48,7 +48,15 @@ public class ItemsActivity extends AppCompatActivity implements Serializable {
             shoppingList.setItems(items);
         }
 
-        final Button addItemActivityBtn = findViewById(R.id.addItemActivityBtn);
+        RecyclerView recyclerView = findViewById(R.id.secondRecyclerView);
+        recyclerView.setAdapter(new ItemsAdapter(ItemsActivity.this, shoppingList));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+
+        addItemActivity();
+    }
+
+    public void addItemActivity(){
+        Button addItemActivityBtn = findViewById(R.id.addItemActivityBtn);
         addItemActivityBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,12 +65,5 @@ public class ItemsActivity extends AppCompatActivity implements Serializable {
                 startActivity(addItemActivity);
             }
         });
-
-
-        RecyclerView recyclerView = findViewById(R.id.secondRecyclerView);
-
-        recyclerView.setAdapter(new ItemsAdapter(ItemsActivity.this, shoppingList));
-        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-
     }
 }

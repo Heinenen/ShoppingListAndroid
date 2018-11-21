@@ -8,17 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 
-import java.io.Serializable;
-import java.util.ArrayList;
+public class ShoppingListsActivity extends AppCompatActivity {
 
-import smg.logic.ShoppingList;
-
-public class ShoppingListsActivity extends AppCompatActivity implements Serializable {
-
-
-    // TODO add saving of shoppingLists
-    ArrayList<ShoppingList> shoppingLists;
-    DatabaseHelper mDatabaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,29 +17,23 @@ public class ShoppingListsActivity extends AppCompatActivity implements Serializ
         setContentView(R.layout.activity_shopping_lists);
         setTitle(R.string.shoppingListsAct_title);
 
+        RecyclerView recyclerView = findViewById(R.id.mainRecyclerView);
+        recyclerView.setAdapter(new ShoppingListsAdapter(ShoppingListsActivity.this));
+        recyclerView.setLayoutManager(new LinearLayoutManager(ShoppingListsActivity.this));
 
-        if(shoppingLists == null){
-            shoppingLists = new ArrayList<>();
-        }
+        addShoppingListActivity();
+    }
 
-        if(getIntent().hasExtra("smg.SHOPPING_LISTS")){
-            shoppingLists = (ArrayList) getIntent().getSerializableExtra("smg.SHOPPING_LISTS");
-        }
 
+    public void addShoppingListActivity(){
         Button addShoppingListActivityBtn = findViewById(R.id.addShoppingListActivityBtn);
         addShoppingListActivityBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent addShoppingList = new Intent(ShoppingListsActivity.this, AddShoppingListActivity.class);
-                addShoppingList.putExtra("smg.SHOPPING_LISTS", shoppingLists);
                 startActivity(addShoppingList);
             }
         });
 
-
-        RecyclerView recyclerView = findViewById(R.id.mainRecyclerView);
-
-        recyclerView.setAdapter(new ShoppingListsAdapter(ShoppingListsActivity.this, shoppingLists));
-        recyclerView.setLayoutManager(new LinearLayoutManager(ShoppingListsActivity.this));
     }
 }

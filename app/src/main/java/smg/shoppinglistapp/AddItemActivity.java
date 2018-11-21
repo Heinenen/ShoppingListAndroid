@@ -15,6 +15,8 @@ import smg.logic.Item;
 public class AddItemActivity extends AppCompatActivity implements Serializable {
 
 
+    // TODO add saving of items
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,13 +26,13 @@ public class AddItemActivity extends AppCompatActivity implements Serializable {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
 
-        addShoppingList();
+        addItem();
     }
 
 
-    public void addShoppingList(){
-        Button addShoppingList = findViewById(R.id.addItemBtn);
-        addShoppingList.setOnClickListener(new View.OnClickListener() {
+    public void addItem(){
+        Button addItem = findViewById(R.id.addItemBtn);
+        addItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 EditText itemName = findViewById(R.id.itemNameEditText);
