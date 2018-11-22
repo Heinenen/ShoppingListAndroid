@@ -6,16 +6,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-
-import smg.logic.Item;
 
 public class AddItemActivity extends AppCompatActivity implements Serializable {
 
 
     // TODO add saving of items
+    private String shoppingList;
+    private DatabaseHelper myDb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +25,9 @@ public class AddItemActivity extends AppCompatActivity implements Serializable {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
+
+        shoppingList = getIntent().getStringExtra("smg.SHOPPING_LIST");
+        myDb = new DatabaseHelper(this);
 
         addItem();
     }
@@ -39,7 +42,7 @@ public class AddItemActivity extends AppCompatActivity implements Serializable {
                 EditText itemCategory = findViewById(R.id.itemCategoryEditText);
                 EditText itemPriority = findViewById(R.id.itemPriorityEditText);
                 EditText itemAmount = findViewById(R.id.itemAmountEditText);
-                ArrayList<Item> items = (ArrayList) getIntent().getSerializableExtra("smg.ITEMS");
+//                ArrayList<Item> items = (ArrayList) getIntent().getSerializableExtra("smg.ITEMS");
 
                 // Item parameters
                 // TODO make program complain if no name is given
@@ -53,11 +56,11 @@ public class AddItemActivity extends AppCompatActivity implements Serializable {
                 }
 
                 // default value for category (-> None)
-                String itemCategoryCategory;
+                String itemCategoryString;
                 if(itemCategory.getText().toString().equals("")){
-                    itemCategoryCategory = getString(R.string.addItemAct_defaultCategoryName);
+                    itemCategoryString = getString(R.string.addItemAct_defaultCategoryName);
                 } else {
-                    itemCategoryCategory = itemCategory.getText().toString();
+                    itemCategoryString = itemCategory.getText().toString();
                 }
 
                 // default value for priority (-> 0)
@@ -68,6 +71,7 @@ public class AddItemActivity extends AppCompatActivity implements Serializable {
                     itemPriorityInt = Integer.parseInt(itemPriority.getText().toString());
                 }
 
+
                 // default value for amount (-> 1)
                 String itemAmountString;
                 if(itemAmount.getText().toString().equals("")){
@@ -76,12 +80,22 @@ public class AddItemActivity extends AppCompatActivity implements Serializable {
                     itemAmountString = itemAmount.getText().toString();
                 }
 
-                Item item = new Item(itemNameString, itemCategoryCategory, itemPriorityInt, itemAmountString);
-                items.add(item);
+                boolean isInserted = myDb.addItem(shoppingList, itemNameString, itemCategoryString, itemPriorityInt, itemAmountString);
+                if (isInserted) {
+                    Toast.makeText(AddItemActivity.this, "Item added", Toast.LENGTH_LONG).show();
+                    Intent itemsActivity = new Intent(AddItemActivity.this, ItemsActivity.class);
+                    itemsActivity.putExtra("smg.SHOPPING_LIST", shoppingList);
+                    startActivity(itemsActivity);
+                } else {
+                    Toast.makeText(AddItemActivity.this, "Adding failed", Toast.LENGTH_LONG).show();
+                }
 
-                Intent itemsActivity = new Intent(AddItemActivity.this, ItemsActivity.class);
-                itemsActivity.putExtra("smg.ITEMS", items);
-                startActivity(itemsActivity);
+//                Item item = new Item(itemNameString, itemCategoryString, itemPriorityInt, itemAmountString);
+//                items.add(item);
+//
+//                Intent itemsActivity = new Intent(AddItemActivity.this, ItemsActivity.class);
+//                itemsActivity.putExtra("smg.ITEMS", items);
+//                startActivity(itemsActivity);
             }
         });
     }

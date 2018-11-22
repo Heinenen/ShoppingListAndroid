@@ -31,6 +31,7 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         ArrayList<String>[] strings = getShoppingLists();
+        final String shoppingList = strings[1].get(position);
 
         holder.nameTextView.setText(strings[1].get(position));
         holder.descriptionTextView.setText("description");
@@ -40,6 +41,7 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
             public void onClick(View v) {
                 Intent intent = new Intent(context, ItemsActivity.class);
                 intent.putExtra("smg.INDEX", holder.getAdapterPosition());
+                intent.putExtra("smg.SHOPPING_LIST", shoppingList);
                 context.startActivity(intent);
             }
         });
@@ -78,9 +80,7 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
 
         }
 
-        ArrayList<String>[] strings = new ArrayList[]{idStrings, nameStrings};
-
-        return strings;
+        return new ArrayList[]{idStrings, nameStrings};
     }
 
 }

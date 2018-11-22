@@ -18,7 +18,7 @@ import smg.logic.ShoppingList;
 // TODO save shoppingLists somewhere
 public class ItemsActivity extends AppCompatActivity implements Serializable {
 
-    ShoppingList shoppingList;
+    String shoppingList;
     ArrayList<Item> items;
 
     @Override
@@ -29,24 +29,8 @@ public class ItemsActivity extends AppCompatActivity implements Serializable {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        shoppingList = new ShoppingList("test1");
+        shoppingList = getIntent().getStringExtra("smg.SHOPPING_LIST");
 
-        Item i1 = new Item("Milk", "drinks", 0, "1");
-        Item i2 = new Item("Honey", "food", -1, "500g");
-        Item i3 = new Item("Cookies", "food", 99, "20");
-
-        shoppingList.addItemFS(i1);
-        shoppingList.addItemFS(i2);
-        shoppingList.addItemFS(i3);
-
-        if(items == null){
-            items = (ArrayList) shoppingList.getItems();
-        }
-
-        if(getIntent().hasExtra("smg.ITEMS")){
-            items = (ArrayList) getIntent().getSerializableExtra("smg.ITEMS");
-            shoppingList.setItems(items);
-        }
 
         RecyclerView recyclerView = findViewById(R.id.secondRecyclerView);
         recyclerView.setAdapter(new ItemsAdapter(ItemsActivity.this, shoppingList));
@@ -62,6 +46,7 @@ public class ItemsActivity extends AppCompatActivity implements Serializable {
             public void onClick(View v) {
                 Intent addItemActivity = new Intent(ItemsActivity.this, AddItemActivity.class);
                 addItemActivity.putExtra("smg.ITEMS", items);
+                addItemActivity.putExtra("smg.SHOPPING_LIST", shoppingList);
                 startActivity(addItemActivity);
             }
         });
