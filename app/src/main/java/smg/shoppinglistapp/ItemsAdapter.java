@@ -19,7 +19,6 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
 
     public ItemsAdapter(Context context, String SL){
         this.context = context;
-//        items = shoppingList.getItems();
         this.SL = SL;
 
         myDb = new DatabaseHelper(context);
@@ -32,7 +31,6 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-//        final Item item = items.get(position);
         ArrayList<String>[] strings = getItems();
 
 

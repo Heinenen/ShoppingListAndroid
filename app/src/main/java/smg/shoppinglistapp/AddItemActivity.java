@@ -8,12 +8,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.io.Serializable;
-
-public class AddItemActivity extends AppCompatActivity implements Serializable {
+public class AddItemActivity extends AppCompatActivity {
 
 
-    // TODO add saving of items
     private String shoppingList;
     private DatabaseHelper myDb;
 
@@ -42,7 +39,6 @@ public class AddItemActivity extends AppCompatActivity implements Serializable {
                 EditText itemCategory = findViewById(R.id.itemCategoryEditText);
                 EditText itemPriority = findViewById(R.id.itemPriorityEditText);
                 EditText itemAmount = findViewById(R.id.itemAmountEditText);
-//                ArrayList<Item> items = (ArrayList) getIntent().getSerializableExtra("smg.ITEMS");
 
                 // Item parameters
                 // TODO make program complain if no name is given
@@ -89,13 +85,6 @@ public class AddItemActivity extends AppCompatActivity implements Serializable {
                 } else {
                     Toast.makeText(AddItemActivity.this, "Adding failed", Toast.LENGTH_LONG).show();
                 }
-
-//                Item item = new Item(itemNameString, itemCategoryString, itemPriorityInt, itemAmountString);
-//                items.add(item);
-//
-//                Intent itemsActivity = new Intent(AddItemActivity.this, ItemsActivity.class);
-//                itemsActivity.putExtra("smg.ITEMS", items);
-//                startActivity(itemsActivity);
             }
         });
     }

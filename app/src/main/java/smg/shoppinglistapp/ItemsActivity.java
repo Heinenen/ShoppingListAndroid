@@ -8,15 +8,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import smg.logic.Item;
-import smg.logic.ShoppingList;
 
 
-// TODO save shoppingLists somewhere
-public class ItemsActivity extends AppCompatActivity implements Serializable {
+public class ItemsActivity extends AppCompatActivity {
 
     String shoppingList;
     ArrayList<Item> items;
