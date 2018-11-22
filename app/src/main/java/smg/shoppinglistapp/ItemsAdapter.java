@@ -52,11 +52,9 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
         private TextView itemCategoryTextView;
         private TextView itemAmountTextView;
         private TextView itemPriorityTextView;
-        private View parentView;
 
         public ViewHolder (@NonNull  View view){
             super(view);
-            this.parentView = view;
             this.itemNameTextView = view.findViewById(R.id.itemNameTextView);
             this.itemCategoryTextView = view.findViewById(R.id.itemCategoryTextView);
             this.itemAmountTextView = view.findViewById(R.id.itemAmountTextView);

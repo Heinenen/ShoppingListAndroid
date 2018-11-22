@@ -2,7 +2,9 @@ package smg.shoppinglistapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -87,5 +89,17 @@ public class AddItemActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+
+    // goes to parent activity on backKey-press
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK){
+            NavUtils.navigateUpFromSameTask(this);
+            return true;
+        }
+
+        return super.onKeyDown(keyCode, event);
     }
 }

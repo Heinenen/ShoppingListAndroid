@@ -31,20 +31,34 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         ArrayList<String>[] strings = getShoppingLists();
+        final String id = strings[0].get(position);
         final String shoppingList = strings[1].get(position);
 
         holder.nameTextView.setText(strings[1].get(position));
         holder.descriptionTextView.setText("description");
         holder.priceTextView.setText(strings[0].get(position));
+
         holder.parentView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, ItemsActivity.class);
-                intent.putExtra("smg.INDEX", holder.getAdapterPosition());
-                intent.putExtra("smg.SHOPPING_LIST", shoppingList);
-                context.startActivity(intent);
+                Intent itemActivityIntent = new Intent(context, ItemsActivity.class);
+                itemActivityIntent.putExtra("smg.INDEX", holder.getAdapterPosition());
+                itemActivityIntent.putExtra("smg.SHOPPING_LIST", shoppingList);
+                context.startActivity(itemActivityIntent);
             }
         });
+
+        holder.parentView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Intent editSLIntent = new Intent(context, EditShoppingListActivity.class);
+                editSLIntent.putExtra("smg.SL_ID", id);
+                editSLIntent.putExtra("smg.SHOPPING_LIST", shoppingList);
+                context.startActivity(editSLIntent);
+                return true;
+            }
+        });
+
     }
 
     @Override
@@ -66,6 +80,7 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
             this.nameTextView = view.findViewById(R.id.nameTextView);
             this.descriptionTextView = view.findViewById(R.id.descriptionTextView);
             this.priceTextView = view.findViewById(R.id.priceTextView);
+
         }
     }
 

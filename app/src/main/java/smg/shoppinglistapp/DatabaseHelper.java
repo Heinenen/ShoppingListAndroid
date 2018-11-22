@@ -28,8 +28,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE " + TABLE1_NAME + " (SL_ID INTEGER PRIMARY KEY AUTOINCREMENT, SL_NAME TEXT)");
-        db.execSQL("CREATE TABLE " + TABLE2_NAME + " (ITEM_ID INTEGER PRIMARY KEY AUTOINCREMENT,SL TEXT, ITEM_NAME TEXT,ITEM_CATEGORY TEXT,ITEM_PRIORITY INTEGER, ITEM_AMOUNT TEXT)");
+        db.execSQL("CREATE TABLE " + TABLE1_NAME + " (" + COL_1_1 + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_1_2 + " TEXT)");
+        db.execSQL("CREATE TABLE " + TABLE2_NAME + " (" + COL_2_1 + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_2_2  + " TEXT, "
+                + COL_2_3 + " TEXT, " + COL_2_4 + " TEXT, " + COL_2_5 + " INTEGER, " + COL_2_6 + " TEXT)");
     }
 
     @Override
@@ -78,6 +79,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor res = db.rawQuery("SELECT * FROM " + TABLE2_NAME, null);
         return res;
+    }
+
+    public boolean updateSL(String id, String shoppingListName){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COL_1_1, id);
+        contentValues.put(COL_1_2, shoppingListName);
+
+        db.update(TABLE1_NAME, contentValues, COL_1_1 + "= ?", new String[]{id});
+        return true;
+    }
+
+    public boolean updateItem(String id, String shoppingList, String itemName, String itemCategory, int itemPriority, String itemAmount) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COL_2_1, id);
+        contentValues.put(COL_2_2, shoppingList);
+        contentValues.put(COL_2_3, itemName);
+        contentValues.put(COL_2_4, itemCategory);
+        contentValues.put(COL_2_5, itemPriority);
+        contentValues.put(COL_2_6, itemAmount);
+
+        db.update(TABLE2_NAME, contentValues, COL_2_1 + "= ?", new String[]{id});
+        return true;
     }
 
 //    public boolean updateData(String id,String itemName,String itemCategory,String itemPriority) {

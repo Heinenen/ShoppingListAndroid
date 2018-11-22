@@ -25,13 +25,12 @@
         <activity
             android:name=".AddShoppingListActivity"
             android:label="@string/shoppingListsAct_title"
-            android:parentActivityName=".ShoppingListsActivity"/>
+            android:parentActivityName=".ShoppingListsActivity" />
         <activity
             android:name=".AddItemActivity"
             android:label="@string/addItemAct_title"
-            android:parentActivityName="smg.shoppinglistapp.ItemsActivity" />
-
+            android:parentActivityName=".ItemsActivity" />
+        <activity android:name=".EditShoppingListActivity"></activity>
     </application>
-
 
 </manifest>

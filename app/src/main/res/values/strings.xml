@@ -12,6 +12,9 @@
     <!-- AddShoppingListActivity -->
     <string name="addShoppingListAct_title">Add new shopping list</string>
 
+    <!-- EditShoppingListActivity -->
+    <string name="editShoppingListAct_title">Edit shopping list</string>
+
     <!-- ItemsActivity -->
     <string name="itemsAct_title">Items</string>
 
@@ -28,8 +31,6 @@
 
     <!-- activity_add_shopping_list -->
     <string name="actAssShoppingList_nameHint">Name</string>
-
-
 
 
     <string-array name="shoppingListsStrings">
