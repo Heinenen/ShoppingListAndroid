@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -65,5 +66,16 @@ public class EditItemActivity extends AppCompatActivity {
         }
 
         return super.onKeyDown(keyCode, event);
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        if (menuItem.getItemId() == android.R.id.home){
+            Intent intent = new Intent(EditItemActivity.this, ItemsActivity.class);
+            intent.putExtra("smg.SL_ID", slID);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(menuItem);
     }
 }

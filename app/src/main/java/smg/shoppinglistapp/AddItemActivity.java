@@ -109,10 +109,10 @@ public class AddItemActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
-        if(menuItem.getItemId() == android.R.id.home) {
-            Intent intent = NavUtils.getParentActivityIntent(this);
+        if (menuItem.getItemId() == android.R.id.home){
+            Intent intent = new Intent(AddItemActivity.this, ItemsActivity.class);
             intent.putExtra("smg.SL_ID", slID);
-            NavUtils.navigateUpTo(this, intent);
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(menuItem);
     }
