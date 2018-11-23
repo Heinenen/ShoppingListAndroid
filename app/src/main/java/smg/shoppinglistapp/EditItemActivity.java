@@ -100,7 +100,7 @@ public class EditItemActivity extends AppCompatActivity {
     }
 
     public void deleteItem(){
-        Button deleteItem = findViewById(R.id.deletetItemBtn);
+        Button deleteItem = findViewById(R.id.deleteItemBtn);
         deleteItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

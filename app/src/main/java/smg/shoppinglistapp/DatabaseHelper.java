@@ -111,15 +111,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return true;
     }
 
+    public int deleteSL(String slID){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE1_NAME, COL_1_1 + "= ?", new String[]{slID});
+        return db.delete(TABLE2_NAME, COL_2_2 + "= ?", new String[]{slID});
+    }
+
     public int deleteItem(String itemID){
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete(TABLE2_NAME, COL_2_1 + "= ?", new String[]{itemID});
     }
 }
-
-//    }
-//
-//    public Integer deleteData (String id) {
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        return db.delete(TABLE2_NAME, "ID = ?",new String[] {id});
-//    }

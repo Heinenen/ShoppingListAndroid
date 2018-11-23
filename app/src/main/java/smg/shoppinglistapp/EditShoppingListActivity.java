@@ -28,6 +28,7 @@ public class EditShoppingListActivity extends AppCompatActivity {
         slID = getIntent().getStringExtra("smg.SL_ID");
 
         editShoppingList();
+        deleteShoppingList();
     }
 
 
@@ -46,6 +47,23 @@ public class EditShoppingListActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(EditShoppingListActivity.this, "Editing failed", Toast.LENGTH_LONG).show();
                 }
+            }
+        });
+    }
+
+    public void deleteShoppingList(){
+        Button deleteShoppingList = findViewById(R.id.deleteShoppingListBtn);
+        deleteShoppingList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int deletedRows = myDb.deleteSL(slID);
+                if (deletedRows > 0) {
+                    Toast.makeText(EditShoppingListActivity.this, "Shopping list and " + deletedRows + " Items deleted", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(EditShoppingListActivity.this, "Deleting failed", Toast.LENGTH_LONG).show();
+                }
+                Intent itemsActivity = new Intent(EditShoppingListActivity.this, ShoppingListsActivity.class);
+                startActivity(itemsActivity);
             }
         });
     }
