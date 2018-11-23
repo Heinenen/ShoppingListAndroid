@@ -13,4 +13,6 @@
     <string name="app_name">Einkaufliste</string>
     <string name="editShoppingListAct_title">Einkaufsliste bearbeiten</string>
     <string name="editItemAct_title">Artikel bearbeiten</string>
+    <string name="actAddItem_checkBoxText">Wichtig</string>
+    <string name="actEditItem_checkBoxText">Wichtig</string>
 </resources>

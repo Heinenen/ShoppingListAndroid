@@ -31,33 +31,12 @@
     <string name="actAddItem_categoryHint">Category</string>
     <string name="actAddItem_priorityHint">Priority</string>
     <string name="actAddItem_amountHint">Amount</string>
+    <string name="actAddItem_checkBoxText">Important</string>
 
     <!-- activity_add_shopping_list -->
     <string name="actAssShoppingList_nameHint">Name</string>
 
-
-    <string-array name="shoppingListsStrings">
-        <item>Aldi</item>
-        <item>Lidl</item>
-        <item>Hit</item>
-    </string-array>
-
-    <string-array name="items">
-        <item>honey</item>
-        <item>milk</item>
-        <item>Nutella</item>
-    </string-array>
-
-    <string-array name="prices">
-        <item>0.99€</item>
-        <item>1.99€</item>
-        <item>0.05€</item>
-    </string-array>
-
-    <string-array name="descriptions">
-        <item>cheap</item>
-        <item>discounter</item>
-        <item>quality</item>
-    </string-array>
+    <!-- activity_edit_item -->
+    <string name="actEditItem_checkBoxText">Important</string>
 
 </resources>

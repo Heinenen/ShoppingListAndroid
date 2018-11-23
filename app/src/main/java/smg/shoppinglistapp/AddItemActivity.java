@@ -8,6 +8,7 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -40,8 +41,9 @@ public class AddItemActivity extends AppCompatActivity {
             public void onClick(View v) {
                 EditText itemName = findViewById(R.id.addItemNameEditText);
                 EditText itemCategory = findViewById(R.id.addItemCategoryEditText);
-                EditText itemPriority = findViewById(R.id.addItemPriorityEditText);
+//                EditText itemPriority = findViewById(R.id.addItemPriorityEditText);
                 EditText itemAmount = findViewById(R.id.addItemAmountEditText);
+                CheckBox itemPriority = findViewById(R.id.addItemPriorityCheckBox);
 
                 // Item parameters
                 // TODO make program complain if no name is given
@@ -62,15 +64,6 @@ public class AddItemActivity extends AppCompatActivity {
                     itemCategoryString = itemCategory.getText().toString();
                 }
 
-                // default value for priority (-> 0)
-                int itemPriorityInt;
-                if(itemPriority.getText().toString().equals("")) {
-                    itemPriorityInt = 0;
-                } else {
-                    itemPriorityInt = Integer.parseInt(itemPriority.getText().toString());
-                }
-
-
                 // default value for amount (-> 1)
                 String itemAmountString;
                 if(itemAmount.getText().toString().equals("")){
@@ -78,6 +71,15 @@ public class AddItemActivity extends AppCompatActivity {
                 } else {
                     itemAmountString = itemAmount.getText().toString();
                 }
+
+                // default value for priority (-> 0)
+                int itemPriorityInt;
+                if(itemPriority.isChecked()) {
+                    itemPriorityInt = 1;
+                } else {
+                    itemPriorityInt = 0;
+                }
+
 
                 boolean isInserted = myDb.addItem(slID, itemNameString, itemCategoryString, itemPriorityInt, itemAmountString);
                 if (isInserted) {

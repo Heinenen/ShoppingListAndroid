@@ -9,6 +9,7 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -17,6 +18,7 @@ public class EditItemActivity extends AppCompatActivity {
     private DatabaseHelper myDb;
     private String itemID;
     private String slID;
+    private CheckBox itemPriority;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +33,11 @@ public class EditItemActivity extends AppCompatActivity {
         this.itemID = getIntent().getStringExtra("smg.ITEM_ID");
         this.slID = getIntent().getStringExtra("smg.SL_ID");
 
+        itemPriority = findViewById(R.id.editItemPriorityCheckBox);
+        if(myDb.getPriority(itemID)) {
+            itemPriority.setChecked(true);
+        }
+
         editItem();
         deleteItem();
     }
@@ -43,8 +50,9 @@ public class EditItemActivity extends AppCompatActivity {
             public void onClick(View v) {
                 EditText itemName = findViewById(R.id.editItemNameEditText);
                 EditText itemCategory = findViewById(R.id.editItemCategoryEditText);
-                EditText itemPriority = findViewById(R.id.editItemPriorityEditText);
+//                EditText itemPriority = findViewById(R.id.editItemPriorityEditText);
                 EditText itemAmount = findViewById(R.id.editItemAmountEditText);
+//                CheckBox itemPriority = findViewById(R.id.editItemPriorityCheckBox);
 
                 // takes previous values of the item as default values if nothing is typed into EditText
                 String[] strings = getItem(itemID);
@@ -64,13 +72,6 @@ public class EditItemActivity extends AppCompatActivity {
                     itemAttributes[1] = itemCategory.getText().toString();
                 }
 
-                // default value for itemPriority
-                if(itemPriority.getText().toString().equals("")){
-                    itemAttributes[2] = "1";
-                } else {
-                    itemAttributes[2] = itemPriority.getText().toString();
-                }
-
                 // default value for itemAmount
                 if(itemAmount.getText().toString().equals("")){
                     itemAttributes[3] = strings[5];
@@ -78,14 +79,17 @@ public class EditItemActivity extends AppCompatActivity {
                     itemAttributes[3] = itemAmount.getText().toString();
                 }
 
+                // default value for itemPriority
 
-//                boolean isInserted = myDb.updateItem(itemID, slID,
-//                        itemName.getText().toString(),
-//                        itemCategory.getText().toString(),
-//                        Integer.parseInt(itemPriority.getText().toString()),
-//                        itemAmount.getText().toString());
+                int itemPriorityInt;
+                if(itemPriority.isChecked()){
+                    itemPriorityInt = 1;
+                } else {
+                    itemPriorityInt = 0;
+                }
 
-                boolean isInserted = myDb.updateItem(itemID, slID, itemAttributes[0], itemAttributes[1], Integer.parseInt(itemAttributes[2]), itemAttributes[3]);
+
+                boolean isInserted = myDb.updateItem(itemID, slID, itemAttributes[0], itemAttributes[1], itemPriorityInt, itemAttributes[3]);
 
                 if (isInserted) {
                     Toast.makeText(EditItemActivity.this, "Item edited", Toast.LENGTH_LONG).show();

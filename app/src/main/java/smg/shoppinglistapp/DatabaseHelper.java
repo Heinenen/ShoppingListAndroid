@@ -69,6 +69,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return res;
     }
 
+    public boolean getPriority(String itemID){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor res = db.rawQuery("SELECT " + COL_2_5 + " FROM " + TABLE2_NAME + " WHERE " + COL_2_1 + "='" + itemID + "'", null);
+        res.moveToNext();
+        if(res.getInt(0) == 1){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public Cursor getItem(String itemID){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor res = db.rawQuery("SELECT * FROM " + TABLE2_NAME + " WHERE " + COL_2_1 + "='" + itemID + "'", null);

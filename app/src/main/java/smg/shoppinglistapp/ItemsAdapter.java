@@ -35,11 +35,18 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
         ArrayList<String>[] strings = getItems();
         final String itemID = strings[0].get(position);
 
+        String itemPriorityText;
+        if(strings[3].get(position).equals("0")){
+            itemPriorityText = "X";
+        } else {
+            itemPriorityText = "✔";
+        }
+
 
         holder.itemNameTextView.setText(strings[1].get(position));
         holder.itemCategoryTextView.setText(strings[2].get(position));
-        holder.itemAmountTextView.setText(strings[3].get(position));
-        holder.itemPriorityTextView.setText(strings[4].get(position));
+        holder.itemPriorityTextView.setText(itemPriorityText);
+        holder.itemAmountTextView.setText(strings[4].get(position));
 
         holder.parentView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
