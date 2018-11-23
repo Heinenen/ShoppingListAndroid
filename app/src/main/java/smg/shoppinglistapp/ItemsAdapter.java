@@ -33,6 +33,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         ArrayList<String>[] strings = getItems();
+        final String itemID = strings[0].get(position);
 
 
         holder.itemNameTextView.setText(strings[1].get(position));
@@ -45,7 +46,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
             public boolean onLongClick(View v) {
                 Intent editItemIntent = new Intent(context, EditItemActivity.class);
                 editItemIntent.putExtra("smg.SL_ID", slID);
-                editItemIntent.putExtra("smg.ITEM_ID", Integer.toString(position + 1));
+                editItemIntent.putExtra("smg.ITEM_ID", itemID);
                 context.startActivity(editItemIntent);
                 if(context instanceof ItemsActivity){
                     ((ItemsActivity) context).callOnSaveInstanceState(new Bundle());

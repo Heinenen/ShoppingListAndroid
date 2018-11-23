@@ -32,6 +32,7 @@ public class EditItemActivity extends AppCompatActivity {
         this.slID = getIntent().getStringExtra("smg.SL_ID");
 
         editItem();
+        deleteItem();
     }
 
 
@@ -98,6 +99,24 @@ public class EditItemActivity extends AppCompatActivity {
         });
     }
 
+    public void deleteItem(){
+        Button deleteItem = findViewById(R.id.deletetItemBtn);
+        deleteItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int deletedRows = myDb.deleteItem(itemID);
+                if (deletedRows > 0) {
+                    Toast.makeText(EditItemActivity.this, "Item deleted", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(EditItemActivity.this, "Deleting failed", Toast.LENGTH_LONG).show();
+                }
+                Intent itemsActivity = new Intent(EditItemActivity.this, ItemsActivity.class);
+                itemsActivity.putExtra("smg.SL_ID", slID);
+                startActivity(itemsActivity);
+            }
+        });
+    }
+
     // goes to parent activity on backKey-press
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -128,7 +147,7 @@ public class EditItemActivity extends AppCompatActivity {
         for(int i = 0; i < 5; i++){
             strings[i] = res.getString(i);
         }
-        // String itemID, String shoppingList, String itemName, String itemCategory, int itemPriority, String itemAmount
+
         return strings;
     }
 }

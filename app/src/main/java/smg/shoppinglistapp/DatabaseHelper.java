@@ -107,10 +107,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(COL_2_5, itemPriority);
         contentValues.put(COL_2_6, itemAmount);
 
-        System.out.println("id:" + itemID);
-
         db.update(TABLE2_NAME, contentValues, COL_2_1 + "= ?", new String[]{itemID});
         return true;
+    }
+
+    public int deleteItem(String itemID){
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(TABLE2_NAME, COL_2_1 + "= ?", new String[]{itemID});
     }
 }
 
