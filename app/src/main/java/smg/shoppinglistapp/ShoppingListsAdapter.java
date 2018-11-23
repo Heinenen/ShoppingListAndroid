@@ -31,7 +31,7 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         ArrayList<String>[] strings = getShoppingLists();
-        final String id = strings[0].get(position);
+        final String slID = strings[0].get(position);
         final String shoppingList = strings[1].get(position);
 
         holder.nameTextView.setText(strings[1].get(position));
@@ -42,8 +42,8 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
             @Override
             public void onClick(View v) {
                 Intent itemActivityIntent = new Intent(context, ItemsActivity.class);
-                itemActivityIntent.putExtra("smg.INDEX", holder.getAdapterPosition());
-                itemActivityIntent.putExtra("smg.SHOPPING_LIST", shoppingList);
+                itemActivityIntent.putExtra("smg.SL_ID", slID);
+                System.out.println(slID);
                 context.startActivity(itemActivityIntent);
             }
         });
@@ -52,7 +52,7 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
             @Override
             public boolean onLongClick(View v) {
                 Intent editSLIntent = new Intent(context, EditShoppingListActivity.class);
-                editSLIntent.putExtra("smg.SL_ID", id);
+                editSLIntent.putExtra("smg.SL_ID", slID);
                 editSLIntent.putExtra("smg.SHOPPING_LIST", shoppingList);
                 context.startActivity(editSLIntent);
                 return true;

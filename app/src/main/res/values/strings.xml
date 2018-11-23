@@ -12,6 +12,9 @@
     <!-- AddShoppingListActivity -->
     <string name="addShoppingListAct_title">Add new shopping list</string>
 
+    <!-- EditItemActivity -->
+    <string name="editItemAct_title">Edit item</string>
+
     <!-- EditShoppingListActivity -->
     <string name="editShoppingListAct_title">Edit shopping list</string>
 

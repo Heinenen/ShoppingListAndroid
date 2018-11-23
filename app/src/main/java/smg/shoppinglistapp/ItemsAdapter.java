@@ -1,6 +1,7 @@
 package smg.shoppinglistapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -15,12 +16,11 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
 
     private Context context;
     private DatabaseHelper myDb;
-    private String SL;
+    private String slID;
 
-    public ItemsAdapter(Context context, String SL){
+    public ItemsAdapter(Context context, String slID){
         this.context = context;
-        this.SL = SL;
-
+        this.slID = slID;
         myDb = new DatabaseHelper(context);
     }
 
@@ -38,6 +38,17 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
         holder.itemCategoryTextView.setText(strings[2].get(position));
         holder.itemAmountTextView.setText(strings[3].get(position));
         holder.itemPriorityTextView.setText(strings[4].get(position));
+
+        holder.parentView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Intent editItemIntent = new Intent(context, EditItemActivity.class);
+//                editItemIntent.putExtra("smg.SL_ID", slID);
+                editItemIntent.putExtra("smg.SL_ID", slID);
+                context.startActivity(editItemIntent);
+                return true;
+            }
+        });
     }
 
     @Override
@@ -52,6 +63,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
         private TextView itemCategoryTextView;
         private TextView itemAmountTextView;
         private TextView itemPriorityTextView;
+        private View parentView;
 
         public ViewHolder (@NonNull  View view){
             super(view);
@@ -59,11 +71,12 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
             this.itemCategoryTextView = view.findViewById(R.id.itemCategoryTextView);
             this.itemAmountTextView = view.findViewById(R.id.itemAmountTextView);
             this.itemPriorityTextView = view.findViewById(R.id.itemPriorityTextView);
+            this.parentView = view;
         }
     }
 
     public ArrayList[] getItems() {
-        Cursor res = myDb.getItems(SL);
+        Cursor res = myDb.getItems(slID);
         ArrayList<String> idStrings = new ArrayList<>();
         ArrayList<String> nameStrings = new ArrayList<>();
         ArrayList<String> categoryStrings = new ArrayList<>();

@@ -13,7 +13,7 @@ import android.widget.Toast;
 public class EditShoppingListActivity extends AppCompatActivity {
 
     private DatabaseHelper myDb;
-    private String id;
+    private String slID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,20 +25,20 @@ public class EditShoppingListActivity extends AppCompatActivity {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
 
         myDb = new DatabaseHelper(this);
-        id = getIntent().getStringExtra("smg.SL_ID");
+        slID = getIntent().getStringExtra("smg.SL_ID");
 
         editShoppingList();
     }
 
 
     public void editShoppingList(){
-        Button addShoppingList = findViewById(R.id.editShoppingListBtn);
-        addShoppingList.setOnClickListener(new View.OnClickListener() {
+        Button editShoppingList = findViewById(R.id.editShoppingListBtn);
+        editShoppingList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 EditText shoppingListName = findViewById(R.id.editShoppingListNameEditText);
 
-                boolean isInserted = myDb.updateSL(id, shoppingListName.getText().toString());
+                boolean isInserted = myDb.updateSL(slID, shoppingListName.getText().toString());
                 if (isInserted) {
                     Toast.makeText(EditShoppingListActivity.this, "Shopping list edited", Toast.LENGTH_LONG).show();
                     Intent shoppingListsActivity = new Intent(EditShoppingListActivity.this, ShoppingListsActivity.class);

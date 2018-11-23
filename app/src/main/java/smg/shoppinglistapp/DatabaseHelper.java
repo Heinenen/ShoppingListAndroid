@@ -91,34 +91,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return true;
     }
 
-    public boolean updateItem(String id, String shoppingList, String itemName, String itemCategory, int itemPriority, String itemAmount) {
+    public boolean updateItem(String itemID, String shoppingList, String itemName, String itemCategory, int itemPriority, String itemAmount) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(COL_2_1, id);
+        contentValues.put(COL_2_1, itemID);
         contentValues.put(COL_2_2, shoppingList);
         contentValues.put(COL_2_3, itemName);
         contentValues.put(COL_2_4, itemCategory);
         contentValues.put(COL_2_5, itemPriority);
         contentValues.put(COL_2_6, itemAmount);
 
-        db.update(TABLE2_NAME, contentValues, COL_2_1 + "= ?", new String[]{id});
+        db.update(TABLE2_NAME, contentValues, COL_2_1 + "= ?", new String[]{itemID});
         return true;
     }
+}
 
-//    public boolean updateData(String id,String itemName,String itemCategory,String itemPriority) {
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        ContentValues contentValues = new ContentValues();
-//        contentValues.put(COL_1,id);
-//        contentValues.put(COL_2,itemName);
-//        contentValues.put(COL_3,itemCategory);
-//        contentValues.put(COL_4,itemPriority);
-//        db.update(TABLE2_NAME, contentValues, "ID = ?",new String[] { id });
-//        return true;
 //    }
 //
 //    public Integer deleteData (String id) {
 //        SQLiteDatabase db = this.getWritableDatabase();
 //        return db.delete(TABLE2_NAME, "ID = ?",new String[] {id});
 //    }
-
-}

@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ItemsActivity">
 
+
     <Button
         android:id="@+id/addItemActivityBtn"
         android:layout_width="60dp"

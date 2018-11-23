@@ -12,4 +12,5 @@
     <string name="actAssShoppingList_nameHint">Name</string>
     <string name="app_name">Einkaufliste</string>
     <string name="editShoppingListAct_title">Einkaufsliste bearbeiten</string>
+    <string name="editItemAct_title">Artikel bearbeiten</string>
 </resources>

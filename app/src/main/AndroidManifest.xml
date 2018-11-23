@@ -30,7 +30,14 @@
             android:name=".AddItemActivity"
             android:label="@string/addItemAct_title"
             android:parentActivityName=".ItemsActivity" />
-        <activity android:name=".EditShoppingListActivity"></activity>
+        <activity
+            android:name=".EditShoppingListActivity"
+            android:label="@string/editShoppingListAct_title"
+            android:parentActivityName=".ShoppingListsActivity"/>
+        <activity
+            android:name=".EditItemActivity"
+            android:label="@string/editItemAct_title"
+            android:parentActivityName=".ItemsActivity"/>
     </application>
 
 </manifest>
