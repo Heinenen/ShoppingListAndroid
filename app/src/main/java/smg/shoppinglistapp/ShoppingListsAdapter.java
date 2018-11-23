@@ -43,7 +43,6 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
             public void onClick(View v) {
                 Intent itemActivityIntent = new Intent(context, ItemsActivity.class);
                 itemActivityIntent.putExtra("smg.SL_ID", slID);
-                System.out.println(slID);
                 context.startActivity(itemActivityIntent);
             }
         });
@@ -90,8 +89,8 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
         ArrayList<String> nameStrings = new ArrayList<>();
 
         while (res.moveToNext()) {
-            idStrings.add(res.getString(0));    // id
-            nameStrings.add(res.getString(1));     // name
+            idStrings.add(res.getString(0));        // id
+            nameStrings.add(res.getString(1));      // name
 
         }
 

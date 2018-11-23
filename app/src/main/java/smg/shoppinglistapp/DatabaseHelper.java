@@ -69,6 +69,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return res;
     }
 
+    public Cursor getItem(String itemID){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor res = db.rawQuery("SELECT * FROM " + TABLE2_NAME + " WHERE " + COL_2_1 + "='" + itemID + "'", null);
+        return res;
+    }
+
     public Cursor getItems(String shoppingList) {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor res = db.rawQuery("SELECT * FROM " + TABLE2_NAME + " WHERE " + COL_2_2 + "='" + shoppingList + "'", null);
@@ -100,6 +106,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(COL_2_4, itemCategory);
         contentValues.put(COL_2_5, itemPriority);
         contentValues.put(COL_2_6, itemAmount);
+
+        System.out.println("id:" + itemID);
 
         db.update(TABLE2_NAME, contentValues, COL_2_1 + "= ?", new String[]{itemID});
         return true;

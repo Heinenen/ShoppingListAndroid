@@ -1,6 +1,7 @@
 package smg.shoppinglistapp;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
@@ -44,7 +45,47 @@ public class EditItemActivity extends AppCompatActivity {
                 EditText itemPriority = findViewById(R.id.editItemPriorityEditText);
                 EditText itemAmount = findViewById(R.id.editItemAmountEditText);
 
-                boolean isInserted = myDb.updateItem(itemID, slID, itemName.getText().toString(), itemCategory.getText().toString(), Integer.parseInt(itemPriority.getText().toString()), itemAmount.getText().toString());
+                // takes previous values of the item as default values if nothing is typed into EditText
+                String[] strings = getItem(itemID);
+                String[] itemAttributes = new String[4];
+
+                // default value for itemName
+                if(itemName.getText().toString().equals("")){
+                    itemAttributes[0] = strings[2];
+                } else {
+                    itemAttributes[0] = itemName.getText().toString();
+                }
+
+                // default value for itemCategory
+                if(itemCategory.getText().toString().equals("")){
+                    itemAttributes[1] = strings[3];
+                } else {
+                    itemAttributes[1] = itemCategory.getText().toString();
+                }
+
+                // default value for itemPriority
+                if(itemPriority.getText().toString().equals("")){
+                    itemAttributes[2] = "1";
+                } else {
+                    itemAttributes[2] = itemPriority.getText().toString();
+                }
+
+                // default value for itemAmount
+                if(itemAmount.getText().toString().equals("")){
+                    itemAttributes[3] = strings[5];
+                } else {
+                    itemAttributes[3] = itemAmount.getText().toString();
+                }
+
+
+//                boolean isInserted = myDb.updateItem(itemID, slID,
+//                        itemName.getText().toString(),
+//                        itemCategory.getText().toString(),
+//                        Integer.parseInt(itemPriority.getText().toString()),
+//                        itemAmount.getText().toString());
+
+                boolean isInserted = myDb.updateItem(itemID, slID, itemAttributes[0], itemAttributes[1], Integer.parseInt(itemAttributes[2]), itemAttributes[3]);
+
                 if (isInserted) {
                     Toast.makeText(EditItemActivity.this, "Item edited", Toast.LENGTH_LONG).show();
                     Intent itemsActivity = new Intent(EditItemActivity.this, ItemsActivity.class);
@@ -77,5 +118,17 @@ public class EditItemActivity extends AppCompatActivity {
             startActivity(intent);
         }
         return super.onOptionsItemSelected(menuItem);
+    }
+
+    public String[] getItem(String itemID){
+        Cursor res = myDb.getItem(itemID);
+        String [] strings = new String[6];
+
+        res.moveToNext();
+        for(int i = 0; i < 5; i++){
+            strings[i] = res.getString(i);
+        }
+        // String itemID, String shoppingList, String itemName, String itemCategory, int itemPriority, String itemAmount
+        return strings;
     }
 }

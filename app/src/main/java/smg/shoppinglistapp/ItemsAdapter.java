@@ -31,7 +31,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         ArrayList<String>[] strings = getItems();
 
 
@@ -45,6 +45,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
             public boolean onLongClick(View v) {
                 Intent editItemIntent = new Intent(context, EditItemActivity.class);
                 editItemIntent.putExtra("smg.SL_ID", slID);
+                editItemIntent.putExtra("smg.ITEM_ID", Integer.toString(position + 1));
                 context.startActivity(editItemIntent);
                 if(context instanceof ItemsActivity){
                     ((ItemsActivity) context).callOnSaveInstanceState(new Bundle());
@@ -88,7 +89,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
         ArrayList<String> amountStrings = new ArrayList<>();
 
         while (res.moveToNext()) {
-            idStrings.add(res.getString(0));            // id
+            idStrings.add(res.getString(0));            // item_id
             nameStrings.add(res.getString(2));          // item_name
             categoryStrings.add(res.getString(3));      // item_category
             priorityStrings.add(res.getString(4));      // item_priority
