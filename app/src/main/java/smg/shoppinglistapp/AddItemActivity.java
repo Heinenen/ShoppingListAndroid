@@ -85,6 +85,7 @@ public class AddItemActivity extends AppCompatActivity {
                     Intent itemsActivity = new Intent(AddItemActivity.this, ItemsActivity.class);
                     itemsActivity.putExtra("smg.SL_ID", slID);
                     startActivity(itemsActivity);
+
                 } else {
                     Toast.makeText(AddItemActivity.this, "Adding failed", Toast.LENGTH_LONG).show();
                 }

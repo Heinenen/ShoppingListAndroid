@@ -2,6 +2,7 @@ package smg.shoppinglistapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,12 +26,35 @@ public class ItemsActivity extends AppCompatActivity {
 
         slID = getIntent().getStringExtra("smg.SL_ID");
 
+        if(savedInstanceState != null) {
+            onRestoreInstanceState(savedInstanceState);
+        }
 
         RecyclerView recyclerView = findViewById(R.id.secondRecyclerView);
         recyclerView.setAdapter(new ItemsAdapter(ItemsActivity.this, slID));
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
         addItemActivity();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+
+        outState.putString("smg.SL_ID", slID);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        if (slID == null) {
+            slID = savedInstanceState.getString("smg.SL_ID");
+        }
+    }
+
+    public void callOnSaveInstanceState(Bundle outState){
+        onSaveInstanceState(outState);
     }
 
     public void addItemActivity(){
@@ -42,6 +66,7 @@ public class ItemsActivity extends AppCompatActivity {
                 onSaveInstanceState(new Bundle());
                 addItemActivity.putExtra("smg.SL_ID", slID);
                 startActivity(addItemActivity);
+                finish();
             }
         });
     }

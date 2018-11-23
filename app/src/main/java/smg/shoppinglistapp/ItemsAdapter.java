@@ -3,6 +3,7 @@ package smg.shoppinglistapp;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -43,9 +44,12 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
             @Override
             public boolean onLongClick(View v) {
                 Intent editItemIntent = new Intent(context, EditItemActivity.class);
-//                editItemIntent.putExtra("smg.SL_ID", slID);
                 editItemIntent.putExtra("smg.SL_ID", slID);
                 context.startActivity(editItemIntent);
+                if(context instanceof ItemsActivity){
+                    ((ItemsActivity) context).callOnSaveInstanceState(new Bundle());
+                    ((ItemsActivity) context).finish();
+                }
                 return true;
             }
         });
