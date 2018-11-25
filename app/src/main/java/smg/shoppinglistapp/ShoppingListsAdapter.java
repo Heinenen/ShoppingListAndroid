@@ -12,15 +12,19 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import smg.logic.ShoppingList;
+
 public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdapter.ViewHolder> {
 
     private Context context;
     private DatabaseHelper myDb;
+    private ArrayList<ShoppingList> shoppingLists;
 
     public ShoppingListsAdapter(Context context){
         this.context = context;
 
-        myDb = new DatabaseHelper(context);
+        this.myDb = new DatabaseHelper(context);
+        this.shoppingLists = getSLFromSQL();
     }
 
     @Override
@@ -30,13 +34,12 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
-        ArrayList<String>[] strings = getShoppingLists();
-        final String slID = strings[0].get(position);
-        final String shoppingList = strings[1].get(position);
+        final String slID = shoppingLists.get(position).getPosition();
+        final String shoppingList = shoppingLists.get(position).getName();
 
-        holder.nameTextView.setText(strings[1].get(position));
+        holder.nameTextView.setText(shoppingLists.get(position).getName());
         holder.descriptionTextView.setText("description");
-        holder.priceTextView.setText(strings[0].get(position));
+        holder.priceTextView.setText(shoppingLists.get(position).getPosition());
 
         holder.parentView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,9 +65,7 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
 
     @Override
     public int getItemCount() {
-        ArrayList<String>[] strings = getShoppingLists();
-
-        return strings[0].size();
+        return shoppingLists.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
@@ -97,40 +98,16 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
         return new ArrayList[]{idStrings, nameStrings};
     }
 
+
+    public ArrayList<ShoppingList> getSLFromSQL(){
+        Cursor res = myDb.getSL();
+        ArrayList<ShoppingList> list = new ArrayList<>();
+
+        while (res.moveToNext()){
+            list.add(new ShoppingList(res.getString(0), res.getString(1)));
+        }
+
+        return list;
+    }
+
 }
-
-//    public void viewAll() {
-//        btnviewAll.setOnClickListener(
-//                new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        Cursor res = myDb.getAllData();
-//                        if(res.getCount() == 0) {
-//                            // show message
-//                            showMessage("Error","Nothing found");
-//                            return;
-//                        }
-//
-//                        StringBuffer buffer = new StringBuffer();
-//                        while (res.moveToNext()) {
-//                            buffer.append("Id: "+ res.getString(0)+"\n");
-//                            buffer.append("name: "+ res.getString(1)+"\n");
-//                            buffer.append("cat: "+ res.getString(2)+"\n");
-//                            buffer.append("prio: "+ res.getString(3)+"\n");
-//                            buffer.append("amount: "+ res.getString(4)+"\n\n");
-//                        }
-//
-//                        // Show all data
-//                        showMessage("Data",buffer.toString());
-//                    }
-//                }
-//        );
-//    }
-
-//    public void showMessage(String title,String Message){
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setCancelable(true);
-//        builder.setTitle(title);
-//        builder.setMessage(Message);
-//        builder.show();
-//    }
