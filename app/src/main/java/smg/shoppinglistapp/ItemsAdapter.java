@@ -13,16 +13,20 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import smg.logic.Item;
+
 public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> {
 
     private Context context;
     private DatabaseHelper myDb;
     private String slID;
+    private ArrayList<Item> items;
 
     public ItemsAdapter(Context context, String slID){
         this.context = context;
         this.slID = slID;
-        myDb = new DatabaseHelper(context);
+        this.myDb = new DatabaseHelper(context);
+        this.items = getItemsFromSQL();
     }
 
     @Override
@@ -32,21 +36,20 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        ArrayList<String>[] strings = getItems();
-        final String itemID = strings[0].get(position);
+        final String itemID = items.get(position).getId();
 
         String itemPriorityText;
-        if(strings[3].get(position).equals("0")){
+        if(items.get(position).getPriority().equals("0")){
             itemPriorityText = "X";
         } else {
             itemPriorityText = "✔";
         }
 
 
-        holder.itemNameTextView.setText(strings[1].get(position));
-        holder.itemCategoryTextView.setText(strings[2].get(position));
+        holder.itemNameTextView.setText(items.get(position).getName());
+        holder.itemCategoryTextView.setText(items.get(position).getCategory());
         holder.itemPriorityTextView.setText(itemPriorityText);
-        holder.itemAmountTextView.setText(strings[4].get(position));
+        holder.itemAmountTextView.setText(items.get(position).getAmount());
 
         holder.parentView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -66,9 +69,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        ArrayList<String>[] strings = getItems();
-
-        return strings[0].size();
+        return items.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
@@ -88,22 +89,15 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
         }
     }
 
-    public ArrayList[] getItems() {
+
+    public ArrayList<Item> getItemsFromSQL() {
         Cursor res = myDb.getItems(slID);
-        ArrayList<String> idStrings = new ArrayList<>();
-        ArrayList<String> nameStrings = new ArrayList<>();
-        ArrayList<String> categoryStrings = new ArrayList<>();
-        ArrayList<String> priorityStrings = new ArrayList<>();
-        ArrayList<String> amountStrings = new ArrayList<>();
+        ArrayList<Item> list = new ArrayList<>();
 
         while (res.moveToNext()) {
-            idStrings.add(res.getString(0));            // item_id
-            nameStrings.add(res.getString(2));          // item_name
-            categoryStrings.add(res.getString(3));      // item_category
-            priorityStrings.add(res.getString(4));      // item_priority
-            amountStrings.add(res.getString(5));        // item_amount
+            list.add(new Item(res.getString(0), res.getString(2) , res.getString(3), res.getString(5), res.getString(4)));
         }
 
-        return new ArrayList[]{idStrings, nameStrings, categoryStrings, priorityStrings, amountStrings};
+        return list;
     }
 }

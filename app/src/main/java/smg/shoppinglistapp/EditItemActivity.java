@@ -13,12 +13,15 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import smg.logic.Item;
+
 public class EditItemActivity extends AppCompatActivity {
 
     private DatabaseHelper myDb;
     private String itemID;
     private String slID;
     private CheckBox itemPriority;
+    private Item item;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,11 +35,10 @@ public class EditItemActivity extends AppCompatActivity {
         this.myDb = new DatabaseHelper(this);
         this.itemID = getIntent().getStringExtra("smg.ITEM_ID");
         this.slID = getIntent().getStringExtra("smg.SL_ID");
+        this.item = getItemFromSQL(itemID);
 
         itemPriority = findViewById(R.id.editItemPriorityCheckBox);
-        if(myDb.getPriority(itemID)) {
-            itemPriority.setChecked(true);
-        }
+        if(item.getPriority().equals("1")) itemPriority.setChecked(true);
 
         editItem();
         deleteItem();
@@ -50,37 +52,33 @@ public class EditItemActivity extends AppCompatActivity {
             public void onClick(View v) {
                 EditText itemName = findViewById(R.id.editItemNameEditText);
                 EditText itemCategory = findViewById(R.id.editItemCategoryEditText);
-//                EditText itemPriority = findViewById(R.id.editItemPriorityEditText);
                 EditText itemAmount = findViewById(R.id.editItemAmountEditText);
-//                CheckBox itemPriority = findViewById(R.id.editItemPriorityCheckBox);
 
                 // takes previous values of the item as default values if nothing is typed into EditText
-                String[] strings = getItem(itemID);
                 String[] itemAttributes = new String[4];
 
                 // default value for itemName
                 if(itemName.getText().toString().equals("")){
-                    itemAttributes[0] = strings[2];
+                    itemAttributes[0] = item.getName();
                 } else {
                     itemAttributes[0] = itemName.getText().toString();
                 }
 
                 // default value for itemCategory
                 if(itemCategory.getText().toString().equals("")){
-                    itemAttributes[1] = strings[3];
+                    itemAttributes[1] = item.getCategory();
                 } else {
                     itemAttributes[1] = itemCategory.getText().toString();
                 }
 
                 // default value for itemAmount
                 if(itemAmount.getText().toString().equals("")){
-                    itemAttributes[3] = strings[5];
+                    itemAttributes[3] = item.getAmount();
                 } else {
                     itemAttributes[3] = itemAmount.getText().toString();
                 }
 
                 // default value for itemPriority
-
                 int itemPriorityInt;
                 if(itemPriority.isChecked()){
                     itemPriorityInt = 1;
@@ -143,15 +141,11 @@ public class EditItemActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(menuItem);
     }
 
-    public String[] getItem(String itemID){
+
+    public Item getItemFromSQL(String itemID){
         Cursor res = myDb.getItem(itemID);
-        String [] strings = new String[6];
 
         res.moveToNext();
-        for(int i = 0; i < 5; i++){
-            strings[i] = res.getString(i);
-        }
-
-        return strings;
+        return new Item(res.getString(0), res.getString(2), res.getString(3), res.getString(5), res.getString(4));
     }
 }

@@ -1,18 +1,29 @@
 package smg.logic;
 
 public class Item {
+
+    private String id;
     private String name;
     private String category;
     private String amount;
-    private boolean priority;
+    private String priority;
     private boolean check;
 
-    public Item (String name, String category, String amount, boolean priority){
+    public Item (String id, String name, String category, String amount, String priority){
+        this.id = id;
         this.name = name;
         this.category = category;
         this.amount = amount;
         this.priority = priority;
         this.check = false;
+    }
+
+    public String getId(){
+        return id;
+    }
+
+    public void setId(String id){
+        this.id = id;
     }
 
     public String getName() {
@@ -39,11 +50,11 @@ public class Item {
         this.amount = amount;
     }
 
-    public boolean isPriority() {
+    public String getPriority() {
         return priority;
     }
 
-    public void setPriority(boolean priority) {
+    public void setPriority(String priority) {
         this.priority = priority;
     }
 
