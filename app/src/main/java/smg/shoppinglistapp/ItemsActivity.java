@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -35,6 +37,12 @@ public class ItemsActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
         addItemActivity();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_items, menu);
+        return true;
     }
 
     @Override
@@ -71,6 +79,11 @@ public class ItemsActivity extends AppCompatActivity {
         });
     }
 
+    public void sortItems(){
+        // do stuff
+    }
+
+
     // goes to parent activity on backKey-press
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -82,5 +95,20 @@ public class ItemsActivity extends AppCompatActivity {
         }
 
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+
+            case R.id.action_sort:
+                sortItems();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

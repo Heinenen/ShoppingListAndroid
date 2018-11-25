@@ -3,7 +3,6 @@ package smg.shoppinglistapp;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -119,11 +118,22 @@ public class EditItemActivity extends AppCompatActivity {
         });
     }
 
+
+    public Item getItemFromSQL(String itemID){
+        Cursor res = myDb.getItem(itemID);
+
+        res.moveToNext();
+        return new Item(res.getString(0), res.getString(2), res.getString(3), res.getString(4), res.getString(5));
+    }
+
+
     // goes to parent activity on backKey-press
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode == KeyEvent.KEYCODE_BACK){
-            NavUtils.navigateUpFromSameTask(this);
+            Intent intent = new Intent(EditItemActivity.this, ItemsActivity.class);
+            intent.putExtra("smg.SL_ID", slID);
+            startActivity(intent);
             return true;
         }
 
@@ -137,15 +147,8 @@ public class EditItemActivity extends AppCompatActivity {
             Intent intent = new Intent(EditItemActivity.this, ItemsActivity.class);
             intent.putExtra("smg.SL_ID", slID);
             startActivity(intent);
+            return true;
         }
         return super.onOptionsItemSelected(menuItem);
-    }
-
-
-    public Item getItemFromSQL(String itemID){
-        Cursor res = myDb.getItem(itemID);
-
-        res.moveToNext();
-        return new Item(res.getString(0), res.getString(2), res.getString(3), res.getString(4), res.getString(5));
     }
 }

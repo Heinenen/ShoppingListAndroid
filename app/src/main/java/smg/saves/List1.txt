@@ -1,3 +1,0 @@
-Gouda;;;Drinks;;;0;;;1;;;true
-Honig;;;Food;;;1;;;null;;;false
-Nutella;;;Food;;;0;;;3;;;false

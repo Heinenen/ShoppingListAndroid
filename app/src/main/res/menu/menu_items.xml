@@ -4,12 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="smg.shoppinglistapp.AddItemActivity">
 
-    <!--
+
     <item
-        android:id="@+id/close_add_Item"
-        android:icon="@drawable/ic_close_dark_material_accent_24dp"
-        android:title="Close"
+        android:id="@+id/action_sort"
+        android:icon="@drawable/ic_sort_white_24dp"
+        android:title="@string/menuItems_title"
         app:showAsAction="always" />
-    -->
+
+    <Spinner/>
 
 </menu>

@@ -39,4 +39,8 @@
     <!-- activity_edit_item -->
     <string name="actEditItem_checkBoxText">Important</string>
 
+
+    <!-- menu_items -->
+    <string name="menuItems_title">Sort by …</string>
+
 </resources>
