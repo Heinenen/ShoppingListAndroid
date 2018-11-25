@@ -95,7 +95,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
         ArrayList<Item> list = new ArrayList<>();
 
         while (res.moveToNext()) {
-            list.add(new Item(res.getString(0), res.getString(2) , res.getString(3), res.getString(5), res.getString(4)));
+            list.add(new Item(res.getString(0), res.getString(2) , res.getString(3), res.getString(4), res.getString(5)));
         }
 
         return list;

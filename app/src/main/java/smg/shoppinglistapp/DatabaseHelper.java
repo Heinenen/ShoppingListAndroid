@@ -19,8 +19,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_2_2 = "SL";
     public static final String COL_2_3 = "ITEM_NAME";
     public static final String COL_2_4 = "ITEM_CATEGORY";
-    public static final String COL_2_5 = "ITEM_PRIORITY";
-    public static final String COL_2_6 = "ITEM_AMOUNT";
+    public static final String COL_2_5 = "ITEM_AMOUNT";
+    public static final String COL_2_6 = "ITEM_PRIORITY";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
@@ -30,7 +30,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + TABLE1_NAME + " (" + COL_1_1 + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_1_2 + " TEXT)");
         db.execSQL("CREATE TABLE " + TABLE2_NAME + " (" + COL_2_1 + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_2_2  + " TEXT, "
-                + COL_2_3 + " TEXT, " + COL_2_4 + " TEXT, " + COL_2_5 + " INTEGER, " + COL_2_6 + " TEXT)");
+                + COL_2_3 + " TEXT, " + COL_2_4 + " TEXT, " + COL_2_5 + " TEXT, " + COL_2_6 + " INTEGER)");
     }
 
     @Override
@@ -56,12 +56,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(COL_2_2, shoppingList);
         contentValues.put(COL_2_3, itemName);
         contentValues.put(COL_2_4, itemCategory);
-        contentValues.put(COL_2_5, itemPriority);
-        contentValues.put(COL_2_6, itemAmount);
+        contentValues.put(COL_2_5, itemAmount);
+        contentValues.put(COL_2_6, itemPriority);
         long result = db.insert(TABLE2_NAME, null, contentValues);
 
         return !(result == -1);
     }
+
 
     public Cursor getSL() {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -69,16 +70,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return res;
     }
 
-    public boolean getPriority(String itemID){
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor res = db.rawQuery("SELECT " + COL_2_5 + " FROM " + TABLE2_NAME + " WHERE " + COL_2_1 + "='" + itemID + "'", null);
-        res.moveToNext();
-        if(res.getInt(0) == 1){
-            return true;
-        } else {
-            return false;
-        }
-    }
 
     public Cursor getItem(String itemID){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -86,17 +77,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return res;
     }
 
+
     public Cursor getItems(String shoppingList) {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor res = db.rawQuery("SELECT * FROM " + TABLE2_NAME + " WHERE " + COL_2_2 + "='" + shoppingList + "'", null);
         return res;
     }
 
+
     public Cursor getAllItems() {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor res = db.rawQuery("SELECT * FROM " + TABLE2_NAME, null);
         return res;
     }
+
 
     public boolean updateSL(String id, String shoppingListName){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -108,6 +102,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return true;
     }
 
+
     public boolean updateItem(String itemID, String shoppingList, String itemName, String itemCategory, int itemPriority, String itemAmount) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -115,8 +110,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(COL_2_2, shoppingList);
         contentValues.put(COL_2_3, itemName);
         contentValues.put(COL_2_4, itemCategory);
-        contentValues.put(COL_2_5, itemPriority);
-        contentValues.put(COL_2_6, itemAmount);
+        contentValues.put(COL_2_5, itemAmount);
+        contentValues.put(COL_2_6, itemPriority);
 
         db.update(TABLE2_NAME, contentValues, COL_2_1 + "= ?", new String[]{itemID});
         return true;

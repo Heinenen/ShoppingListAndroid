@@ -84,20 +84,6 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
         }
     }
 
-    public ArrayList<String>[] getShoppingLists(){
-        Cursor res = myDb.getSL();
-        ArrayList<String> idStrings = new ArrayList<>();
-        ArrayList<String> nameStrings = new ArrayList<>();
-
-        while (res.moveToNext()) {
-            idStrings.add(res.getString(0));        // id
-            nameStrings.add(res.getString(1));      // name
-
-        }
-
-        return new ArrayList[]{idStrings, nameStrings};
-    }
-
 
     public ArrayList<ShoppingList> getSLFromSQL(){
         Cursor res = myDb.getSL();
