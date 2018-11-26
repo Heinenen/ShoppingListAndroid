@@ -43,4 +43,9 @@
     <!-- menu_items -->
     <string name="menuItems_title">Sort by …</string>
 
+    <string-array name="sortBys">
+        <item>Name</item>
+        <item>Category</item>
+    </string-array>
+
 </resources>

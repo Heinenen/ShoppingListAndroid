@@ -29,8 +29,9 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
         this.items = getItemsFromSQL();
     }
 
+
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
         return new ViewHolder (LayoutInflater.from(context).inflate(R.layout.items_details, parent, false));
     }
 
@@ -87,6 +88,14 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
             this.itemPriorityTextView = view.findViewById(R.id.itemPriorityTextView);
             this.parentView = view;
         }
+    }
+
+    public ArrayList<Item> getItems(){
+        return this.items;
+    }
+
+    public void setItems(ArrayList<Item> items){
+        this.items = items;
     }
 
 

@@ -11,12 +11,23 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+
+import smg.logic.Item;
 
 
 public class ItemsActivity extends AppCompatActivity {
 
     String slID;
+    ArrayList<Item> items;
+    ItemsAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +43,11 @@ public class ItemsActivity extends AppCompatActivity {
             onRestoreInstanceState(savedInstanceState);
         }
 
+        mAdapter = new ItemsAdapter(ItemsActivity.this, slID);
+        items = mAdapter.getItems();
+
         RecyclerView recyclerView = findViewById(R.id.secondRecyclerView);
-        recyclerView.setAdapter(new ItemsAdapter(ItemsActivity.this, slID));
+        recyclerView.setAdapter(mAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
         addItemActivity();
@@ -42,6 +56,26 @@ public class ItemsActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_items, menu);
+
+        Spinner spinner = (Spinner) menu.findItem(R.id.action_sort).getActionView();
+        ArrayAdapter<String> myAdapter = new ArrayAdapter<>(ItemsActivity.this,
+                android.R.layout.simple_list_item_1,
+                getResources().getStringArray(R.array.sortBys));
+        myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(myAdapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                System.out.println(parent.getSelectedItem());
+                sortItems(parent.getSelectedItem().toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         return true;
     }
 
@@ -79,8 +113,42 @@ public class ItemsActivity extends AppCompatActivity {
         });
     }
 
-    public void sortItems(){
-        // do stuff
+    public void sortItems(String string){
+        if (string.equals("Name")) {
+            Collections.sort(items, new Comparator<Item>() {
+                @Override
+                public int compare(Item o1, Item o2) {
+                    if(o1.getName().equals("") && o2.getName().equals("")){
+                        return 0;
+                    } else if(o1.getName().equals("")){
+                        return 1;
+                    } else if(o2.getName().equals("")){
+                        return -1;
+                    } else {
+                        return o1.getName().compareTo(o2.getName());
+                    }
+                }
+            });
+        }
+
+        if (string.equals("Category")){
+            Collections.sort(items, new Comparator<Item>() {
+                @Override
+                public int compare(Item o1, Item o2) {
+                    if(o1.getCategory().equals("") && o2.getCategory().equals("")){
+                        return 0;
+                    } else if (o1.getCategory().equals("")){
+                        return 1;
+                    } else if (o2.getCategory().equals("")){
+                        return -1;
+                    } else {
+                        return o1.getCategory().compareTo(o2.getCategory());
+                    }
+                }
+            });
+        }
+
+        mAdapter.notifyDataSetChanged();
     }
 
 
@@ -106,8 +174,6 @@ public class ItemsActivity extends AppCompatActivity {
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
 
-            case R.id.action_sort:
-                sortItems();
         }
         return super.onOptionsItemSelected(item);
     }
