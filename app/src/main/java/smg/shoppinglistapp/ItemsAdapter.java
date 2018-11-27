@@ -20,11 +20,13 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
     private Context context;
     private DatabaseHelper myDb;
     private String slID;
+    private String shoppingList;
     private ArrayList<Item> items;
 
-    public ItemsAdapter(Context context, String slID){
+    public ItemsAdapter(Context context, String slID, String shoppingList){
         this.context = context;
         this.slID = slID;
+        this.shoppingList = shoppingList;
         this.myDb = new DatabaseHelper(context);
         this.items = getItemsFromSQL();
     }
@@ -57,6 +59,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
             public boolean onLongClick(View v) {
                 Intent editItemIntent = new Intent(context, EditItemActivity.class);
                 editItemIntent.putExtra("smg.SL_ID", slID);
+                editItemIntent.putExtra("smg.SHOPPING_LIST", shoppingList);
                 editItemIntent.putExtra("smg.ITEM_ID", itemID);
                 context.startActivity(editItemIntent);
                 if(context instanceof ItemsActivity){

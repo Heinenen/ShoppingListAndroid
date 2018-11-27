@@ -2,7 +2,6 @@ package smg.shoppinglistapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -16,6 +15,7 @@ public class AddItemActivity extends AppCompatActivity {
 
 
     private String slID;
+    private String shoppingList;
     private DatabaseHelper myDb;
 
     @Override
@@ -32,8 +32,9 @@ public class AddItemActivity extends AppCompatActivity {
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
         }
 
-        slID = getIntent().getStringExtra("smg.SL_ID");
-        myDb = new DatabaseHelper(this);
+        this.slID = getIntent().getStringExtra("smg.SL_ID");
+        this.shoppingList = getIntent().getStringExtra("smg.SHOPPING_LIST");
+        this.myDb = new DatabaseHelper(this);
 
         addItem();
     }
@@ -105,9 +106,10 @@ public class AddItemActivity extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode == KeyEvent.KEYCODE_BACK){
-            Intent intent = NavUtils.getParentActivityIntent(this);
+            Intent intent = new Intent(AddItemActivity.this, ItemsActivity.class);
             intent.putExtra("smg.SL_ID", slID);
-            NavUtils.navigateUpTo(this, intent);
+            intent.putExtra("smg.SHOPPING_LIST", shoppingList);
+            startActivity(intent);
             return true;
         }
 
@@ -119,6 +121,7 @@ public class AddItemActivity extends AppCompatActivity {
         if (menuItem.getItemId() == android.R.id.home){
             Intent intent = new Intent(AddItemActivity.this, ItemsActivity.class);
             intent.putExtra("smg.SL_ID", slID);
+            intent.putExtra("smg.SHOPPING_LIST", shoppingList);
             startActivity(intent);
         }
         return super.onOptionsItemSelected(menuItem);

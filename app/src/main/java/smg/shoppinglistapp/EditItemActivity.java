@@ -19,6 +19,7 @@ public class EditItemActivity extends AppCompatActivity {
     private DatabaseHelper myDb;
     private String itemID;
     private String slID;
+    private String shoppingList;
     private CheckBox itemPriority;
     private Item item;
 
@@ -43,6 +44,7 @@ public class EditItemActivity extends AppCompatActivity {
         this.myDb = new DatabaseHelper(this);
         this.itemID = getIntent().getStringExtra("smg.ITEM_ID");
         this.slID = getIntent().getStringExtra("smg.SL_ID");
+        this.shoppingList = getIntent().getStringExtra("smg.SHOPPING_LIST");
         this.item = getItemFromSQL(itemID);
 
 
@@ -152,6 +154,7 @@ public class EditItemActivity extends AppCompatActivity {
         if(keyCode == KeyEvent.KEYCODE_BACK){
             Intent intent = new Intent(EditItemActivity.this, ItemsActivity.class);
             intent.putExtra("smg.SL_ID", slID);
+            intent.putExtra("smg.SHOPPING_LIST", shoppingList);
             startActivity(intent);
             return true;
         }
@@ -165,6 +168,7 @@ public class EditItemActivity extends AppCompatActivity {
         if (menuItem.getItemId() == android.R.id.home){
             Intent intent = new Intent(EditItemActivity.this, ItemsActivity.class);
             intent.putExtra("smg.SL_ID", slID);
+            intent.putExtra("smg.SHOPPING_LIST", shoppingList);
             startActivity(intent);
             return true;
         }

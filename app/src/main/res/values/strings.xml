@@ -18,8 +18,9 @@
     <!-- EditShoppingListActivity -->
     <string name="editShoppingListAct_title">Edit shopping list</string>
 
-    <!-- ItemsActivity -->
+    <!-- ItemsActivity
     <string name="itemsAct_title">Items</string>
+    -->
 
     <!-- ShoppingListsActivity -->
     <string name="shoppingListsAct_title">Shopping lists</string>

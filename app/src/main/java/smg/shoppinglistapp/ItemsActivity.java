@@ -2,7 +2,6 @@ package smg.shoppinglistapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,15 +24,18 @@ import smg.logic.Item;
 
 public class ItemsActivity extends AppCompatActivity {
 
-    String slID;
-    ArrayList<Item> items;
-    ItemsAdapter mAdapter;
+    private String slID;
+    private String shoppingList;
+    private ArrayList<Item> items;
+    private ItemsAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_items);
-        setTitle(R.string.itemsAct_title);
+
+        slID = getIntent().getStringExtra("smg.SL_ID");
+        shoppingList = getIntent().getStringExtra("smg.SHOPPING_LIST");
 
         android.support.v7.widget.Toolbar mToolbar = findViewById(R.id.items_toolbar);
         setSupportActionBar(mToolbar);
@@ -42,13 +44,13 @@ public class ItemsActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        slID = getIntent().getStringExtra("smg.SL_ID");
-
         if(savedInstanceState != null) {
             onRestoreInstanceState(savedInstanceState);
         }
 
-        mAdapter = new ItemsAdapter(ItemsActivity.this, slID);
+        setTitle(shoppingList);
+
+        mAdapter = new ItemsAdapter(ItemsActivity.this, slID, shoppingList);
         items = mAdapter.getItems();
 
         RecyclerView recyclerView = findViewById(R.id.secondRecyclerView);
@@ -84,21 +86,25 @@ public class ItemsActivity extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-        super.onSaveInstanceState(outState, outPersistentState);
-
-        outState.putString("smg.SL_ID", slID);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-
-        if (slID == null) {
-            slID = savedInstanceState.getString("smg.SL_ID");
-        }
-    }
+//    @Override
+//    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+//        super.onSaveInstanceState(outState, outPersistentState);
+//
+//        outState.putString("smg.SL_ID", slID);
+//        outState.putString("smg.SHOPPING_LIST", shoppingList);
+//    }
+//
+//    @Override
+//    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+//        super.onRestoreInstanceState(savedInstanceState);
+//
+//        if (slID == null) {
+//            slID = savedInstanceState.getString("smg.SL_ID");
+//        }
+//        if (shoppingList == null) {
+//            shoppingList = savedInstanceState.getString("smg.SHOPPING_LIST");
+//        }
+//    }
 
     public void callOnSaveInstanceState(Bundle outState){
         onSaveInstanceState(outState);
@@ -112,6 +118,7 @@ public class ItemsActivity extends AppCompatActivity {
                 Intent addItemActivity = new Intent(ItemsActivity.this, AddItemActivity.class);
                 onSaveInstanceState(new Bundle());
                 addItemActivity.putExtra("smg.SL_ID", slID);
+                addItemActivity.putExtra("smg.SHOPPING_LIST", shoppingList);
                 startActivity(addItemActivity);
                 finish();
             }
