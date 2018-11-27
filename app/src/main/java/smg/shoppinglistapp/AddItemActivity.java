@@ -24,8 +24,13 @@ public class AddItemActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_item);
         setTitle(R.string.addItemAct_title);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
+        android.support.v7.widget.Toolbar mToolbar = findViewById(R.id.add_item_toolbar);
+        setSupportActionBar(mToolbar);
+
+        if(getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
+        }
 
         slID = getIntent().getStringExtra("smg.SL_ID");
         myDb = new DatabaseHelper(this);

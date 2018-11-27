@@ -18,6 +18,9 @@ public class ShoppingListsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_shopping_lists);
         setTitle(R.string.shoppingListsAct_title);
 
+        android.support.v7.widget.Toolbar mToolbar = findViewById(R.id.shopping_list_toolbar);
+        setSupportActionBar(mToolbar);
+
         RecyclerView recyclerView = findViewById(R.id.mainRecyclerView);
         recyclerView.setAdapter(new ShoppingListsAdapter(ShoppingListsActivity.this));
         recyclerView.setLayoutManager(new LinearLayoutManager(ShoppingListsActivity.this));

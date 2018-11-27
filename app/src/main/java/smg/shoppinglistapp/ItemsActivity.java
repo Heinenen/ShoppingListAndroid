@@ -35,7 +35,12 @@ public class ItemsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_items);
         setTitle(R.string.itemsAct_title);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        android.support.v7.widget.Toolbar mToolbar = findViewById(R.id.items_toolbar);
+        setSupportActionBar(mToolbar);
+
+        if(getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         slID = getIntent().getStringExtra("smg.SL_ID");
 
@@ -125,7 +130,7 @@ public class ItemsActivity extends AppCompatActivity {
                     } else if(o2.getName().equals("")){
                         return -1;
                     } else {
-                        return o1.getName().compareTo(o2.getName());
+                        return o1.getName().compareToIgnoreCase(o2.getName());
                     }
                 }
             });
@@ -142,7 +147,7 @@ public class ItemsActivity extends AppCompatActivity {
                     } else if (o2.getCategory().equals("")){
                         return -1;
                     } else {
-                        return o1.getCategory().compareTo(o2.getCategory());
+                        return o1.getCategory().compareToIgnoreCase(o2.getCategory());
                     }
                 }
             });

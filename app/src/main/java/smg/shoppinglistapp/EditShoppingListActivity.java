@@ -21,8 +21,13 @@ public class EditShoppingListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_shopping_list);
         setTitle(R.string.editShoppingListAct_title);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
+        android.support.v7.widget.Toolbar mToolbar = findViewById(R.id.edit_shopping_list_toolbar);
+        setSupportActionBar(mToolbar);
+
+        if(getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
+        }
 
         myDb = new DatabaseHelper(this);
         slID = getIntent().getStringExtra("smg.SL_ID");

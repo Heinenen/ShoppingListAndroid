@@ -28,8 +28,13 @@ public class EditItemActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_item);
         setTitle(R.string.editItemAct_title);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
+        android.support.v7.widget.Toolbar mToolbar = findViewById(R.id.edit_item_toolbar);
+        setSupportActionBar(mToolbar);
+
+        if(getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
+        }
 
         this.myDb = new DatabaseHelper(this);
         this.itemID = getIntent().getStringExtra("smg.ITEM_ID");

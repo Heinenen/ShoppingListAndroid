@@ -20,8 +20,13 @@ public class AddShoppingListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_shopping_list);
         setTitle(R.string.addShoppingListAct_title);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
+        android.support.v7.widget.Toolbar mToolbar = findViewById(R.id.add_shopping_list_toolbar);
+        setSupportActionBar(mToolbar);
+
+        if(getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
+        }
 
         myDb = new DatabaseHelper(this);
 
