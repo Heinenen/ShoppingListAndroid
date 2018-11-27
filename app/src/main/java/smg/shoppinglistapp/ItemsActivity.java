@@ -64,7 +64,7 @@ public class ItemsActivity extends AppCompatActivity {
 
         Spinner spinner = (Spinner) menu.findItem(R.id.action_sort).getActionView();
         ArrayAdapter<String> myAdapter = new ArrayAdapter<>(ItemsActivity.this,
-                android.R.layout.simple_list_item_1,
+                R.layout.layout_spinner,
                 getResources().getStringArray(R.array.sortBys));
         myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(myAdapter);
