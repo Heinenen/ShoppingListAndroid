@@ -46,6 +46,7 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
             public void onClick(View v) {
                 Intent itemActivityIntent = new Intent(context, ItemsActivity.class);
                 itemActivityIntent.putExtra("smg.SL_ID", slID);
+                itemActivityIntent.putExtra("smg.SHOPPING_LIST", shoppingList);
                 context.startActivity(itemActivityIntent);
             }
         });

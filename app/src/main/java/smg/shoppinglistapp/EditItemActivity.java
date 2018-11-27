@@ -22,6 +22,10 @@ public class EditItemActivity extends AppCompatActivity {
     private CheckBox itemPriority;
     private Item item;
 
+    private EditText itemName;
+    private EditText itemCategory;
+    private EditText itemAmount;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +45,19 @@ public class EditItemActivity extends AppCompatActivity {
         this.slID = getIntent().getStringExtra("smg.SL_ID");
         this.item = getItemFromSQL(itemID);
 
+
+        // set default text and set cursor to last position
+        itemName = findViewById(R.id.editItemNameEditText);
+        itemName.setText(item.getName());
+        itemName.setSelection(item.getName().length());
+        itemCategory = findViewById(R.id.editItemCategoryEditText);
+        itemCategory.setText(item.getCategory());
+        itemCategory.setSelection(item.getCategory().length());
+        itemAmount = findViewById(R.id.editItemAmountEditText);
+        itemAmount.setText(item.getAmount());
+        itemAmount.setSelection(item.getAmount().length());
+
+
         itemPriority = findViewById(R.id.editItemPriorityCheckBox);
         if(item.getPriority().equals("1")) itemPriority.setChecked(true);
 
@@ -54,9 +71,6 @@ public class EditItemActivity extends AppCompatActivity {
         editItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText itemName = findViewById(R.id.editItemNameEditText);
-                EditText itemCategory = findViewById(R.id.editItemCategoryEditText);
-                EditText itemAmount = findViewById(R.id.editItemAmountEditText);
 
                 // takes previous values of the item as default values if nothing is typed into EditText
                 String[] itemAttributes = new String[4];

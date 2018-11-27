@@ -14,6 +14,9 @@ public class EditShoppingListActivity extends AppCompatActivity {
 
     private DatabaseHelper myDb;
     private String slID;
+    private String shoppingList;
+
+    private EditText shoppingListName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +32,14 @@ public class EditShoppingListActivity extends AppCompatActivity {
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
         }
 
-        myDb = new DatabaseHelper(this);
-        slID = getIntent().getStringExtra("smg.SL_ID");
+        this.myDb = new DatabaseHelper(this);
+        this.slID = getIntent().getStringExtra("smg.SL_ID");
+        this.shoppingList = getIntent().getStringExtra("smg.SHOPPING_LIST");
+
+        // set default text and set cursor to last position
+        shoppingListName = findViewById(R.id.editShoppingListNameEditText);
+        shoppingListName.setText(shoppingList);
+        shoppingListName.setSelection(shoppingList.length());
 
         editShoppingList();
         deleteShoppingList();
@@ -42,8 +51,6 @@ public class EditShoppingListActivity extends AppCompatActivity {
         editShoppingList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText shoppingListName = findViewById(R.id.editShoppingListNameEditText);
-
                 boolean isInserted = myDb.updateSL(slID, shoppingListName.getText().toString());
                 if (isInserted) {
                     Toast.makeText(EditShoppingListActivity.this, "Shopping list edited", Toast.LENGTH_LONG).show();
