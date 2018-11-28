@@ -33,13 +33,10 @@
     <string name="actAddItem_amountHint">Amount</string>
     <string name="actAddItem_priceHint">Price</string>
     <string name="actAddItem_checkBoxText">Important</string>
+    <string name="actAddItem_deleteItem">Delete</string>
 
     <!-- activity_add_shopping_list -->
     <string name="actAssShoppingList_nameHint">Name</string>
-
-    <!-- activity_edit_item -->
-    <string name="actEditItem_checkBoxText">Important</string>
-
 
     <!-- menu_items -->
     <string name="menuItems_title">Sort by …</string>

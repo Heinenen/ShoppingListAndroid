@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,8 +16,6 @@ public class EditShoppingListActivity extends AppCompatActivity {
 
     private DatabaseHelper myDb;
     private String slID;
-    private String shoppingList;
-
     private EditText shoppingListName;
 
     @Override
@@ -34,17 +34,24 @@ public class EditShoppingListActivity extends AppCompatActivity {
 
         this.myDb = new DatabaseHelper(this);
         this.slID = getIntent().getStringExtra("smg.SL_ID");
-        this.shoppingList = getIntent().getStringExtra("smg.SHOPPING_LIST");
 
         // set default text and set cursor to last position
+        String shoppingList = getIntent().getStringExtra("smg.SHOPPING_LIST");
         shoppingListName = findViewById(R.id.editShoppingListNameEditText);
         shoppingListName.setText(shoppingList);
         shoppingListName.setSelection(shoppingList.length());
 
+
+
         editShoppingList();
-        deleteShoppingList();
+//        deleteShoppingListButton();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_edit_shopping_list, menu);
+        return true;
+    }
 
     public void editShoppingList(){
         Button editShoppingList = findViewById(R.id.editShoppingListBtn);
@@ -63,21 +70,36 @@ public class EditShoppingListActivity extends AppCompatActivity {
         });
     }
 
-    public void deleteShoppingList(){
-        Button deleteShoppingList = findViewById(R.id.deleteShoppingListBtn);
-        deleteShoppingList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int deletedRows = myDb.deleteSL(slID);
-                if (deletedRows > 0) {
-                    Toast.makeText(EditShoppingListActivity.this, "Shopping list and " + deletedRows + " Items deleted", Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(EditShoppingListActivity.this, "Deleting failed", Toast.LENGTH_LONG).show();
-                }
-                Intent itemsActivity = new Intent(EditShoppingListActivity.this, ShoppingListsActivity.class);
-                startActivity(itemsActivity);
-            }
-        });
+//    public void deleteShoppingListButton(){
+//        Button deleteShoppingList = findViewById(R.id.deleteShoppingListBtn);
+//        deleteShoppingList.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                int[] deletedRows = myDb.deleteSL(slID);
+//                if (deletedRows[1] > 0) {
+//                    Toast.makeText(EditShoppingListActivity.this, "Shopping list and " + deletedRows[1] + " items deleted", Toast.LENGTH_LONG).show();
+//                } else if(deletedRows[0] > 0){
+//                    Toast.makeText(EditShoppingListActivity.this, "Empty shopping list deleted", Toast.LENGTH_LONG).show();
+//                } else {
+//                    Toast.makeText(EditShoppingListActivity.this, "Deleting failed", Toast.LENGTH_LONG).show();
+//                }
+//                Intent itemsActivity = new Intent(EditShoppingListActivity.this, ShoppingListsActivity.class);
+//                startActivity(itemsActivity);
+//            }
+//        });
+//    }
+
+    public void deleteShoppingListFromSQL(){
+        int[] deletedRows = myDb.deleteSL(slID);
+        if (deletedRows[1] > 0) {
+            Toast.makeText(EditShoppingListActivity.this, "Shopping list and " + deletedRows[1] + " items deleted", Toast.LENGTH_LONG).show();
+        } else if(deletedRows[0] > 0){
+            Toast.makeText(EditShoppingListActivity.this, "Empty shopping list deleted", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(EditShoppingListActivity.this, "Deleting failed", Toast.LENGTH_LONG).show();
+        }
+        Intent itemsActivity = new Intent(EditShoppingListActivity.this, ShoppingListsActivity.class);
+        startActivity(itemsActivity);
     }
 
     // goes to parent activity on backKey-press
@@ -89,5 +111,17 @@ public class EditShoppingListActivity extends AppCompatActivity {
         }
 
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.action_delete_shopping_list:
+                deleteShoppingListFromSQL();
+                System.out.println("LOOOOOOOOOOOOOOL");
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

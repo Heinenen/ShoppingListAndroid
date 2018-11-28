@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -68,9 +69,14 @@ public class EditItemActivity extends AppCompatActivity {
         if(item.getPriority().equals("1")) itemPriority.setChecked(true);
 
         editItem();
-        deleteItem();
+//        deleteItem();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_edit_item, menu);
+        return true;
+    }
 
     public void editItem(){
         Button editItem = findViewById(R.id.editItemBtn);
@@ -134,22 +140,34 @@ public class EditItemActivity extends AppCompatActivity {
         });
     }
 
-    public void deleteItem(){
-        Button deleteItem = findViewById(R.id.deleteItemBtn);
-        deleteItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int deletedRows = myDb.deleteItem(itemID);
-                if (deletedRows > 0) {
-                    Toast.makeText(EditItemActivity.this, "Item deleted", Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(EditItemActivity.this, "Deleting failed", Toast.LENGTH_LONG).show();
-                }
-                Intent itemsActivity = new Intent(EditItemActivity.this, ItemsActivity.class);
-                itemsActivity.putExtra("smg.SL_ID", slID);
-                startActivity(itemsActivity);
-            }
-        });
+//    public void deleteItem(){
+//        Button deleteItem = findViewById(R.id.deleteItemBtn);
+//        deleteItem.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                int deletedRows = myDb.deleteItem(itemID);
+//                if (deletedRows > 0) {
+//                    Toast.makeText(EditItemActivity.this, "Item deleted", Toast.LENGTH_LONG).show();
+//                } else {
+//                    Toast.makeText(EditItemActivity.this, "Deleting failed", Toast.LENGTH_LONG).show();
+//                }
+//                Intent itemsActivity = new Intent(EditItemActivity.this, ItemsActivity.class);
+//                itemsActivity.putExtra("smg.SL_ID", slID);
+//                startActivity(itemsActivity);
+//            }
+//        });
+//    }
+
+    public void deleteItemFromSQL(){
+        int deletedRows = myDb.deleteItem(itemID);
+        if (deletedRows > 0) {
+            Toast.makeText(EditItemActivity.this, "Item deleted", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(EditItemActivity.this, "Deleting failed", Toast.LENGTH_LONG).show();
+        }
+        Intent itemsActivity = new Intent(EditItemActivity.this, ItemsActivity.class);
+        itemsActivity.putExtra("smg.SL_ID", slID);
+        startActivity(itemsActivity);
     }
 
 
@@ -178,12 +196,17 @@ public class EditItemActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
-        if (menuItem.getItemId() == android.R.id.home){
-            Intent intent = new Intent(EditItemActivity.this, ItemsActivity.class);
-            intent.putExtra("smg.SL_ID", slID);
-            intent.putExtra("smg.SHOPPING_LIST", shoppingList);
-            startActivity(intent);
-            return true;
+        switch (menuItem.getItemId()) {
+            case android.R.id.home:
+                Intent intent = new Intent(EditItemActivity.this, ItemsActivity.class);
+                intent.putExtra("smg.SL_ID", slID);
+                intent.putExtra("smg.SHOPPING_LIST", shoppingList);
+                startActivity(intent);
+                return true;
+
+            case R.id.action_delete_item:
+                deleteItemFromSQL();
+                return true;
         }
         return super.onOptionsItemSelected(menuItem);
     }

@@ -3,18 +3,16 @@
     <string name="addItemAct_title">Artikel hinzufügen</string>
     <string name="addItemAct_defaultItemName">Artikel1</string>
     <string name="addShoppingListAct_title">Einkaufsliste hinzufügen</string>
-    <string name="itemsAct_title">Artikel</string>
     <string name="shoppingListsAct_title">Einkauflisten</string>
     <string name="actAddItem_nameHint">Name</string>
     <string name="actAddItem_categoryHint">Kategorie</string>
-    <string name="actAddItem_priorityHint">Priorität</string>
     <string name="actAddItem_amountHint">Menge</string>
     <string name="actAssShoppingList_nameHint">Name</string>
     <string name="app_name">Einkaufliste</string>
     <string name="editShoppingListAct_title">Einkaufsliste bearbeiten</string>
     <string name="editItemAct_title">Artikel bearbeiten</string>
     <string name="actAddItem_checkBoxText">Wichtig</string>
-    <string name="actEditItem_checkBoxText">Wichtig</string>
     <string name="menuItems_title">Sortieren nach …</string>
     <string name="actAddItem_priceHint">Preis</string>
+    <string name="actAddItem_deleteItem">Löschen</string>
 </resources>
