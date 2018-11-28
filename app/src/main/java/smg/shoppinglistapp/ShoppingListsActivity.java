@@ -2,19 +2,21 @@ package smg.shoppinglistapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.Button;
 
 public class ShoppingListsActivity extends AppCompatActivity {
 
 
     // TODO change longPress to choseMultipleItems instead of goToEdit
     // TODO ask whether one REALLY wants to delete the SL
+
+    FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +37,9 @@ public class ShoppingListsActivity extends AppCompatActivity {
 
 
     public void addShoppingListActivity(){
-        Button addShoppingListActivityBtn = findViewById(R.id.addShoppingListActivityBtn);
-        addShoppingListActivityBtn.setOnClickListener(new View.OnClickListener() {
+//        Button addShoppingListActivityBtn = findViewById(R.id.addShoppingListActivityBtn);
+        fab = findViewById(R.id.shoppingListsFAB);
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent addShoppingList = new Intent(ShoppingListsActivity.this, AddShoppingListActivity.class);

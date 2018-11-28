@@ -2,6 +2,7 @@ package smg.shoppinglistapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
@@ -13,7 +14,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
@@ -34,6 +34,8 @@ public class ItemsActivity extends AppCompatActivity {
     private String shoppingList;
     private ArrayList<Item> items;
     private ItemsAdapter mAdapter;
+
+    private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,8 +120,9 @@ public class ItemsActivity extends AppCompatActivity {
     }
 
     public void addItemActivity(){
-        Button addItemActivityBtn = findViewById(R.id.addItemActivityBtn);
-        addItemActivityBtn.setOnClickListener(new View.OnClickListener() {
+//        Button addItemActivityBtn = findViewById(R.id.addItemActivityBtn);
+        fab = findViewById(R.id.itemsFAB);
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent addItemActivity = new Intent(ItemsActivity.this, AddItemActivity.class);

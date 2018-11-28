@@ -69,6 +69,20 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
         return shoppingLists.size();
     }
 
+
+    public ArrayList<ShoppingList> getSLFromSQL(){
+        Cursor res = myDb.getSL();
+        ArrayList<ShoppingList> list = new ArrayList<>();
+
+        while (res.moveToNext()){
+            list.add(new ShoppingList(res.getString(0), res.getString(1)));
+        }
+
+        return list;
+    }
+
+
+
     public class ViewHolder extends RecyclerView.ViewHolder{
         private TextView nameTextView;
 //        private TextView descriptionTextView;
@@ -84,17 +98,4 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
 
         }
     }
-
-
-    public ArrayList<ShoppingList> getSLFromSQL(){
-        Cursor res = myDb.getSL();
-        ArrayList<ShoppingList> list = new ArrayList<>();
-
-        while (res.moveToNext()){
-            list.add(new ShoppingList(res.getString(0), res.getString(1)));
-        }
-
-        return list;
-    }
-
 }
