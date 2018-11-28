@@ -7,14 +7,16 @@ public class Item {
     private String category;
     private String amount;
     private String priority;
+    private String price;
     private boolean check;
 
-    public Item (String id, String name, String category, String amount, String priority){
+    public Item (String id, String name, String category, String amount, String priority, String price){
         this.id = id;
         this.name = name;
         this.category = category;
         this.amount = amount;
         this.priority = priority;
+        this.price = price;
         this.check = false;
     }
 
@@ -56,6 +58,14 @@ public class Item {
 
     public void setPriority(String priority) {
         this.priority = priority;
+    }
+
+    public String getPrice(){
+        return price;
+    }
+
+    public void setPrice(String price){
+        this.price = price;
     }
 
     public boolean isCheck() {

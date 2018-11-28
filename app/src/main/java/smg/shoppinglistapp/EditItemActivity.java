@@ -26,6 +26,7 @@ public class EditItemActivity extends AppCompatActivity {
     private EditText itemName;
     private EditText itemCategory;
     private EditText itemAmount;
+    private EditText itemPrice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +59,9 @@ public class EditItemActivity extends AppCompatActivity {
         itemAmount = findViewById(R.id.editItemAmountEditText);
         itemAmount.setText(item.getAmount());
         itemAmount.setSelection(item.getAmount().length());
+        itemPrice = findViewById(R.id.editItemPriceEditText);
+        itemPrice.setText(item.getPrice().replace("€", ""));
+        itemPrice.setSelection(item.getPrice().length() - 1);
 
 
         itemPriority = findViewById(R.id.editItemPriorityCheckBox);
@@ -75,7 +79,7 @@ public class EditItemActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 // takes previous values of the item as default values if nothing is typed into EditText
-                String[] itemAttributes = new String[4];
+                String[] itemAttributes = new String[5];
 
                 // default value for itemName
                 if(itemName.getText().toString().equals("")){
@@ -98,6 +102,12 @@ public class EditItemActivity extends AppCompatActivity {
                     itemAttributes[3] = itemAmount.getText().toString();
                 }
 
+                if(itemPrice.getText().toString().equals("")){
+                    itemAttributes[4] = item.getPrice();
+                } else {
+                    itemAttributes[4] = itemPrice.getText().toString() + "€";
+                }
+
                 // default value for itemPriority
                 int itemPriorityInt;
                 if(itemPriority.isChecked()){
@@ -107,7 +117,9 @@ public class EditItemActivity extends AppCompatActivity {
                 }
 
 
-                boolean isInserted = myDb.updateItem(itemID, slID, itemAttributes[0], itemAttributes[1], itemPriorityInt, itemAttributes[3]);
+
+
+                boolean isInserted = myDb.updateItem(itemID, slID, itemAttributes[0], itemAttributes[1], itemAttributes[3], itemPriorityInt, itemAttributes[4]);
 
                 if (isInserted) {
                     Toast.makeText(EditItemActivity.this, "Item edited", Toast.LENGTH_LONG).show();
@@ -145,7 +157,7 @@ public class EditItemActivity extends AppCompatActivity {
         Cursor res = myDb.getItem(itemID);
 
         res.moveToNext();
-        return new Item(res.getString(0), res.getString(2), res.getString(3), res.getString(4), res.getString(5));
+        return new Item(res.getString(0), res.getString(2), res.getString(3), res.getString(4), res.getString(5), res.getString(6));
     }
 
 

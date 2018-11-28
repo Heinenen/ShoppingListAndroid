@@ -47,8 +47,21 @@
         android:layout_alignTop="@+id/itemCategoryTextView"
         android:layout_alignEnd="@+id/itemAmountTextView"
         android:layout_alignRight="@+id/itemAmountTextView"
+        android:layout_marginTop="-1dp"
+        android:layout_marginEnd="150dp"
+        android:layout_marginRight="150dp"
+        android:text="priority" />
+
+    <TextView
+        android:id="@+id/itemPriceTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/itemCategoryTextView"
+        android:layout_alignEnd="@+id/itemAmountTextView"
+        android:layout_alignRight="@+id/itemAmountTextView"
         android:layout_marginTop="0dp"
         android:layout_marginEnd="0dp"
         android:layout_marginRight="0dp"
         android:text="priority" />
+
 </RelativeLayout>

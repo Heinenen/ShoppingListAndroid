@@ -50,8 +50,9 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
 
         holder.itemNameTextView.setText(items.get(position).getName());
         holder.itemCategoryTextView.setText(items.get(position).getCategory());
-        holder.itemPriorityTextView.setText(itemPriorityText);
         holder.itemAmountTextView.setText(items.get(position).getAmount());
+        holder.itemPriorityTextView.setText(itemPriorityText);
+        holder.itemPriceTextView.setText(items.get(position).getPrice());
 
         holder.parentView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -81,6 +82,8 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
         private TextView itemCategoryTextView;
         private TextView itemAmountTextView;
         private TextView itemPriorityTextView;
+        private TextView itemPriceTextView;
+//        private CheckBox checkBox;
         private View parentView;
 
         public ViewHolder (@NonNull  View view){
@@ -89,6 +92,8 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
             this.itemCategoryTextView = view.findViewById(R.id.itemCategoryTextView);
             this.itemAmountTextView = view.findViewById(R.id.itemAmountTextView);
             this.itemPriorityTextView = view.findViewById(R.id.itemPriorityTextView);
+            this.itemPriceTextView = view.findViewById(R.id.itemPriceTextView);
+//            this.checkBox = view.findViewById(R.id.itemCheckBox);
             this.parentView = view;
         }
     }
@@ -107,7 +112,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
         ArrayList<Item> list = new ArrayList<>();
 
         while (res.moveToNext()) {
-            list.add(new Item(res.getString(0), res.getString(2) , res.getString(3), res.getString(4), res.getString(5)));
+            list.add(new Item(res.getString(0), res.getString(2) , res.getString(3), res.getString(4), res.getString(5), res.getString(6)));
         }
 
         return list;

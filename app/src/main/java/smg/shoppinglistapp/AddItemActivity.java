@@ -47,8 +47,8 @@ public class AddItemActivity extends AppCompatActivity {
             public void onClick(View v) {
                 EditText itemName = findViewById(R.id.addItemNameEditText);
                 EditText itemCategory = findViewById(R.id.addItemCategoryEditText);
-//                EditText itemPriority = findViewById(R.id.addItemPriorityEditText);
                 EditText itemAmount = findViewById(R.id.addItemAmountEditText);
+                EditText itemPrice = findViewById(R.id.addItemPriceEditText);
                 CheckBox itemPriority = findViewById(R.id.addItemPriorityCheckBox);
 
                 // Item parameters
@@ -86,8 +86,16 @@ public class AddItemActivity extends AppCompatActivity {
                     itemPriorityInt = 0;
                 }
 
+                // default value for amount (-> "")
+                String itemPriceString = itemPrice.getText().toString();
+                if (itemPrice.getText().toString().equals("")) {
+                    itemPriceString = " ";
+                } else {
+                    itemPriceString = itemPriceString + "€";
+                }
 
-                boolean isInserted = myDb.addItem(slID, itemNameString, itemCategoryString, itemPriorityInt, itemAmountString);
+
+                boolean isInserted = myDb.addItem(slID, itemNameString, itemCategoryString, itemAmountString, itemPriorityInt, itemPriceString);
                 if (isInserted) {
                     Toast.makeText(AddItemActivity.this, "Item added", Toast.LENGTH_LONG).show();
                     Intent itemsActivity = new Intent(AddItemActivity.this, ItemsActivity.class);

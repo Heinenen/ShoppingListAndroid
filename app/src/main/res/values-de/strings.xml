@@ -16,4 +16,5 @@
     <string name="actAddItem_checkBoxText">Wichtig</string>
     <string name="actEditItem_checkBoxText">Wichtig</string>
     <string name="menuItems_title">Sortieren nach …</string>
+    <string name="actAddItem_priceHint">Preis</string>
 </resources>

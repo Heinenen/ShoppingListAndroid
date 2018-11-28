@@ -27,11 +27,11 @@
 
     <!-- Strings for layouts -->
 
-    <!-- activity_add_item -->
+    <!-- activity_add_item / activity_edit_item -->
     <string name="actAddItem_nameHint">Name</string>
     <string name="actAddItem_categoryHint">Category</string>
-    <string name="actAddItem_priorityHint">Priority</string>
     <string name="actAddItem_amountHint">Amount</string>
+    <string name="actAddItem_priceHint">Price</string>
     <string name="actAddItem_checkBoxText">Important</string>
 
     <!-- activity_add_shopping_list -->

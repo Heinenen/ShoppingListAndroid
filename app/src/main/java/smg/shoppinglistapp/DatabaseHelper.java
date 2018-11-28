@@ -21,6 +21,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_2_4 = "ITEM_CATEGORY";
     public static final String COL_2_5 = "ITEM_AMOUNT";
     public static final String COL_2_6 = "ITEM_PRIORITY";
+    public static final String COL_2_7 = "ITEM_PRICE";
+    public static final String COL_2_8 = "ITEM_CHECK";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
@@ -30,7 +32,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + TABLE1_NAME + " (" + COL_1_1 + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_1_2 + " TEXT)");
         db.execSQL("CREATE TABLE " + TABLE2_NAME + " (" + COL_2_1 + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_2_2  + " TEXT, "
-                + COL_2_3 + " TEXT, " + COL_2_4 + " TEXT, " + COL_2_5 + " TEXT, " + COL_2_6 + " INTEGER)");
+                + COL_2_3 + " TEXT, " + COL_2_4 + " TEXT, " + COL_2_5 + " TEXT, " + COL_2_6 + " INTEGER, " + COL_2_7 + " TEXT, " + COL_2_8 + " INTEGER)");
     }
 
     @Override
@@ -50,7 +52,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return !(res == -1);
     }
 
-    public boolean addItem(String shoppingList, String itemName, String itemCategory, int itemPriority, String itemAmount) {
+    public boolean addItem(String shoppingList, String itemName, String itemCategory, String itemAmount, int itemPriority, String itemPrice) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_2_2, shoppingList);
@@ -58,6 +60,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(COL_2_4, itemCategory);
         contentValues.put(COL_2_5, itemAmount);
         contentValues.put(COL_2_6, itemPriority);
+        contentValues.put(COL_2_7, itemPrice);
+        contentValues.put(COL_2_8, 0);
+
         long result = db.insert(TABLE2_NAME, null, contentValues);
 
         return !(result == -1);
@@ -80,15 +85,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public Cursor getItems(String shoppingList) {
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor res = db.rawQuery("SELECT * FROM " + TABLE2_NAME + " WHERE " + COL_2_2 + "='" + shoppingList + "'", null);
-        return res;
+        return db.rawQuery("SELECT * FROM " + TABLE2_NAME + " WHERE " + COL_2_2 + "='" + shoppingList + "'", null);
     }
 
 
     public Cursor getAllItems() {
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor res = db.rawQuery("SELECT * FROM " + TABLE2_NAME, null);
-        return res;
+        return db.rawQuery("SELECT * FROM " + TABLE2_NAME, null);
     }
 
 
@@ -103,7 +106,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public boolean updateItem(String itemID, String shoppingList, String itemName, String itemCategory, int itemPriority, String itemAmount) {
+    public boolean updateItem(String itemID, String shoppingList, String itemName, String itemCategory, String itemAmount, int itemPriority, String itemPrice) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_2_1, itemID);
@@ -112,6 +115,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(COL_2_4, itemCategory);
         contentValues.put(COL_2_5, itemAmount);
         contentValues.put(COL_2_6, itemPriority);
+        contentValues.put(COL_2_7, itemPrice);
+
+        db.update(TABLE2_NAME, contentValues, COL_2_1 + "= ?", new String[]{itemID});
+        return true;
+    }
+
+    public boolean updateItemCheck(String itemID, int itemCheck){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COL_2_8, itemCheck);
 
         db.update(TABLE2_NAME, contentValues, COL_2_1 + "= ?", new String[]{itemID});
         return true;
