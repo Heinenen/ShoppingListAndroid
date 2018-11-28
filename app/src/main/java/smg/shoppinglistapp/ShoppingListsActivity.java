@@ -3,6 +3,7 @@ package smg.shoppinglistapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
@@ -11,6 +12,9 @@ import android.widget.Button;
 
 public class ShoppingListsActivity extends AppCompatActivity {
 
+
+    // TODO change longPress to choseMultipleItems instead of goToEdit
+    // TODO ask whether one REALLY wants to delete the SL
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +27,7 @@ public class ShoppingListsActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.mainRecyclerView);
         recyclerView.setAdapter(new ShoppingListsAdapter(ShoppingListsActivity.this));
+        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
         recyclerView.setLayoutManager(new LinearLayoutManager(ShoppingListsActivity.this));
 
         addShoppingListActivity();

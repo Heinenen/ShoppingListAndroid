@@ -38,8 +38,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        final String itemID = items.get(position).getId();
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
 
         String itemPriorityText;
         if(items.get(position).getPriority().equals("0")){
@@ -58,6 +57,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
             @Override
             public boolean onLongClick(View v) {
                 Intent editItemIntent = new Intent(context, EditItemActivity.class);
+                String itemID = items.get(holder.getAdapterPosition()).getId();
                 editItemIntent.putExtra("smg.SL_ID", slID);
                 editItemIntent.putExtra("smg.SHOPPING_LIST", shoppingList);
                 editItemIntent.putExtra("smg.ITEM_ID", itemID);

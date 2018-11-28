@@ -113,6 +113,7 @@ public class EditItemActivity extends AppCompatActivity {
                     Toast.makeText(EditItemActivity.this, "Item edited", Toast.LENGTH_LONG).show();
                     Intent itemsActivity = new Intent(EditItemActivity.this, ItemsActivity.class);
                     itemsActivity.putExtra("smg.SL_ID", slID);
+                    itemsActivity.putExtra("smg.SHOPPING_LIST", shoppingList);
                     startActivity(itemsActivity);
                 } else {
                     Toast.makeText(EditItemActivity.this, "Editing failed", Toast.LENGTH_LONG).show();

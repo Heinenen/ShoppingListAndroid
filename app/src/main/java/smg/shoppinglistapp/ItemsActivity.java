@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
@@ -23,6 +24,11 @@ import smg.logic.Item;
 
 
 public class ItemsActivity extends AppCompatActivity {
+
+    // TODO implement checkboxes
+    // TODO maybe implement price tag for items (i.e. at the place the priority was before)
+    // TODO change longPress behaviour (s. SL todo)
+    // TODO change color of item if important
 
     private String slID;
     private String shoppingList;
@@ -55,6 +61,7 @@ public class ItemsActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.secondRecyclerView);
         recyclerView.setAdapter(mAdapter);
+        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
         addItemActivity();
