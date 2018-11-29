@@ -50,7 +50,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
 
 
         if(items.get(holder.getAdapterPosition()).getPriority().equals("1")){
-            holder.itemView.setBackgroundColor(Color.parseColor("#ff1234"));
+            holder.itemView.setBackgroundColor(Color.parseColor("#ce4848"));
         } else {
             holder.itemView.setBackgroundColor(Color.parseColor("#ffffff"));
         }
