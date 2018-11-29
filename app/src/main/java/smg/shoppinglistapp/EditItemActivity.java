@@ -108,7 +108,7 @@ public class EditItemActivity extends AppCompatActivity {
                     itemAttributes[3] = itemAmount.getText().toString();
                 }
 
-                if(itemPrice.getText().toString().equals("")){
+                if(itemPrice.getText().toString().equals("") || itemPrice.getText().toString().equals(" ")){
                     itemAttributes[4] = item.getPrice();
                 } else {
                     itemAttributes[4] = itemPrice.getText().toString() + "€";

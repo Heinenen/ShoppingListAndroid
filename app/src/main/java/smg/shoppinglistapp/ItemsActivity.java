@@ -26,16 +26,12 @@ import smg.logic.Item;
 public class ItemsActivity extends AppCompatActivity {
 
     // TODO implement checkboxes
-    // TODO maybe implement price tag for items (i.e. at the place the priority was before)
     // TODO change longPress behaviour (s. SL todo)
-    // TODO change color of item if important
 
     private String slID;
     private String shoppingList;
     private ArrayList<Item> items;
     private ItemsAdapter mAdapter;
-
-    private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +79,6 @@ public class ItemsActivity extends AppCompatActivity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                System.out.println(parent.getSelectedItem());
                 sortItems(parent.getSelectedItem().toString());
             }
 
@@ -95,33 +90,14 @@ public class ItemsActivity extends AppCompatActivity {
         return true;
     }
 
-//    @Override
-//    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-//        super.onSaveInstanceState(outState, outPersistentState);
-//
-//        outState.putString("smg.SL_ID", slID);
-//        outState.putString("smg.SHOPPING_LIST", shoppingList);
-//    }
-//
-//    @Override
-//    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-//        super.onRestoreInstanceState(savedInstanceState);
-//
-//        if (slID == null) {
-//            slID = savedInstanceState.getString("smg.SL_ID");
-//        }
-//        if (shoppingList == null) {
-//            shoppingList = savedInstanceState.getString("smg.SHOPPING_LIST");
-//        }
-//    }
 
     public void callOnSaveInstanceState(Bundle outState){
         onSaveInstanceState(outState);
     }
 
+
     public void addItemActivity(){
-//        Button addItemActivityBtn = findViewById(R.id.addItemActivityBtn);
-        fab = findViewById(R.id.itemsFAB);
+        FloatingActionButton fab = findViewById(R.id.itemsFAB);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -134,6 +110,7 @@ public class ItemsActivity extends AppCompatActivity {
             }
         });
     }
+
 
     public void sortItems(String string){
         if (string.equals("Name")) {
@@ -152,7 +129,6 @@ public class ItemsActivity extends AppCompatActivity {
                 }
             });
         }
-
         if (string.equals("Category")){
             Collections.sort(items, new Comparator<Item>() {
                 @Override
@@ -178,7 +154,7 @@ public class ItemsActivity extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode == KeyEvent.KEYCODE_BACK){
-            Intent intent = NavUtils.getParentActivityIntent(this);
+            Intent intent = new Intent(ItemsActivity.this, ShoppingListsActivity.class);
             intent.putExtra("smg.SL_ID", slID);
             NavUtils.navigateUpTo(this, intent);
             return true;

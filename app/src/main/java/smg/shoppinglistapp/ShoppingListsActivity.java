@@ -15,6 +15,7 @@ public class ShoppingListsActivity extends AppCompatActivity {
 
     // TODO change longPress to choseMultipleItems instead of goToEdit
     // TODO ask whether one REALLY wants to delete the SL
+    // TODO change color theme
 
     FloatingActionButton fab;
 

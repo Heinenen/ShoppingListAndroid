@@ -24,8 +24,6 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
     private String shoppingList;
     private ArrayList<Item> items;
 
-    private int row_index = -1;
-
     public ItemsAdapter(Context context, String slID, String shoppingList){
         this.context = context;
         this.slID = slID;
@@ -34,32 +32,29 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
         this.items = getItemsFromSQL();
     }
 
+    // TODO set default color for text and background (not hardcoded black)
 
     @Override
     public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
-        return new CustomViewHolder(LayoutInflater.from(context).inflate(R.layout.layout_item, parent, false));
+        CustomViewHolder mHolder = new CustomViewHolder(LayoutInflater.from(context).inflate(R.layout.layout_item, parent, false));
+        // TODO move setOnClickListener to here, also for other things
+        return mHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull final CustomViewHolder holder, int position) {
+        holder.itemNameTextView.setText(items.get(holder.getAdapterPosition()).getName());
+        holder.itemCategoryTextView.setText(items.get(holder.getAdapterPosition()).getCategory());
+        holder.itemAmountTextView.setText(items.get(holder.getAdapterPosition()).getAmount());
+        holder.itemPriceTextView.setText(items.get(holder.getAdapterPosition()).getPrice());
 
 
-        holder.itemNameTextView.setText(items.get(position).getName());
-        holder.itemCategoryTextView.setText(items.get(position).getCategory());
-        holder.itemAmountTextView.setText(items.get(position).getAmount());
-        holder.itemPriceTextView.setText(items.get(position).getPrice());
-
-        if(!items.get(position).getPriority().equals("0")){
-            row_index = position;
-        }
-
-        if(row_index == position){
+        if(items.get(holder.getAdapterPosition()).getPriority().equals("1")){
             holder.itemView.setBackgroundColor(Color.parseColor("#ff1234"));
-            holder.itemNameTextView.setTextColor(Color.parseColor("#000000"));
-            holder.itemCategoryTextView.setTextColor(Color.parseColor("#000000"));
-            holder.itemAmountTextView.setTextColor(Color.parseColor("#000000"));
-            holder.itemPriceTextView.setTextColor(Color.parseColor("#000000"));
+        } else {
+            holder.itemView.setBackgroundColor(Color.parseColor("#ffffff"));
         }
+
 
         holder.parentView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -79,6 +74,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
         });
     }
 
+
     @Override
     public int getItemCount() {
         return items.size();
@@ -89,17 +85,19 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
         return this.items;
     }
 
-    public void setItems(ArrayList<Item> items){
-        this.items = items;
-    }
-
 
     public ArrayList<Item> getItemsFromSQL() {
         Cursor res = myDb.getItems(slID);
         ArrayList<Item> list = new ArrayList<>();
 
         while (res.moveToNext()) {
-            list.add(new Item(res.getString(0), res.getString(2) , res.getString(3), res.getString(4), res.getString(5), res.getString(6)));
+            list.add(new Item(
+                    res.getString(0),
+                    res.getString(2),
+                    res.getString(3),
+                    res.getString(4),
+                    res.getString(5),
+                    res.getString(6)));
         }
 
         return list;

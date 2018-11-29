@@ -44,7 +44,6 @@ public class EditShoppingListActivity extends AppCompatActivity {
 
 
         editShoppingList();
-//        deleteShoppingListButton();
     }
 
     @Override
@@ -69,25 +68,6 @@ public class EditShoppingListActivity extends AppCompatActivity {
             }
         });
     }
-
-//    public void deleteShoppingListButton(){
-//        Button deleteShoppingList = findViewById(R.id.deleteShoppingListBtn);
-//        deleteShoppingList.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                int[] deletedRows = myDb.deleteSL(slID);
-//                if (deletedRows[1] > 0) {
-//                    Toast.makeText(EditShoppingListActivity.this, "Shopping list and " + deletedRows[1] + " items deleted", Toast.LENGTH_LONG).show();
-//                } else if(deletedRows[0] > 0){
-//                    Toast.makeText(EditShoppingListActivity.this, "Empty shopping list deleted", Toast.LENGTH_LONG).show();
-//                } else {
-//                    Toast.makeText(EditShoppingListActivity.this, "Deleting failed", Toast.LENGTH_LONG).show();
-//                }
-//                Intent itemsActivity = new Intent(EditShoppingListActivity.this, ShoppingListsActivity.class);
-//                startActivity(itemsActivity);
-//            }
-//        });
-//    }
 
     public void deleteShoppingListFromSQL(){
         int[] deletedRows = myDb.deleteSL(slID);
@@ -119,7 +99,6 @@ public class EditShoppingListActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_delete_shopping_list:
                 deleteShoppingListFromSQL();
-                System.out.println("LOOOOOOOOOOOOOOL");
         }
 
         return super.onOptionsItemSelected(item);

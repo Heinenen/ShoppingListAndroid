@@ -77,6 +77,6 @@ public class Item {
     }
 
     public String toString(){
-        return "Name: " + name + "; Category: " + category + "Amount: " + amount + "; Priority: " + priority + "; Checked: " + check;
+        return System.getProperty("line.separator") + "Name: " + name + " Category: " + category + " Amount: " + amount + " Priority: " + priority + " Checked: " + check;
     }
 }

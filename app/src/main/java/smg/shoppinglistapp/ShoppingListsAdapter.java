@@ -38,8 +38,6 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
         final String shoppingList = shoppingLists.get(position).getName();
 
         holder.nameTextView.setText(shoppingLists.get(position).getName());
-//        holder.descriptionTextView.setText("description");
-//        holder.priceTextView.setText(shoppingLists.get(position).getPosition());
 
         holder.parentView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,16 +83,12 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         private TextView nameTextView;
-//        private TextView descriptionTextView;
-//        private TextView priceTextView;
         private View parentView;
 
         public ViewHolder (@NonNull  View view){
             super(view);
             this.parentView = view;
             this.nameTextView = view.findViewById(R.id.nameTextView);
-//            this.descriptionTextView = view.findViewById(R.id.descriptionTextView);
-//            this.priceTextView = view.findViewById(R.id.priceTextView);
 
         }
     }
