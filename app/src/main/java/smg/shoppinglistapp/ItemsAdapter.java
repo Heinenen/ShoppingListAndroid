@@ -104,6 +104,11 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
     }
 
 
+    public ArrayList<Item> getItems(){
+        return this.items;
+    }
+
+
     public ArrayList<Item> getItemsFromSQL() {
         Cursor res = myDb.getItems(slID);
         ArrayList<Item> list = new ArrayList<>();
