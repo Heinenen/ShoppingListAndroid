@@ -89,10 +89,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public Cursor getAllItems() {
-        SQLiteDatabase db = this.getWritableDatabase();
-        return db.rawQuery("SELECT * FROM " + TABLE2_NAME, null);
-    }
+//    public Cursor getAllItems() {
+//        SQLiteDatabase db = this.getWritableDatabase();
+//        return db.rawQuery("SELECT * FROM " + TABLE2_NAME, null);
+//    }
 
 
     public boolean updateSL(String id, String shoppingListName){

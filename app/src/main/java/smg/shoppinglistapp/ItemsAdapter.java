@@ -4,12 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -37,6 +38,12 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
     @Override
     public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
         CustomViewHolder mHolder = new CustomViewHolder(LayoutInflater.from(context).inflate(R.layout.layout_item, parent, false));
+//        mHolder.itemCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//
+//            }
+//        });
         // TODO move setOnClickListener to here, also for other things
         return mHolder;
     }
@@ -47,6 +54,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
         holder.itemCategoryTextView.setText(items.get(holder.getAdapterPosition()).getCategory());
         holder.itemAmountTextView.setText(items.get(holder.getAdapterPosition()).getAmount());
         holder.itemPriceTextView.setText(items.get(holder.getAdapterPosition()).getPrice());
+        holder.itemCheckBox.setChecked(items.get(holder.getAdapterPosition()).isCheck());
 
 
         if(items.get(holder.getAdapterPosition()).getPriority().equals("1")){
@@ -54,6 +62,20 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
         } else {
             holder.itemView.setBackgroundColor(Color.parseColor("#ffffff"));
         }
+
+        holder.itemCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                int isCheckedInt;
+                if(isChecked){
+                    isCheckedInt = 1;
+                } else {
+                    isCheckedInt = 0;
+                }
+                items.get(holder.getAdapterPosition()).setCheck(isChecked);
+                myDb.updateItemCheck(items.get(holder.getAdapterPosition()).getId(), isCheckedInt);
+            }
+        });
 
 
         holder.parentView.setOnLongClickListener(new View.OnLongClickListener() {
@@ -65,10 +87,10 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
                 editItemIntent.putExtra("smg.SHOPPING_LIST", shoppingList);
                 editItemIntent.putExtra("smg.ITEM_ID", itemID);
                 context.startActivity(editItemIntent);
-                if(context instanceof ItemsActivity){
-                    ((ItemsActivity) context).callOnSaveInstanceState(new Bundle());
-                    ((ItemsActivity) context).finish();
-                }
+//                if(context instanceof ItemsActivity){
+//                    ((ItemsActivity) context).callOnSaveInstanceState(new Bundle());
+//                    ((ItemsActivity) context).finish();
+//                }
                 return true;
             }
         });
@@ -85,6 +107,10 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
         return this.items;
     }
 
+    public void setItems(ArrayList<Item> items){
+        this.items = items;
+    }
+
 
     public ArrayList<Item> getItemsFromSQL() {
         Cursor res = myDb.getItems(slID);
@@ -97,7 +123,9 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
                     res.getString(3),
                     res.getString(4),
                     res.getString(5),
-                    res.getString(6)));
+                    res.getString(6),
+                    res.getInt(7)));
+
         }
 
         return list;
@@ -110,7 +138,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
         private TextView itemCategoryTextView;
         private TextView itemAmountTextView;
         private TextView itemPriceTextView;
-//        private CheckBox checkBox;
+        private CheckBox itemCheckBox;
         private View parentView;
 
         public CustomViewHolder (@NonNull  View view){
@@ -119,7 +147,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
             this.itemCategoryTextView = view.findViewById(R.id.itemCategoryTextView);
             this.itemAmountTextView = view.findViewById(R.id.itemAmountTextView);
             this.itemPriceTextView = view.findViewById(R.id.itemPriceTextView);
-//            this.checkBox = view.findViewById(R.id.itemCheckBox);
+            this.itemCheckBox = view.findViewById(R.id.itemCheckBox);
             this.parentView = view;
         }
     }

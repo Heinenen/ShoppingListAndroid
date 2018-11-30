@@ -48,10 +48,6 @@ public class ItemsActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        if(savedInstanceState != null) {
-            onRestoreInstanceState(savedInstanceState);
-        }
-
         setTitle(shoppingList);
 
         mAdapter = new ItemsAdapter(ItemsActivity.this, slID, shoppingList);
@@ -88,11 +84,6 @@ public class ItemsActivity extends AppCompatActivity {
             }
         });
         return true;
-    }
-
-
-    public void callOnSaveInstanceState(Bundle outState){
-        onSaveInstanceState(outState);
     }
 
 

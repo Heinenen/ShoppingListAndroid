@@ -10,14 +10,18 @@ public class Item {
     private String price;
     private boolean check;
 
-    public Item (String id, String name, String category, String amount, String priority, String price){
+    public Item (String id, String name, String category, String amount, String priority, String price, int intCheck){
         this.id = id;
         this.name = name;
         this.category = category;
         this.amount = amount;
         this.priority = priority;
         this.price = price;
-        this.check = false;
+        if(intCheck == 1){
+            this.check = true;
+        } else {
+            this.check = false;
+        }
     }
 
     public String getId(){
