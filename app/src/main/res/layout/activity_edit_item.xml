@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".AddShoppingListActivity">
 
+    <!--
     <Button
         android:id="@+id/editItemBtn"
         android:layout_width="60dp"
@@ -27,7 +28,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
 
-    <!--
     <Button
         android:id="@+id/deleteItemBtn"
         android:layout_width="60dp"
@@ -49,6 +49,18 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
         -->
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/editItemFAB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:src="@drawable/ic_check_white_24dp"
+        app:backgroundTint="@color/colorAccent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <EditText
         android:id="@+id/editItemNameEditText"

@@ -2,11 +2,11 @@ package smg.shoppinglistapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -35,7 +35,8 @@ public class AddShoppingListActivity extends AppCompatActivity {
 
 
     public void addShoppingList(){
-        Button addShoppingList = findViewById(R.id.addShoppingListBtn);
+        FloatingActionButton addShoppingList = findViewById(R.id.addShoppingListFAB);
+//        Button addShoppingList = findViewById(R.id.addShoppingListBtn);
         addShoppingList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
