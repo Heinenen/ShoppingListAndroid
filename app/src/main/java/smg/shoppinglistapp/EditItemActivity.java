@@ -13,7 +13,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import smg.logic.Item;
+import smg.models.Item;
 
 public class EditItemActivity extends AppCompatActivity {
 
@@ -124,8 +124,6 @@ public class EditItemActivity extends AppCompatActivity {
                 }
 
 
-
-
                 boolean isInserted = myDb.updateItem(itemID, slID, itemAttributes[0], itemAttributes[1], itemAttributes[3], itemPriorityInt, itemAttributes[4]);
 
                 if (isInserted) {
@@ -141,23 +139,6 @@ public class EditItemActivity extends AppCompatActivity {
         });
     }
 
-//    public void deleteItem(){
-//        Button deleteItem = findViewById(R.id.deleteItemBtn);
-//        deleteItem.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                int deletedRows = myDb.deleteItem(itemID);
-//                if (deletedRows > 0) {
-//                    Toast.makeText(EditItemActivity.this, "Item deleted", Toast.LENGTH_LONG).show();
-//                } else {
-//                    Toast.makeText(EditItemActivity.this, "Deleting failed", Toast.LENGTH_LONG).show();
-//                }
-//                Intent itemsActivity = new Intent(EditItemActivity.this, ItemsActivity.class);
-//                itemsActivity.putExtra("smg.SL_ID", slID);
-//                startActivity(itemsActivity);
-//            }
-//        });
-//    }
 
     public void deleteItemFromSQL(){
         int deletedRows = myDb.deleteItem(itemID);

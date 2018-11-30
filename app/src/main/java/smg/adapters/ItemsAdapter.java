@@ -1,4 +1,4 @@
-package smg.shoppinglistapp;
+package smg.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,7 +15,10 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import smg.logic.Item;
+import smg.models.Item;
+import smg.shoppinglistapp.DatabaseHelper;
+import smg.shoppinglistapp.EditItemActivity;
+import smg.shoppinglistapp.R;
 
 public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHolder> {
 
@@ -38,12 +41,6 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
     @Override
     public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
         CustomViewHolder mHolder = new CustomViewHolder(LayoutInflater.from(context).inflate(R.layout.layout_item, parent, false));
-//        mHolder.itemCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//
-//            }
-//        });
         // TODO move setOnClickListener to here, also for other things
         return mHolder;
     }

@@ -1,4 +1,4 @@
-package smg.logic;
+package smg.models;
 
 public class ShoppingList {
 
