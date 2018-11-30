@@ -72,6 +72,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
                 } else {
                     isCheckedInt = 0;
                 }
+
                 items.get(holder.getAdapterPosition()).setCheck(isChecked);
                 myDb.updateItemCheck(items.get(holder.getAdapterPosition()).getId(), isCheckedInt);
             }
@@ -100,15 +101,6 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
     @Override
     public int getItemCount() {
         return items.size();
-    }
-
-
-    public ArrayList<Item> getItems(){
-        return this.items;
-    }
-
-    public void setItems(ArrayList<Item> items){
-        this.items = items;
     }
 
 

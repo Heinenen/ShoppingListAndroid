@@ -137,6 +137,21 @@ public class ItemsActivity extends AppCompatActivity {
             });
         }
 
+        Collections.sort(items, new Comparator<Item>() {
+            @Override
+            public int compare(Item o1, Item o2) {
+                if (o1.isCheck() == o2.isCheck()) {
+                    return 0;
+                } else if (o1.isCheck()) {
+                    return 1;
+                } else if (o2.isCheck()) {
+                    return -1;
+                } else {
+                    return o1.getCategory().compareToIgnoreCase(o2.getCategory());
+                }
+            }
+        });
+
         mAdapter.notifyDataSetChanged();
     }
 
