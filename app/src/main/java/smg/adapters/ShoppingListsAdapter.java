@@ -25,16 +25,16 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
     private DatabaseHelper myDb;
     private ArrayList<ShoppingList> shoppingLists;
 
-    private ArrayList<String> slIDs;
-    private int[] row_indices;
+    private ArrayList<ShoppingList> selectedShoppingLists;
+    private int[] rowIndices;
 
     public ShoppingListsAdapter(Context context){
         this.context = context;
         this.myDb = new DatabaseHelper(context);
         this.shoppingLists = getSLFromSQL();
-        this.slIDs = new ArrayList<>();
-        this.row_indices = new int[shoppingLists.size()];
-        Arrays.fill(row_indices, -1);
+        this.selectedShoppingLists = new ArrayList<>();
+        this.rowIndices = new int[shoppingLists.size()];
+        Arrays.fill(rowIndices, -1);
     }
 
     @Override
@@ -44,19 +44,20 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
-        final String slID = shoppingLists.get(position).getPosition();
-        final String shoppingList = shoppingLists.get(position).getName();
-        holder.nameTextView.setText(shoppingLists.get(position).getName());
+        final ShoppingList shoppingList = shoppingLists.get(position);
+        final String slID = shoppingList.getPosition();
+        final String shoppingListName = shoppingList.getName();
+        holder.nameTextView.setText(shoppingListName);
 
         holder.parentView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                if (row_indices[holder.getAdapterPosition()] == -1){
-                    row_indices[holder.getAdapterPosition()] = holder.getAdapterPosition();
-                    slIDs.add(slID);
+                if (rowIndices[holder.getAdapterPosition()] == -1){
+                    rowIndices[holder.getAdapterPosition()] = holder.getAdapterPosition();
+                    selectedShoppingLists.add(shoppingList);
                 } else {
-                    row_indices[holder.getAdapterPosition()] = -1;
-                    slIDs.remove(slID);
+                    rowIndices[holder.getAdapterPosition()] = -1;
+                    selectedShoppingLists.remove(shoppingList);
                 }
                 notifyDataSetChanged();
 //                Intent editSLIntent = new Intent(context, EditShoppingListActivity.class);
@@ -72,14 +73,14 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
             public void onClick(View v) {
                 Intent itemActivityIntent = new Intent(context, ItemsActivity.class);
                 itemActivityIntent.putExtra("smg.SL_ID", slID);
-                itemActivityIntent.putExtra("smg.SHOPPING_LIST", shoppingList);
+                itemActivityIntent.putExtra("smg.SHOPPING_LIST", shoppingListName);
                 context.startActivity(itemActivityIntent);
             }
         });
 
 
-        if(row_indices[holder.getAdapterPosition()] == holder.getAdapterPosition()){
-            holder.itemView.setBackgroundColor(Color.parseColor("#f8f8fa"));
+        if(rowIndices[holder.getAdapterPosition()] == holder.getAdapterPosition()){
+            holder.itemView.setBackgroundColor(Color.parseColor("#000000"));
             holder.nameTextView.setTextColor(Color.parseColor("#c5c5c7"));
         } else {
             holder.itemView.setBackgroundColor(Color.parseColor("#ffffff"));
@@ -105,8 +106,16 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
         return list;
     }
 
-    public ArrayList<String> getSlIDs(){
-        return this.slIDs;
+    public void deleteSLFromList(ShoppingList shoppingList){
+        shoppingLists.remove(shoppingList);
+    }
+
+    public ArrayList<ShoppingList> getSelectedShoppingLists(){
+        return this.selectedShoppingLists;
+    }
+
+    public void unselectAll(){
+        Arrays.fill(rowIndices, -1);
     }
 
 

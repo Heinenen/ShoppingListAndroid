@@ -11,11 +11,11 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import smg.adapters.ShoppingListsAdapter;
+import smg.models.ShoppingList;
 
 public class ShoppingListsActivity extends AppCompatActivity {
 
@@ -23,10 +23,11 @@ public class ShoppingListsActivity extends AppCompatActivity {
     // TODO change longPress to choseMultipleItems instead of goToEdit
     // TODO ask whether one REALLY wants to delete the SL
     // TODO change color theme
+    // TODO make deleteButton invisible if no SL is selected
+    // TODO make a case for only one SL getting deleted (-> so that there is a nice animation)
 
     private DatabaseHelper myDb;
     private ShoppingListsAdapter mAdapter;
-    private ArrayList<String> slIDs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +40,6 @@ public class ShoppingListsActivity extends AppCompatActivity {
 
         this.myDb = new DatabaseHelper(ShoppingListsActivity.this);
         this.mAdapter = new ShoppingListsAdapter((ShoppingListsActivity.this));
-        this.slIDs = mAdapter.getSlIDs();
 
 
         RecyclerView recyclerView = findViewById(R.id.mainRecyclerView);
@@ -69,13 +69,13 @@ public class ShoppingListsActivity extends AppCompatActivity {
 
     public void deleteShoppingListFromSQL(String slID){
         int[] deletedRows = myDb.deleteSL(slID);
-        if (deletedRows[1] > 0) {
-            Toast.makeText(ShoppingListsActivity.this, "Shopping list and " + deletedRows[1] + " items deleted", Toast.LENGTH_SHORT).show();
-        } else if(deletedRows[0] > 0){
-            Toast.makeText(ShoppingListsActivity.this, "Empty shopping list deleted", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(ShoppingListsActivity.this, "Deleting failed", Toast.LENGTH_SHORT).show();
-        }
+//        if (deletedRows[1] > 0) {
+//            Toast.makeText(ShoppingListsActivity.this, "Shopping list and " + deletedRows[1] + " items deleted", Toast.LENGTH_SHORT).show();
+//        } else if(deletedRows[0] > 0){
+//            Toast.makeText(ShoppingListsActivity.this, "Empty shopping list deleted", Toast.LENGTH_SHORT).show();
+//        } else {
+//            Toast.makeText(ShoppingListsActivity.this, "Deleting failed", Toast.LENGTH_SHORT).show();
+//        }
     }
 
 
@@ -97,10 +97,15 @@ public class ShoppingListsActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         switch (menuItem.getItemId()){
             case R.id.action_delete_shopping_lists:
-                for (int i = 0; i < slIDs.size(); i++){
-                    deleteShoppingListFromSQL(slIDs.get(i));
+                ArrayList<ShoppingList> selectedShoppingLists = mAdapter.getSelectedShoppingLists();
+
+                for (int i = 0; i < selectedShoppingLists.size(); i++){
+                    deleteShoppingListFromSQL(selectedShoppingLists.get(i).getPosition());
+                    mAdapter.deleteSLFromList(selectedShoppingLists.get(i));
                 }
+                mAdapter.unselectAll();
                 mAdapter.notifyDataSetChanged();
+
         }
         return super.onOptionsItemSelected(menuItem);
     }
