@@ -15,12 +15,14 @@ import android.view.View;
 import java.util.ArrayList;
 
 import smg.adapters.ShoppingListsAdapter;
+import smg.interfaces.AdapterCallActivityMethod;
 import smg.models.ShoppingList;
 
-public class ShoppingListsActivity extends AppCompatActivity {
+
+public class ShoppingListsActivity extends AppCompatActivity implements AdapterCallActivityMethod {
 
 
-    // TODO change longPress to choseMultipleItems instead of goToEdit
+    // TODO reimplement editing of SLs and items
     // TODO ask whether one REALLY wants to delete the SL
     // TODO change color theme
     // TODO make deleteButton invisible if no SL is selected
@@ -28,6 +30,7 @@ public class ShoppingListsActivity extends AppCompatActivity {
 
     private DatabaseHelper myDb;
     private ShoppingListsAdapter mAdapter;
+    private boolean deleteButtonVisible;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +42,8 @@ public class ShoppingListsActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
 
         this.myDb = new DatabaseHelper(ShoppingListsActivity.this);
-        this.mAdapter = new ShoppingListsAdapter((ShoppingListsActivity.this));
+        this.mAdapter = new ShoppingListsAdapter(ShoppingListsActivity.this, this);
+        this.deleteButtonVisible = false;
 
 
         RecyclerView recyclerView = findViewById(R.id.mainRecyclerView);
@@ -53,7 +57,19 @@ public class ShoppingListsActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_shopping_lists, menu);
+        if(deleteButtonVisible){
+            menu.findItem(R.id.action_delete_shopping_lists).setVisible(true);
+        } else {
+            menu.findItem(R.id.action_delete_shopping_lists).setVisible(false);
+        }
         return true;
+    }
+
+
+    @Override
+    public void refreshToolbar(boolean deleteButtonVisible) {
+        this.deleteButtonVisible = deleteButtonVisible;
+        invalidateOptionsMenu();
     }
 
     public void fab(){
@@ -117,6 +133,8 @@ public class ShoppingListsActivity extends AppCompatActivity {
                         mAdapter.deselectAll();
                         mAdapter.notifyDataSetChanged();
                     }
+                    deleteButtonVisible = false;
+                    invalidateOptionsMenu();
                 }
         }
         return super.onOptionsItemSelected(menuItem);
