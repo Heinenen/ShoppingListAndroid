@@ -15,6 +15,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import smg.interfaces.AdapterCallActivityMethod;
 import smg.models.Item;
 import smg.shoppinglistapp.DatabaseHelper;
 import smg.shoppinglistapp.R;
@@ -22,6 +23,7 @@ import smg.shoppinglistapp.R;
 public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHolder> {
 
     private Context context;
+    private AdapterCallActivityMethod parentActivity;
     private DatabaseHelper myDb;
     private String slID;
     private String shoppingList;
@@ -29,8 +31,9 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
     private ArrayList<Item> selectedItems;
     private int[] rowIndices;
 
-    public ItemsAdapter(Context context, String slID, String shoppingList){
+    public ItemsAdapter(Context context, AdapterCallActivityMethod parentActivity, String slID, String shoppingList){
         this.context = context;
+        this.parentActivity = parentActivity;
         this.slID = slID;
         this.shoppingList = shoppingList;
         this.myDb = new DatabaseHelper(context);
@@ -151,6 +154,16 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
             selectedItems.remove(item);
         }
         notifyDataSetChanged();
+
+        boolean itemSelectedChecker = false;
+        for(int i = 0; i < rowIndices.length; i++){
+            if(rowIndices[i] != -1){
+                itemSelectedChecker = true;
+                break;
+            }
+        }
+
+        parentActivity.refreshToolbar(itemSelectedChecker);
     }
 
 

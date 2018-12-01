@@ -21,10 +21,11 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import smg.adapters.ItemsAdapter;
+import smg.interfaces.AdapterCallActivityMethod;
 import smg.models.Item;
 
 
-public class ItemsActivity extends AppCompatActivity {
+public class ItemsActivity extends AppCompatActivity implements AdapterCallActivityMethod {
 
     // TODO implement checkboxes: maybe move sort them as last as soon as clicked
     // TODO change longPress behaviour (s. SL todo)
@@ -34,6 +35,7 @@ public class ItemsActivity extends AppCompatActivity {
     private ArrayList<Item> items;
     private ItemsAdapter mAdapter;
     private DatabaseHelper myDb;
+    private boolean deleteButtonVisible;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +55,9 @@ public class ItemsActivity extends AppCompatActivity {
         setTitle(shoppingList);
 
         this.myDb = new DatabaseHelper(ItemsActivity.this);
+        this.deleteButtonVisible = false;
 
-        mAdapter = new ItemsAdapter(ItemsActivity.this, slID, shoppingList);
+        mAdapter = new ItemsAdapter(ItemsActivity.this, this, slID, shoppingList);
         items = mAdapter.getItems();
 
         RecyclerView recyclerView = findViewById(R.id.secondRecyclerView);
@@ -68,6 +71,12 @@ public class ItemsActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_items, menu);
+
+        if(deleteButtonVisible){
+            menu.findItem(R.id.action_delete_items).setVisible(true);
+        } else {
+            menu.findItem(R.id.action_delete_items).setVisible(false);
+        }
 
         Spinner spinner = (Spinner) menu.findItem(R.id.action_sort).getActionView();
         ArrayAdapter<String> myAdapter = new ArrayAdapter<>(ItemsActivity.this,
@@ -90,6 +99,11 @@ public class ItemsActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public void refreshToolbar(boolean deleteButtonVisible) {
+        this.deleteButtonVisible = deleteButtonVisible;
+        invalidateOptionsMenu();
+    }
 
     public void addItemActivity(){
         FloatingActionButton fab = findViewById(R.id.itemsFAB);
@@ -196,6 +210,9 @@ public class ItemsActivity extends AppCompatActivity {
                         mAdapter.notifyDataSetChanged();
                     }
                 }
+
+                deleteButtonVisible = false;
+                invalidateOptionsMenu();
         }
         return super.onOptionsItemSelected(item);
     }
