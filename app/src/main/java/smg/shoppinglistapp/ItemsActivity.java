@@ -33,6 +33,7 @@ public class ItemsActivity extends AppCompatActivity {
     private String shoppingList;
     private ArrayList<Item> items;
     private ItemsAdapter mAdapter;
+    private DatabaseHelper myDb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,8 @@ public class ItemsActivity extends AppCompatActivity {
         }
 
         setTitle(shoppingList);
+
+        this.myDb = new DatabaseHelper(ItemsActivity.this);
 
         mAdapter = new ItemsAdapter(ItemsActivity.this, slID, shoppingList);
         items = mAdapter.getItems();
@@ -156,6 +159,10 @@ public class ItemsActivity extends AppCompatActivity {
         mAdapter.notifyDataSetChanged();
     }
 
+    public void deleteItemFromSQL(String itemID){
+        myDb.deleteItem(itemID);
+    }
+
 
     // goes to parent activity on backKey-press
     @Override
@@ -179,6 +186,16 @@ public class ItemsActivity extends AppCompatActivity {
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
 
+            case R.id.action_delete_items:
+                ArrayList<Item> selectedItems = mAdapter.getSelectedItems();
+                if (selectedItems.size() > 1) {
+                    for (int i = 0; i < selectedItems.size(); i++) {
+                        deleteItemFromSQL(selectedItems.get(i).getId());
+                        mAdapter.deleteItemFromList(selectedItems.get(i));
+                        mAdapter.deselectAll();
+                        mAdapter.notifyDataSetChanged();
+                    }
+                }
         }
         return super.onOptionsItemSelected(item);
     }

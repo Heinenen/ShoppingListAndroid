@@ -114,7 +114,7 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
         return this.selectedShoppingLists;
     }
 
-    public void unselectAll(){
+    public void deselectAll(){
         Arrays.fill(rowIndices, -1);
     }
 

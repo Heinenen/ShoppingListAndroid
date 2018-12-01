@@ -68,7 +68,8 @@ public class ShoppingListsActivity extends AppCompatActivity {
     }
 
     public void deleteShoppingListFromSQL(String slID){
-        int[] deletedRows = myDb.deleteSL(slID);
+        myDb.deleteSL(slID);
+//        int[] deletedRows = myDb.deleteSL(slID);
 //        if (deletedRows[1] > 0) {
 //            Toast.makeText(ShoppingListsActivity.this, "Shopping list and " + deletedRows[1] + " items deleted", Toast.LENGTH_SHORT).show();
 //        } else if(deletedRows[0] > 0){
@@ -97,15 +98,26 @@ public class ShoppingListsActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         switch (menuItem.getItemId()){
             case R.id.action_delete_shopping_lists:
+                // if only one SL gets deleted, tell adapter to only delete/refresh one
+                // -> nice animation
                 ArrayList<ShoppingList> selectedShoppingLists = mAdapter.getSelectedShoppingLists();
 
-                for (int i = 0; i < selectedShoppingLists.size(); i++){
-                    deleteShoppingListFromSQL(selectedShoppingLists.get(i).getPosition());
-                    mAdapter.deleteSLFromList(selectedShoppingLists.get(i));
+                // commented code doesn't work
+//                if (selectedShoppingLists.size() == 1) {
+//                    deleteShoppingListFromSQL(selectedShoppingLists.get(0).getPosition());
+//                    mAdapter.deleteSLFromList(selectedShoppingLists.get(0));
+//                    mAdapter.notifyItemRemoved(Integer.parseInt(selectedShoppingLists.get(0).getPosition()));
+//                    mAdapter.deselectAll();
+//                    mAdapter.notifyItemChanged(Integer.parseInt(selectedShoppingLists.get(0).getPosition()));
+//                }
+                if (selectedShoppingLists.size() > 0) {
+                    for (int i = 0; i < selectedShoppingLists.size(); i++) {
+                        deleteShoppingListFromSQL(selectedShoppingLists.get(i).getPosition());
+                        mAdapter.deleteSLFromList(selectedShoppingLists.get(i));
+                        mAdapter.deselectAll();
+                        mAdapter.notifyDataSetChanged();
+                    }
                 }
-                mAdapter.unselectAll();
-                mAdapter.notifyDataSetChanged();
-
         }
         return super.onOptionsItemSelected(menuItem);
     }

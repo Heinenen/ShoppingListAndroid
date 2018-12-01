@@ -1,7 +1,6 @@
 package smg.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
@@ -14,10 +13,10 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import smg.models.Item;
 import smg.shoppinglistapp.DatabaseHelper;
-import smg.shoppinglistapp.EditItemActivity;
 import smg.shoppinglistapp.R;
 
 public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHolder> {
@@ -27,6 +26,8 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
     private String slID;
     private String shoppingList;
     private ArrayList<Item> items;
+    private ArrayList<Item> selectedItems;
+    private int[] rowIndices;
 
     public ItemsAdapter(Context context, String slID, String shoppingList){
         this.context = context;
@@ -34,6 +35,10 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
         this.shoppingList = shoppingList;
         this.myDb = new DatabaseHelper(context);
         this.items = getItemsFromSQL();
+        this.selectedItems = new ArrayList<>();
+        this.rowIndices = new int[items.size()];
+        Arrays.fill(rowIndices, -1);
+
     }
 
     // TODO set default color for text and background (not hardcoded black)
@@ -47,11 +52,12 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
 
     @Override
     public void onBindViewHolder(@NonNull final CustomViewHolder holder, int position) {
-        holder.itemNameTextView.setText(items.get(holder.getAdapterPosition()).getName());
-        holder.itemCategoryTextView.setText(items.get(holder.getAdapterPosition()).getCategory());
-        holder.itemAmountTextView.setText(items.get(holder.getAdapterPosition()).getAmount());
-        holder.itemPriceTextView.setText(items.get(holder.getAdapterPosition()).getPrice());
-        holder.itemCheckBox.setChecked(items.get(holder.getAdapterPosition()).isCheck());
+        final Item item = items.get(holder.getAdapterPosition());
+        holder.itemNameTextView.setText(item.getName());
+        holder.itemCategoryTextView.setText(item.getCategory());
+        holder.itemAmountTextView.setText(item.getAmount());
+        holder.itemPriceTextView.setText(item.getPrice());
+        holder.itemCheckBox.setChecked(item.isCheck());
 
 
         if(items.get(holder.getAdapterPosition()).getPriority().equals("1")){
@@ -79,12 +85,20 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
         holder.parentView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                Intent editItemIntent = new Intent(context, EditItemActivity.class);
-                String itemID = items.get(holder.getAdapterPosition()).getId();
-                editItemIntent.putExtra("smg.SL_ID", slID);
-                editItemIntent.putExtra("smg.SHOPPING_LIST", shoppingList);
-                editItemIntent.putExtra("smg.ITEM_ID", itemID);
-                context.startActivity(editItemIntent);
+                if (rowIndices[holder.getAdapterPosition()] == -1){
+                    rowIndices[holder.getAdapterPosition()] = holder.getAdapterPosition();
+                    selectedItems.add(item);
+                } else {
+                    rowIndices[holder.getAdapterPosition()] = -1;
+                    selectedItems.remove(item);
+                }
+                notifyDataSetChanged();
+//                Intent editItemIntent = new Intent(context, EditItemActivity.class);
+//                String itemID = items.get(holder.getAdapterPosition()).getId();
+//                editItemIntent.putExtra("smg.SL_ID", slID);
+//                editItemIntent.putExtra("smg.SHOPPING_LIST", shoppingList);
+//                editItemIntent.putExtra("smg.ITEM_ID", itemID);
+//                context.startActivity(editItemIntent);
 //                if(context instanceof ItemsActivity){
 //                    ((ItemsActivity) context).callOnSaveInstanceState(new Bundle());
 //                    ((ItemsActivity) context).finish();
@@ -92,6 +106,14 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
                 return true;
             }
         });
+
+        if(rowIndices[holder.getAdapterPosition()] == holder.getAdapterPosition()){
+            holder.itemView.setBackgroundColor(Color.parseColor("#000000"));
+            holder.itemNameTextView.setTextColor(Color.parseColor("#c5c5c7"));
+        } else {
+            holder.itemView.setBackgroundColor(Color.parseColor("#ffffff"));
+            holder.itemNameTextView.setTextColor(Color.parseColor("#000000"));
+        }
     }
 
 
@@ -103,6 +125,18 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
 
     public ArrayList<Item> getItems(){
         return this.items;
+    }
+
+    public ArrayList<Item> getSelectedItems(){
+        return this.selectedItems;
+    }
+
+    public void deleteItemFromList(Item item){
+        this.items.remove(item);
+    }
+
+    public void deselectAll(){
+        Arrays.fill(rowIndices, -1);
     }
 
 
