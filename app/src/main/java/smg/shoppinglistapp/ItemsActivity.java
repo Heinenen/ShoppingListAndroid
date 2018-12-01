@@ -188,7 +188,7 @@ public class ItemsActivity extends AppCompatActivity {
 
             case R.id.action_delete_items:
                 ArrayList<Item> selectedItems = mAdapter.getSelectedItems();
-                if (selectedItems.size() > 1) {
+                if (selectedItems.size() > 0) {
                     for (int i = 0; i < selectedItems.size(); i++) {
                         deleteItemFromSQL(selectedItems.get(i).getId());
                         mAdapter.deleteItemFromList(selectedItems.get(i));
