@@ -85,14 +85,16 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
         holder.parentView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                if (rowIndices[holder.getAdapterPosition()] == -1){
-                    rowIndices[holder.getAdapterPosition()] = holder.getAdapterPosition();
-                    selectedItems.add(item);
-                } else {
-                    rowIndices[holder.getAdapterPosition()] = -1;
-                    selectedItems.remove(item);
-                }
-                notifyDataSetChanged();
+                deSelectItem(holder.getAdapterPosition(), item);
+//                if (rowIndices[holder.getAdapterPosition()] == -1){
+//                    rowIndices[holder.getAdapterPosition()] = holder.getAdapterPosition();
+//                    selectedItems.add(item);
+//                } else {
+//                    rowIndices[holder.getAdapterPosition()] = -1;
+//                    selectedItems.remove(item);
+//                }
+//                notifyDataSetChanged();
+
 //                Intent editItemIntent = new Intent(context, EditItemActivity.class);
 //                String itemID = items.get(holder.getAdapterPosition()).getId();
 //                editItemIntent.putExtra("smg.SL_ID", slID);
@@ -104,6 +106,23 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
 //                    ((ItemsActivity) context).finish();
 //                }
                 return true;
+            }
+        });
+
+        holder.parentView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean itemSelectedChecker = false;
+                for(int i = 0; i < rowIndices.length; i++){
+                    if(rowIndices[i] != -1){
+                        itemSelectedChecker = true;
+                        break;
+                    }
+                }
+
+                if(itemSelectedChecker){
+                    deSelectItem(holder.getAdapterPosition(), item);
+                }
             }
         });
 
@@ -120,6 +139,18 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
     @Override
     public int getItemCount() {
         return items.size();
+    }
+
+
+    public void deSelectItem(int position, Item item){
+        if (rowIndices[position] == -1){
+            rowIndices[position] = position;
+            selectedItems.add(item);
+        } else {
+            rowIndices[position] = -1;
+            selectedItems.remove(item);
+        }
+        notifyDataSetChanged();
     }
 
 

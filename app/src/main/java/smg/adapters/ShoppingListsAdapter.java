@@ -52,14 +52,8 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
         holder.parentView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                if (rowIndices[holder.getAdapterPosition()] == -1){
-                    rowIndices[holder.getAdapterPosition()] = holder.getAdapterPosition();
-                    selectedShoppingLists.add(shoppingList);
-                } else {
-                    rowIndices[holder.getAdapterPosition()] = -1;
-                    selectedShoppingLists.remove(shoppingList);
-                }
-                notifyDataSetChanged();
+                deSelectShoppingList(holder.getAdapterPosition(), shoppingList);
+
 //                Intent editSLIntent = new Intent(context, EditShoppingListActivity.class);
 //                editSLIntent.putExtra("smg.SL_ID", slID);
 //                editSLIntent.putExtra("smg.SHOPPING_LIST", shoppingList);
@@ -71,10 +65,22 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
         holder.parentView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent itemActivityIntent = new Intent(context, ItemsActivity.class);
-                itemActivityIntent.putExtra("smg.SL_ID", slID);
-                itemActivityIntent.putExtra("smg.SHOPPING_LIST", shoppingListName);
-                context.startActivity(itemActivityIntent);
+                boolean shoppingListSelectedChecker = false;
+                for(int i = 0; i < rowIndices.length; i++){
+                    if(rowIndices[i] != -1){
+                        shoppingListSelectedChecker = true;
+                        break;
+                    }
+                }
+
+                if(shoppingListSelectedChecker){
+                    deSelectShoppingList(holder.getAdapterPosition(), shoppingList);
+                } else {
+                    Intent itemActivityIntent = new Intent(context, ItemsActivity.class);
+                    itemActivityIntent.putExtra("smg.SL_ID", slID);
+                    itemActivityIntent.putExtra("smg.SHOPPING_LIST", shoppingListName);
+                    context.startActivity(itemActivityIntent);
+                }
             }
         });
 
@@ -92,6 +98,18 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
     @Override
     public int getItemCount() {
         return shoppingLists.size();
+    }
+
+
+    public void deSelectShoppingList(int position, ShoppingList shoppingList){
+        if (rowIndices[position] == -1){
+            rowIndices[position] = position;
+            selectedShoppingLists.add(shoppingList);
+        } else {
+            rowIndices[position] = -1;
+            selectedShoppingLists.remove(shoppingList);
+        }
+        notifyDataSetChanged();
     }
 
 
