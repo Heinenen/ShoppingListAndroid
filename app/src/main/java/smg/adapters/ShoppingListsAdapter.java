@@ -3,8 +3,8 @@ package smg.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -83,11 +83,11 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
 
 
         if(rowIndices[holder.getAdapterPosition()] == holder.getAdapterPosition()){
-            holder.itemView.setBackgroundColor(Color.parseColor("#000000"));
-            holder.nameTextView.setTextColor(Color.parseColor("#c5c5c7"));
+            holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.shoppingListMarked));
+            holder.nameTextView.setTextColor(ContextCompat.getColor(context, R.color.shoppingListMarkedText));
         } else {
-            holder.itemView.setBackgroundColor(Color.parseColor("#ffffff"));
-            holder.nameTextView.setTextColor(Color.parseColor("#000000"));
+            holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.shoppingListDefault));
+            holder.nameTextView.setTextColor(ContextCompat.getColor(context, R.color.shoppingListDefaultText));
         }
 
     }

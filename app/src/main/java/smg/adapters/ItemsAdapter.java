@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -110,15 +111,19 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
             }
         });
 
-        if(rowIndices[holder.getAdapterPosition()] == holder.getAdapterPosition()){
-            holder.itemView.setBackgroundColor(Color.parseColor("#000000"));
-            holder.itemNameTextView.setTextColor(Color.parseColor("#c5c5c7"));
+
+        if(rowIndices[holder.getAdapterPosition()] == holder.getAdapterPosition() && items.get(holder.getAdapterPosition()).getPriority().equals("1")) {
+            holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.itemImportantMarked));
+            holder.itemNameTextView.setTextColor(ContextCompat.getColor(context, R.color.itemImportantMarkedText));
+        } else if(rowIndices[holder.getAdapterPosition()] == holder.getAdapterPosition()){
+            holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.itemMarked));
+            holder.itemNameTextView.setTextColor(ContextCompat.getColor(context, R.color.itemMarkedText));
         } else if(items.get(holder.getAdapterPosition()).getPriority().equals("1")){
-            holder.itemView.setBackgroundColor(Color.parseColor("#ce4848"));
-            holder.itemNameTextView.setTextColor(Color.parseColor("#000000"));
+            holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.itemImportant));
+            holder.itemNameTextView.setTextColor(ContextCompat.getColor(context, R.color.itemImportantText));
         } else {
-            holder.itemView.setBackgroundColor(Color.parseColor("#ffffff"));
-            holder.itemNameTextView.setTextColor(Color.parseColor("#000000"));
+            holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.itemDefault));
+            holder.itemNameTextView.setTextColor(ContextCompat.getColor(context, R.color.itemDefaultText));
         }
     }
 
