@@ -97,10 +97,10 @@ public class EditShoppingListActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch (item.getItemId()) {
-            case R.id.action_delete_shopping_list:
-                deleteShoppingListFromSQL();
-        }
+//        switch (item.getItemId()) {
+//            case R.id.action_delete_shopping_list:
+//                deleteShoppingListFromSQL();
+//        }
 
         return super.onOptionsItemSelected(item);
     }

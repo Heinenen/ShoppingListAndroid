@@ -89,14 +89,6 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
             @Override
             public boolean onLongClick(View v) {
                 deSelectItem(holder.getAdapterPosition(), item);
-//                if (rowIndices[holder.getAdapterPosition()] == -1){
-//                    rowIndices[holder.getAdapterPosition()] = holder.getAdapterPosition();
-//                    selectedItems.add(item);
-//                } else {
-//                    rowIndices[holder.getAdapterPosition()] = -1;
-//                    selectedItems.remove(item);
-//                }
-//                notifyDataSetChanged();
 
 //                Intent editItemIntent = new Intent(context, EditItemActivity.class);
 //                String itemID = items.get(holder.getAdapterPosition()).getId();
@@ -155,15 +147,28 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
         }
         notifyDataSetChanged();
 
-        boolean itemSelectedChecker = false;
+        boolean[] booleans = checkForToolbarButtonVisibility();
+        parentActivity.refreshToolbar(booleans[0], booleans[1]);
+    }
+
+
+    public boolean[] checkForToolbarButtonVisibility(){
+        int itemsSelectedCounter = 0;
+
         for(int i = 0; i < rowIndices.length; i++){
             if(rowIndices[i] != -1){
-                itemSelectedChecker = true;
-                break;
+                itemsSelectedCounter = itemsSelectedCounter + 1;
+                if(itemsSelectedCounter > 1) break;
             }
         }
 
-        parentActivity.refreshToolbar(itemSelectedChecker);
+        if(itemsSelectedCounter == 1){
+            return new boolean[]{true, true};
+        } else if(itemsSelectedCounter > 1){
+            return new boolean[]{true, false};
+        } else {
+            return  new boolean[]{false, false};
+        }
     }
 
 

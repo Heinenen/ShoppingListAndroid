@@ -192,10 +192,6 @@ public class EditItemActivity extends AppCompatActivity {
                 intent.putExtra("smg.SHOPPING_LIST", shoppingList);
                 startActivity(intent);
                 return true;
-
-            case R.id.action_delete_item:
-                deleteItemFromSQL();
-                return true;
         }
         return super.onOptionsItemSelected(menuItem);
     }

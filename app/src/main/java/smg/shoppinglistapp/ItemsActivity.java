@@ -36,6 +36,7 @@ public class ItemsActivity extends AppCompatActivity implements AdapterCallActiv
     private ItemsAdapter mAdapter;
     private DatabaseHelper myDb;
     private boolean deleteButtonVisible;
+    private boolean editButtonVisible;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +57,7 @@ public class ItemsActivity extends AppCompatActivity implements AdapterCallActiv
 
         this.myDb = new DatabaseHelper(ItemsActivity.this);
         this.deleteButtonVisible = false;
+        this.editButtonVisible = false;
 
         mAdapter = new ItemsAdapter(ItemsActivity.this, this, slID, shoppingList);
         items = mAdapter.getItems();
@@ -73,9 +75,15 @@ public class ItemsActivity extends AppCompatActivity implements AdapterCallActiv
         getMenuInflater().inflate(R.menu.menu_items, menu);
 
         if(deleteButtonVisible){
-            menu.findItem(R.id.action_delete_items).setVisible(true);
+            menu.findItem(R.id.action_delete_item).setVisible(true);
         } else {
-            menu.findItem(R.id.action_delete_items).setVisible(false);
+            menu.findItem(R.id.action_delete_item).setVisible(false);
+        }
+
+        if(editButtonVisible){
+            menu.findItem(R.id.action_edit_item).setVisible(true);
+        } else {
+            menu.findItem(R.id.action_edit_item).setVisible(false);
         }
 
         Spinner spinner = (Spinner) menu.findItem(R.id.action_sort).getActionView();
@@ -100,8 +108,9 @@ public class ItemsActivity extends AppCompatActivity implements AdapterCallActiv
     }
 
     @Override
-    public void refreshToolbar(boolean deleteButtonVisible) {
+    public void refreshToolbar(boolean deleteButtonVisible, boolean editButtonVisible) {
         this.deleteButtonVisible = deleteButtonVisible;
+        this.editButtonVisible = editButtonVisible;
         invalidateOptionsMenu();
     }
 
@@ -200,7 +209,7 @@ public class ItemsActivity extends AppCompatActivity implements AdapterCallActiv
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
 
-            case R.id.action_delete_items:
+            case R.id.action_delete_item:
                 ArrayList<Item> selectedItems = mAdapter.getSelectedItems();
                 if (selectedItems.size() > 0) {
                     for (int i = 0; i < selectedItems.size(); i++) {
@@ -210,9 +219,22 @@ public class ItemsActivity extends AppCompatActivity implements AdapterCallActiv
                         mAdapter.notifyDataSetChanged();
                     }
                 }
+                refreshToolbar(false, false);
+                return true;
 
-                deleteButtonVisible = false;
-                invalidateOptionsMenu();
+            case R.id.action_edit_item:
+                Item selectedItem = mAdapter.getSelectedItems().get(0);
+                Intent editItemIntent = new Intent(ItemsActivity.this, EditItemActivity.class);
+
+                editItemIntent.putExtra("smg.SL_ID", slID);
+                editItemIntent.putExtra("smg.SHOPPING_LIST", shoppingList);
+                editItemIntent.putExtra("smg.ITEM_ID", selectedItem.getId());
+                startActivity(editItemIntent);
+//                if(context instanceof ItemsActivity){
+//                    ((ItemsActivity) context).callOnSaveInstanceState(new Bundle());
+//                    ((ItemsActivity) context).finish();
+//                }
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }

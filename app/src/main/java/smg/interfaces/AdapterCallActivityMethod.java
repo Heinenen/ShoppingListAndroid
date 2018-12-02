@@ -1,5 +1,5 @@
 package smg.interfaces;
 
 public interface AdapterCallActivityMethod {
-    void refreshToolbar(boolean deleteButtonVisible);
+    void refreshToolbar(boolean deleteButtonVisible, boolean editButtonVisible);
 }

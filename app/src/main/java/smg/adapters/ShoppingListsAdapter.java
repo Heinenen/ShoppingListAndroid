@@ -113,18 +113,29 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
         }
         notifyDataSetChanged();
 
+        boolean[] booleans = checkForToolbarButtonVisibility();
+        parentActivity.refreshToolbar(booleans[0], booleans[1]);
+    }
 
-        boolean shoppingListSelectedChecker = false;
+
+    public boolean[] checkForToolbarButtonVisibility(){
+        int shoppingListsSelectedCounter = 0;
+
         for(int i = 0; i < rowIndices.length; i++){
             if(rowIndices[i] != -1){
-                shoppingListSelectedChecker = true;
-                break;
+                shoppingListsSelectedCounter = shoppingListsSelectedCounter + 1;
+                if(shoppingListsSelectedCounter > 1) break;
             }
         }
 
-        parentActivity.refreshToolbar(shoppingListSelectedChecker);
+        if(shoppingListsSelectedCounter == 1){
+            return new boolean[]{true, true};
+        } else if(shoppingListsSelectedCounter > 1){
+            return new boolean[]{true, false};
+        } else {
+            return  new boolean[]{false, false};
+        }
     }
-
 
 
     public ArrayList<ShoppingList> getSLFromSQL(){

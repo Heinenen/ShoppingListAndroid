@@ -12,7 +12,8 @@
     <string name="editShoppingListAct_title">Einkaufsliste bearbeiten</string>
     <string name="editItemAct_title">Artikel bearbeiten</string>
     <string name="actAddItem_checkBoxText">Wichtig</string>
-    <string name="menuItems_title">Sortieren nach …</string>
     <string name="actAddItem_priceHint">Preis</string>
     <string name="actAddItem_deleteItem">Löschen</string>
+    <string name="menuItems_spinner_title">Sortieren nach …</string>
+    <string name="menuItems_edit_title">Bearbeiten</string>
 </resources>

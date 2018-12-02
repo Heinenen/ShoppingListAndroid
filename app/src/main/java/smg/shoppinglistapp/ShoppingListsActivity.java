@@ -30,7 +30,9 @@ public class ShoppingListsActivity extends AppCompatActivity implements AdapterC
 
     private DatabaseHelper myDb;
     private ShoppingListsAdapter mAdapter;
+
     private boolean deleteButtonVisible;
+    private boolean editButtonVisible;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,7 @@ public class ShoppingListsActivity extends AppCompatActivity implements AdapterC
         this.myDb = new DatabaseHelper(ShoppingListsActivity.this);
         this.mAdapter = new ShoppingListsAdapter(ShoppingListsActivity.this, this);
         this.deleteButtonVisible = false;
+        this.editButtonVisible = false;
 
 
         RecyclerView recyclerView = findViewById(R.id.mainRecyclerView);
@@ -58,17 +61,25 @@ public class ShoppingListsActivity extends AppCompatActivity implements AdapterC
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_shopping_lists, menu);
         if(deleteButtonVisible){
-            menu.findItem(R.id.action_delete_shopping_lists).setVisible(true);
+            menu.findItem(R.id.action_delete_shopping_list).setVisible(true);
         } else {
-            menu.findItem(R.id.action_delete_shopping_lists).setVisible(false);
+            menu.findItem(R.id.action_delete_shopping_list).setVisible(false);
         }
+
+        if(editButtonVisible){
+            menu.findItem(R.id.action_edit_shopping_list).setVisible(true);
+        } else {
+            menu.findItem(R.id.action_edit_shopping_list).setVisible(false);
+        }
+
         return true;
     }
 
 
     @Override
-    public void refreshToolbar(boolean deleteButtonVisible) {
+    public void refreshToolbar(boolean deleteButtonVisible, boolean editButtonVisible) {
         this.deleteButtonVisible = deleteButtonVisible;
+        this.editButtonVisible = editButtonVisible;
         invalidateOptionsMenu();
     }
 
@@ -113,7 +124,7 @@ public class ShoppingListsActivity extends AppCompatActivity implements AdapterC
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         switch (menuItem.getItemId()){
-            case R.id.action_delete_shopping_lists:
+            case R.id.action_delete_shopping_list:
                 // if only one SL gets deleted, tell adapter to only delete/refresh one
                 // -> nice animation
                 ArrayList<ShoppingList> selectedShoppingLists = mAdapter.getSelectedShoppingLists();
@@ -133,9 +144,18 @@ public class ShoppingListsActivity extends AppCompatActivity implements AdapterC
                         mAdapter.deselectAll();
                         mAdapter.notifyDataSetChanged();
                     }
-                    deleteButtonVisible = false;
-                    invalidateOptionsMenu();
+
+                    refreshToolbar(false, false);
                 }
+                return true;
+
+            case R.id.action_edit_shopping_list:
+                ShoppingList selectedShoppingList = mAdapter.getSelectedShoppingLists().get(0);
+                Intent editSLIntent = new Intent(ShoppingListsActivity.this, EditShoppingListActivity.class);
+                editSLIntent.putExtra("smg.SL_ID", selectedShoppingList.getPosition());
+                editSLIntent.putExtra("smg.SHOPPING_LIST", selectedShoppingList.getName());
+                startActivity(editSLIntent);
+                return true;
         }
         return super.onOptionsItemSelected(menuItem);
     }
