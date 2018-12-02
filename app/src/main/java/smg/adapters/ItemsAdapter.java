@@ -89,17 +89,6 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
             @Override
             public boolean onLongClick(View v) {
                 deSelectItem(holder.getAdapterPosition(), item);
-
-//                Intent editItemIntent = new Intent(context, EditItemActivity.class);
-//                String itemID = items.get(holder.getAdapterPosition()).getId();
-//                editItemIntent.putExtra("smg.SL_ID", slID);
-//                editItemIntent.putExtra("smg.SHOPPING_LIST", shoppingList);
-//                editItemIntent.putExtra("smg.ITEM_ID", itemID);
-//                context.startActivity(editItemIntent);
-//                if(context instanceof ItemsActivity){
-//                    ((ItemsActivity) context).callOnSaveInstanceState(new Bundle());
-//                    ((ItemsActivity) context).finish();
-//                }
                 return true;
             }
         });
@@ -124,6 +113,9 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
         if(rowIndices[holder.getAdapterPosition()] == holder.getAdapterPosition()){
             holder.itemView.setBackgroundColor(Color.parseColor("#000000"));
             holder.itemNameTextView.setTextColor(Color.parseColor("#c5c5c7"));
+        } else if(items.get(holder.getAdapterPosition()).getPriority().equals("1")){
+            holder.itemView.setBackgroundColor(Color.parseColor("#ce4848"));
+            holder.itemNameTextView.setTextColor(Color.parseColor("#000000"));
         } else {
             holder.itemView.setBackgroundColor(Color.parseColor("#ffffff"));
             holder.itemNameTextView.setTextColor(Color.parseColor("#000000"));

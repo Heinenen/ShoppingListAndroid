@@ -22,10 +22,8 @@ import smg.models.ShoppingList;
 public class ShoppingListsActivity extends AppCompatActivity implements AdapterCallActivityMethod {
 
 
-    // TODO reimplement editing of SLs and items
     // TODO ask whether one REALLY wants to delete the SL
     // TODO change color theme
-    // TODO make deleteButton invisible if no SL is selected
     // TODO make a case for only one SL getting deleted (-> so that there is a nice animation)
 
     private DatabaseHelper myDb;

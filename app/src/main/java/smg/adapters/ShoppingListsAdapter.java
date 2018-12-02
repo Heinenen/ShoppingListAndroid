@@ -55,11 +55,6 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
             @Override
             public boolean onLongClick(View v) {
                 deSelectShoppingList(holder.getAdapterPosition(), shoppingList);
-
-//                Intent editSLIntent = new Intent(context, EditShoppingListActivity.class);
-//                editSLIntent.putExtra("smg.SL_ID", slID);
-//                editSLIntent.putExtra("smg.SHOPPING_LIST", shoppingList);
-//                context.startActivity(editSLIntent);
                 return true;
             }
         });

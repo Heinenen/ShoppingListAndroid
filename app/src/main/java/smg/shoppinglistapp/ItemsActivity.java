@@ -28,7 +28,6 @@ import smg.models.Item;
 public class ItemsActivity extends AppCompatActivity implements AdapterCallActivityMethod {
 
     // TODO implement checkboxes: maybe move sort them as last as soon as clicked
-    // TODO change longPress behaviour (s. SL todo)
 
     private String slID;
     private String shoppingList;
