@@ -45,7 +45,6 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
 
     }
 
-    // TODO set default color for text and background (not hardcoded black)
 
     @Override
     public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){

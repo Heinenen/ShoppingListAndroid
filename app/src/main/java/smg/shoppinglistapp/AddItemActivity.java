@@ -3,6 +3,7 @@ package smg.shoppinglistapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -52,62 +53,69 @@ public class AddItemActivity extends AppCompatActivity {
                 EditText itemPrice = findViewById(R.id.addItemPriceEditText);
                 CheckBox itemPriority = findViewById(R.id.addItemPriorityCheckBox);
 
-                // Item parameters
-                // TODO make program complain if no name is given
 
-                // default value for name (-> Item)
+                // show alert dialog if no name's given, proceed if name is given
                 String itemNameString;
-                if(itemName.getText().toString().equals("")){
-                    itemNameString = getString(R.string.addItemAct_defaultItemName);
+                if(itemName.getText().toString().equals("")) {
+                    showAlertDialog();
                 } else {
+                    // Item parameters
                     itemNameString = itemName.getText().toString();
-                }
 
-                // default value for category (-> None)
-                String itemCategoryString;
-                if(itemCategory.getText().toString().equals("")){
-                    itemCategoryString = getString(R.string.addItemAct_defaultCategoryName);
-                } else {
-                    itemCategoryString = itemCategory.getText().toString();
-                }
+                    // default value for category (-> "")
+                    String itemCategoryString;
+                    if (itemCategory.getText().toString().equals("")) {
+                        itemCategoryString = getString(R.string.addItemAct_defaultCategoryName);
+                    } else {
+                        itemCategoryString = itemCategory.getText().toString();
+                    }
 
-                // default value for amount (-> 1)
-                String itemAmountString;
-                if(itemAmount.getText().toString().equals("")){
-                    itemAmountString = getString(R.string.addItemAct_defaultAmount);
-                } else {
-                    itemAmountString = itemAmount.getText().toString();
-                }
+                    // default value for amount (-> 1)
+                    String itemAmountString;
+                    if (itemAmount.getText().toString().equals("")) {
+                        itemAmountString = getString(R.string.addItemAct_defaultAmount);
+                    } else {
+                        itemAmountString = itemAmount.getText().toString();
+                    }
 
-                // default value for priority (-> 0)
-                int itemPriorityInt;
-                if(itemPriority.isChecked()) {
-                    itemPriorityInt = 1;
-                } else {
-                    itemPriorityInt = 0;
-                }
+                    // default value for priority (-> 0)
+                    int itemPriorityInt;
+                    if (itemPriority.isChecked()) {
+                        itemPriorityInt = 1;
+                    } else {
+                        itemPriorityInt = 0;
+                    }
 
-                // default value for amount (-> "")
-                String itemPriceString = itemPrice.getText().toString();
-                if (itemPrice.getText().toString().equals("")) {
-                    itemPriceString = " ";
-                } else {
-                    itemPriceString = itemPriceString + "€";
-                }
+                    // default value for amount (-> "")
+                    String itemPriceString = itemPrice.getText().toString();
+                    if (itemPrice.getText().toString().equals("")) {
+                        itemPriceString = " ";
+                    } else {
+                        itemPriceString = itemPriceString + "€";
+                    }
 
 
-                boolean isInserted = myDb.addItem(slID, itemNameString, itemCategoryString, itemAmountString, itemPriorityInt, itemPriceString);
-                if (isInserted) {
-                    Toast.makeText(AddItemActivity.this, "Item added", Toast.LENGTH_LONG).show();
-                    Intent itemsActivity = new Intent(AddItemActivity.this, ItemsActivity.class);
-                    itemsActivity.putExtra("smg.SL_ID", slID);
-                    startActivity(itemsActivity);
+                    boolean isInserted = myDb.addItem(slID, itemNameString, itemCategoryString, itemAmountString, itemPriorityInt, itemPriceString);
+                    if (isInserted) {
+                        Toast.makeText(AddItemActivity.this, "Item added", Toast.LENGTH_LONG).show();
+                        Intent itemsActivity = new Intent(AddItemActivity.this, ItemsActivity.class);
+                        itemsActivity.putExtra("smg.SL_ID", slID);
+                        startActivity(itemsActivity);
 
-                } else {
-                    Toast.makeText(AddItemActivity.this, "Adding failed", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(AddItemActivity.this, "Adding failed", Toast.LENGTH_LONG).show();
+                    }
                 }
             }
         });
+    }
+
+
+    public void showAlertDialog(){
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+//        alert.setTitle(R.string.actAddItem_alertTitle);
+        alert.setMessage(R.string.actAddItem_alertTitle);
+        alert.create().show();
     }
 
 
