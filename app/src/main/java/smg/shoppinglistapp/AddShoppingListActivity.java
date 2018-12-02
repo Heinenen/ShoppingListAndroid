@@ -44,11 +44,11 @@ public class AddShoppingListActivity extends AppCompatActivity {
 
                 boolean isInserted = myDb.addSL(shoppingListName.getText().toString());
                 if (isInserted) {
-                    Toast.makeText(AddShoppingListActivity.this, "Shopping list added", Toast.LENGTH_LONG).show();
+                    Toast.makeText(AddShoppingListActivity.this, R.string.toast_shoppingListAdded, Toast.LENGTH_SHORT).show();
                     Intent shoppingListsActivity = new Intent(AddShoppingListActivity.this, ShoppingListsActivity.class);
                     startActivity(shoppingListsActivity);
                 } else {
-                    Toast.makeText(AddShoppingListActivity.this, "Adding failed", Toast.LENGTH_LONG).show();
+                    Toast.makeText(AddShoppingListActivity.this, R.string.toast_addingFailed, Toast.LENGTH_SHORT).show();
                 }
             }
         });

@@ -127,30 +127,30 @@ public class EditItemActivity extends AppCompatActivity {
                 boolean isInserted = myDb.updateItem(itemID, slID, itemAttributes[0], itemAttributes[1], itemAttributes[3], itemPriorityInt, itemAttributes[4]);
 
                 if (isInserted) {
-                    Toast.makeText(EditItemActivity.this, "Item edited", Toast.LENGTH_LONG).show();
+                    Toast.makeText(EditItemActivity.this, R.string.toast_itemEdited, Toast.LENGTH_SHORT).show();
                     Intent itemsActivity = new Intent(EditItemActivity.this, ItemsActivity.class);
                     itemsActivity.putExtra("smg.SL_ID", slID);
                     itemsActivity.putExtra("smg.SHOPPING_LIST", shoppingList);
                     startActivity(itemsActivity);
                 } else {
-                    Toast.makeText(EditItemActivity.this, "Editing failed", Toast.LENGTH_LONG).show();
+                    Toast.makeText(EditItemActivity.this, R.string.toast_editingFailed, Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
 
-    public void deleteItemFromSQL(){
-        int deletedRows = myDb.deleteItem(itemID);
-        if (deletedRows > 0) {
-            Toast.makeText(EditItemActivity.this, "Item deleted", Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(EditItemActivity.this, "Deleting failed", Toast.LENGTH_LONG).show();
-        }
-        Intent itemsActivity = new Intent(EditItemActivity.this, ItemsActivity.class);
-        itemsActivity.putExtra("smg.SL_ID", slID);
-        startActivity(itemsActivity);
-    }
+//    public void deleteItemFromSQL(){
+//        int deletedRows = myDb.deleteItem(itemID);
+//        if (deletedRows > 0) {
+//            Toast.makeText(EditItemActivity.this, "Item deleted", Toast.LENGTH_SHORT).show();
+//        } else {
+//            Toast.makeText(EditItemActivity.this, "Deleting failed", Toast.LENGTH_SHORT).show();
+//        }
+//        Intent itemsActivity = new Intent(EditItemActivity.this, ItemsActivity.class);
+//        itemsActivity.putExtra("smg.SL_ID", slID);
+//        startActivity(itemsActivity);
+//    }
 
 
     public Item getItemFromSQL(String itemID){

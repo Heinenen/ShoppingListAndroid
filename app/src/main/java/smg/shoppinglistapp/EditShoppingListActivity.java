@@ -7,7 +7,6 @@ import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -60,28 +59,28 @@ public class EditShoppingListActivity extends AppCompatActivity {
             public void onClick(View v) {
                 boolean isInserted = myDb.updateSL(slID, shoppingListName.getText().toString());
                 if (isInserted) {
-                    Toast.makeText(EditShoppingListActivity.this, "Shopping list edited", Toast.LENGTH_LONG).show();
+                    Toast.makeText(EditShoppingListActivity.this, R.string.toast_shoppingListEdited, Toast.LENGTH_SHORT).show();
                     Intent shoppingListsActivity = new Intent(EditShoppingListActivity.this, ShoppingListsActivity.class);
                     startActivity(shoppingListsActivity);
                 } else {
-                    Toast.makeText(EditShoppingListActivity.this, "Editing failed", Toast.LENGTH_LONG).show();
+                    Toast.makeText(EditShoppingListActivity.this, R.string.toast_editingFailed, Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
-    public void deleteShoppingListFromSQL(){
-        int[] deletedRows = myDb.deleteSL(slID);
-        if (deletedRows[1] > 0) {
-            Toast.makeText(EditShoppingListActivity.this, "Shopping list and " + deletedRows[1] + " items deleted", Toast.LENGTH_LONG).show();
-        } else if(deletedRows[0] > 0){
-            Toast.makeText(EditShoppingListActivity.this, "Empty shopping list deleted", Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(EditShoppingListActivity.this, "Deleting failed", Toast.LENGTH_LONG).show();
-        }
-        Intent itemsActivity = new Intent(EditShoppingListActivity.this, ShoppingListsActivity.class);
-        startActivity(itemsActivity);
-    }
+//    public void deleteShoppingListFromSQL(){
+//        int[] deletedRows = myDb.deleteSL(slID);
+//        if (deletedRows[1] > 0) {
+//            Toast.makeText(EditShoppingListActivity.this, "Shopping list and " + deletedRows[1] + " items deleted", Toast.LENGTH_LONG).show();
+//        } else if(deletedRows[0] > 0){
+//            Toast.makeText(EditShoppingListActivity.this, "Empty shopping list deleted", Toast.LENGTH_LONG).show();
+//        } else {
+//            Toast.makeText(EditShoppingListActivity.this, "Deleting failed", Toast.LENGTH_LONG).show();
+//        }
+//        Intent itemsActivity = new Intent(EditShoppingListActivity.this, ShoppingListsActivity.class);
+//        startActivity(itemsActivity);
+//    }
 
     // goes to parent activity on backKey-press
     @Override
@@ -92,16 +91,5 @@ public class EditShoppingListActivity extends AppCompatActivity {
         }
 
         return super.onKeyDown(keyCode, event);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-//        switch (item.getItemId()) {
-//            case R.id.action_delete_shopping_list:
-//                deleteShoppingListFromSQL();
-//        }
-
-        return super.onOptionsItemSelected(item);
     }
 }

@@ -97,13 +97,13 @@ public class AddItemActivity extends AppCompatActivity {
 
                     boolean isInserted = myDb.addItem(slID, itemNameString, itemCategoryString, itemAmountString, itemPriorityInt, itemPriceString);
                     if (isInserted) {
-                        Toast.makeText(AddItemActivity.this, "Item added", Toast.LENGTH_LONG).show();
+                        Toast.makeText(AddItemActivity.this, R.string.toast_itemAdded, Toast.LENGTH_SHORT).show();
                         Intent itemsActivity = new Intent(AddItemActivity.this, ItemsActivity.class);
                         itemsActivity.putExtra("smg.SL_ID", slID);
                         startActivity(itemsActivity);
 
                     } else {
-                        Toast.makeText(AddItemActivity.this, "Adding failed", Toast.LENGTH_LONG).show();
+                        Toast.makeText(AddItemActivity.this, R.string.toast_addingFailed, Toast.LENGTH_SHORT).show();
                     }
                 }
             }

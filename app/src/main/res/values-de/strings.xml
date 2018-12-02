@@ -21,4 +21,10 @@
     <string name="edit">Bearbeiten</string>
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
+    <string name="toast_itemAdded">Artikel hinzugefügt</string>
+    <string name="toast_shoppingListAdded">Einkaufsliste hinzugefügt</string>
+    <string name="toast_addingFailed">Hinzufügen fehlgeschlagen</string>
+    <string name="toast_itemEdited">Artikel bearbeitet</string>
+    <string name="toast_shoppingListEdited">Einkaufliste bearbeitet</string>
+    <string name="toast_editingFailed">Bearbeiten fehlgeschlagen</string>
 </resources>

@@ -182,6 +182,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
 
     public void deselectAll(){
         Arrays.fill(rowIndices, -1);
+        selectedItems.clear();
     }
 
 

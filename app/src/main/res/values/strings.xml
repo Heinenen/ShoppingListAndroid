@@ -32,6 +32,7 @@
     <!-- ShoppingListsActivity -->
     <string name="shoppingListsAct_title">Shopping lists</string>
 
+
     <!-- Strings for layouts -->
 
     <!-- activity_add_item / activity_edit_item -->
@@ -54,5 +55,17 @@
         <item>Name</item>
         <item>Category</item>
     </string-array>
+
+
+    <!-- Toasts -->
+    <!-- adding -->
+    <string name="toast_itemAdded">Item added</string>
+    <string name="toast_shoppingListAdded">Shopping list added</string>
+    <string name="toast_addingFailed">Adding failed</string>
+
+    <!-- editing -->
+    <string name="toast_itemEdited">Item edited</string>
+    <string name="toast_shoppingListEdited">Shopping list edited</string>
+    <string name="toast_editingFailed">Editing failed</string>
 
 </resources>

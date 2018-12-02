@@ -204,9 +204,9 @@ public class ItemsActivity extends AppCompatActivity implements AdapterCallActiv
 
         switch (item.getItemId()) {
 
-            case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
-                return true;
+//            case android.R.id.home:
+//                NavUtils.navigateUpFromSameTask(this);
+//                return true;
 
             case R.id.action_delete_item:
                 ArrayList<Item> selectedItems = mAdapter.getSelectedItems();
@@ -224,15 +224,10 @@ public class ItemsActivity extends AppCompatActivity implements AdapterCallActiv
             case R.id.action_edit_item:
                 Item selectedItem = mAdapter.getSelectedItems().get(0);
                 Intent editItemIntent = new Intent(ItemsActivity.this, EditItemActivity.class);
-
                 editItemIntent.putExtra("smg.SL_ID", slID);
                 editItemIntent.putExtra("smg.SHOPPING_LIST", shoppingList);
                 editItemIntent.putExtra("smg.ITEM_ID", selectedItem.getId());
                 startActivity(editItemIntent);
-//                if(context instanceof ItemsActivity){
-//                    ((ItemsActivity) context).callOnSaveInstanceState(new Bundle());
-//                    ((ItemsActivity) context).finish();
-//                }
                 return true;
         }
         return super.onOptionsItemSelected(item);
