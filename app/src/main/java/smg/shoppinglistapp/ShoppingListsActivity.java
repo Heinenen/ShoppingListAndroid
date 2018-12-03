@@ -1,8 +1,10 @@
 package smg.shoppinglistapp;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,7 +24,6 @@ import smg.models.ShoppingList;
 public class ShoppingListsActivity extends AppCompatActivity implements AdapterCallActivityMethod {
 
 
-    // TODO ask whether one REALLY wants to delete the SL
     // TODO change color theme
     // TODO make a case for only one SL getting deleted (-> so that there is a nice animation)
 
@@ -125,9 +126,14 @@ public class ShoppingListsActivity extends AppCompatActivity implements AdapterC
             case R.id.action_delete_shopping_list:
                 // if only one SL gets deleted, tell adapter to only delete/refresh one
                 // -> nice animation
-                ArrayList<ShoppingList> selectedShoppingLists = mAdapter.getSelectedShoppingLists();
+                AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                alert.setMessage("Do you really want to delete the selected shopping list(s)?");
+                alert.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ArrayList<ShoppingList> selectedShoppingLists = mAdapter.getSelectedShoppingLists();
 
-                // commented code doesn't work
+                        // commented code doesn't work
 //                if (selectedShoppingLists.size() == 1) {
 //                    deleteShoppingListFromSQL(selectedShoppingLists.get(0).getPosition());
 //                    mAdapter.deleteSLFromList(selectedShoppingLists.get(0));
@@ -135,16 +141,40 @@ public class ShoppingListsActivity extends AppCompatActivity implements AdapterC
 //                    mAdapter.deselectAll();
 //                    mAdapter.notifyItemChanged(Integer.parseInt(selectedShoppingLists.get(0).getPosition()));
 //                }
-                if (selectedShoppingLists.size() > 0) {
-                    for (int i = 0; i < selectedShoppingLists.size(); i++) {
-                        deleteShoppingListFromSQL(selectedShoppingLists.get(i).getPosition());
-                        mAdapter.deleteSLFromList(selectedShoppingLists.get(i));
-                        mAdapter.deselectAll();
-                        mAdapter.notifyDataSetChanged();
-                    }
+                        if (selectedShoppingLists.size() > 0) {
+                            for (int i = 0; i < selectedShoppingLists.size(); i++) {
+                                deleteShoppingListFromSQL(selectedShoppingLists.get(i).getPosition());
+                                mAdapter.deleteSLFromList(selectedShoppingLists.get(i));
+                                mAdapter.deselectAll();
+                                mAdapter.notifyDataSetChanged();
+                            }
 
-                    refreshToolbar(false, false);
-                }
+                            refreshToolbar(false, false);
+                        }
+                    }
+                });
+                alert.setNegativeButton(R.string.no, null);
+                alert.create().show();
+//                ArrayList<ShoppingList> selectedShoppingLists = mAdapter.getSelectedShoppingLists();
+//
+//                // commented code doesn't work
+////                if (selectedShoppingLists.size() == 1) {
+////                    deleteShoppingListFromSQL(selectedShoppingLists.get(0).getPosition());
+////                    mAdapter.deleteSLFromList(selectedShoppingLists.get(0));
+////                    mAdapter.notifyItemRemoved(Integer.parseInt(selectedShoppingLists.get(0).getPosition()));
+////                    mAdapter.deselectAll();
+////                    mAdapter.notifyItemChanged(Integer.parseInt(selectedShoppingLists.get(0).getPosition()));
+////                }
+//                if (selectedShoppingLists.size() > 0) {
+//                    for (int i = 0; i < selectedShoppingLists.size(); i++) {
+//                        deleteShoppingListFromSQL(selectedShoppingLists.get(i).getPosition());
+//                        mAdapter.deleteSLFromList(selectedShoppingLists.get(i));
+//                        mAdapter.deselectAll();
+//                        mAdapter.notifyDataSetChanged();
+//                    }
+//
+//                    refreshToolbar(false, false);
+//                }
                 return true;
 
             case R.id.action_edit_shopping_list:
