@@ -37,13 +37,14 @@ public class AddItemActivity extends AppCompatActivity {
         this.shoppingList = getIntent().getStringExtra("smg.SHOPPING_LIST");
         this.myDb = new DatabaseHelper(this);
 
-        addItem();
+        fab();
     }
 
 
-    public void addItem(){
+    // adds item
+    public void fab(){
         FloatingActionButton addItem = findViewById(R.id.addItemFAB);
-//        Button addItem = findViewById(R.id.addItemBtn);
+        // receives text given into EditTexts
         addItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,7 +55,7 @@ public class AddItemActivity extends AppCompatActivity {
                 CheckBox itemPriority = findViewById(R.id.addItemPriorityCheckBox);
 
 
-                // show alert dialog if no name's given, proceed if name is given
+                // show alert dialog if no name is given, proceed if name is given
                 String itemNameString;
                 if(itemName.getText().toString().equals("")) {
                     showAlertDialog();
@@ -94,12 +95,13 @@ public class AddItemActivity extends AppCompatActivity {
                         itemPriceString = itemPriceString + "€";
                     }
 
-
+                    // adds Item to SQL
                     boolean isInserted = myDb.addItem(slID, itemNameString, itemCategoryString, itemAmountString, itemPriorityInt, itemPriceString);
                     if (isInserted) {
                         Toast.makeText(AddItemActivity.this, R.string.toast_itemAdded, Toast.LENGTH_SHORT).show();
                         Intent itemsActivity = new Intent(AddItemActivity.this, ItemsActivity.class);
                         itemsActivity.putExtra("smg.SL_ID", slID);
+                        itemsActivity.putExtra("smg.SHOPPING_LIST", shoppingList);
                         startActivity(itemsActivity);
 
                     } else {
@@ -111,15 +113,15 @@ public class AddItemActivity extends AppCompatActivity {
     }
 
 
+    // method for showing an AlertDialog when no name is given
     public void showAlertDialog(){
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
-//        alert.setTitle(R.string.actAddItem_alertTitle);
         alert.setMessage(R.string.actAddItem_alertTitle);
         alert.create().show();
     }
 
 
-    // goes to parent activity on backKey-press
+    // goes to ItemActivity on backKey
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode == KeyEvent.KEYCODE_BACK){
@@ -133,6 +135,7 @@ public class AddItemActivity extends AppCompatActivity {
         return super.onKeyDown(keyCode, event);
     }
 
+    // goes to ItemActivity on .home
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         if (menuItem.getItemId() == android.R.id.home){

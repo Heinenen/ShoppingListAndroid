@@ -68,8 +68,7 @@ public class EditItemActivity extends AppCompatActivity {
         itemPriority = findViewById(R.id.editItemPriorityCheckBox);
         if(item.getPriority().equals("1")) itemPriority.setChecked(true);
 
-        editItem();
-//        deleteItem();
+        fab();
     }
 
     @Override
@@ -78,8 +77,9 @@ public class EditItemActivity extends AppCompatActivity {
         return true;
     }
 
-    public void editItem(){
-//        Button editItem = findViewById(R.id.editItemBtn);
+
+    // edits item
+    public void fab(){
         FloatingActionButton editItem = findViewById(R.id.editItemFAB);
         editItem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,9 +123,8 @@ public class EditItemActivity extends AppCompatActivity {
                     itemPriorityInt = 0;
                 }
 
-
+                // edits item in SQL
                 boolean isInserted = myDb.updateItem(itemID, slID, itemAttributes[0], itemAttributes[1], itemAttributes[3], itemPriorityInt, itemAttributes[4]);
-
                 if (isInserted) {
                     Toast.makeText(EditItemActivity.this, R.string.toast_itemEdited, Toast.LENGTH_SHORT).show();
                     Intent itemsActivity = new Intent(EditItemActivity.this, ItemsActivity.class);
@@ -140,19 +139,7 @@ public class EditItemActivity extends AppCompatActivity {
     }
 
 
-//    public void deleteItemFromSQL(){
-//        int deletedRows = myDb.deleteItem(itemID);
-//        if (deletedRows > 0) {
-//            Toast.makeText(EditItemActivity.this, "Item deleted", Toast.LENGTH_SHORT).show();
-//        } else {
-//            Toast.makeText(EditItemActivity.this, "Deleting failed", Toast.LENGTH_SHORT).show();
-//        }
-//        Intent itemsActivity = new Intent(EditItemActivity.this, ItemsActivity.class);
-//        itemsActivity.putExtra("smg.SL_ID", slID);
-//        startActivity(itemsActivity);
-//    }
-
-
+    // gets the item which is being edited from SQL
     public Item getItemFromSQL(String itemID){
         Cursor res = myDb.getItem(itemID);
 
@@ -168,7 +155,7 @@ public class EditItemActivity extends AppCompatActivity {
     }
 
 
-    // goes to parent activity on backKey-press
+    // goes to ItemActivity on backKey
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode == KeyEvent.KEYCODE_BACK){
@@ -178,11 +165,10 @@ public class EditItemActivity extends AppCompatActivity {
             startActivity(intent);
             return true;
         }
-
         return super.onKeyDown(keyCode, event);
     }
 
-
+    // goes to ItemActivity on .home
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         switch (menuItem.getItemId()) {

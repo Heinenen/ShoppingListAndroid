@@ -2,7 +2,6 @@ package smg.adapters;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -55,6 +54,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
 
     @Override
     public void onBindViewHolder(@NonNull final CustomViewHolder holder, int position) {
+        // sets values to shown item
         final Item item = items.get(holder.getAdapterPosition());
         holder.itemNameTextView.setText(item.getName());
         holder.itemCategoryTextView.setText(item.getCategory());
@@ -62,13 +62,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
         holder.itemPriceTextView.setText(item.getPrice());
         holder.itemCheckBox.setChecked(item.isCheck());
 
-
-        if(items.get(holder.getAdapterPosition()).getPriority().equals("1")){
-            holder.itemView.setBackgroundColor(Color.parseColor("#ce4848"));
-        } else {
-            holder.itemView.setBackgroundColor(Color.parseColor("#ffffff"));
-        }
-
+        // saves value to SQL if it changes
         holder.itemCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -84,7 +78,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
             }
         });
 
-
+        // deSelects item on longClick
         holder.parentView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -93,6 +87,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
             }
         });
 
+        // deSelects item on click if at least one is already selected
         holder.parentView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,7 +105,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
             }
         });
 
-
+        // sets colors depending on marked/not marked
         if(rowIndices[holder.getAdapterPosition()] == holder.getAdapterPosition() && items.get(holder.getAdapterPosition()).getPriority().equals("1")) {
             holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.itemImportantMarked));
             holder.itemNameTextView.setTextColor(ContextCompat.getColor(context, R.color.itemImportantMarkedText));
@@ -133,6 +128,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
     }
 
 
+    // method for deSelecting items
     public void deSelectItem(int position, Item item){
         if (rowIndices[position] == -1){
             rowIndices[position] = position;
@@ -148,6 +144,8 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
     }
 
 
+    // method that checks which ToolbarButtons should be shown
+    // depending on (how many) items selected
     public boolean[] checkForToolbarButtonVisibility(){
         int itemsSelectedCounter = 0;
 
@@ -168,24 +166,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
     }
 
 
-    public ArrayList<Item> getItems(){
-        return this.items;
-    }
-
-    public ArrayList<Item> getSelectedItems(){
-        return this.selectedItems;
-    }
-
-    public void deleteItemFromList(Item item){
-        this.items.remove(item);
-    }
-
-    public void deselectAll(){
-        Arrays.fill(rowIndices, -1);
-        selectedItems.clear();
-    }
-
-
+    // gets items from SQL
     public ArrayList<Item> getItemsFromSQL() {
         Cursor res = myDb.getItems(slID);
         ArrayList<Item> list = new ArrayList<>();
@@ -203,6 +184,29 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
         }
 
         return list;
+    }
+
+
+    // deletes item from ArrayList
+    public void deleteItemFromList(Item item){
+        this.items.remove(item);
+    }
+
+
+    // deselects all items
+    public void deselectAll(){
+        Arrays.fill(rowIndices, -1);
+        selectedItems.clear();
+    }
+
+
+    // getters
+    public ArrayList<Item> getItems(){
+        return this.items;
+    }
+
+    public ArrayList<Item> getSelectedItems(){
+        return this.selectedItems;
     }
 
 

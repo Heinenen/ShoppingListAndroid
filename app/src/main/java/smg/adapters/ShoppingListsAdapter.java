@@ -46,11 +46,13 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
+        // sets value(s) to shown shopping list
         final ShoppingList shoppingList = shoppingLists.get(position);
         final String slID = shoppingList.getPosition();
         final String shoppingListName = shoppingList.getName();
         holder.nameTextView.setText(shoppingListName);
 
+        // deSelects SL on longClick
         holder.parentView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -59,6 +61,8 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
             }
         });
 
+        // deSelects SL on click if at least one is already selected
+        // if none selected, goes to corresponding ItemsActivity
         holder.parentView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,7 +85,7 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
             }
         });
 
-
+        // sets colors depending on marked/not marked
         if(rowIndices[holder.getAdapterPosition()] == holder.getAdapterPosition()){
             holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.shoppingListMarked));
             holder.nameTextView.setTextColor(ContextCompat.getColor(context, R.color.shoppingListMarkedText));
@@ -98,6 +102,7 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
     }
 
 
+    // method for deSelecting SLs
     public void deSelectShoppingList(int position, ShoppingList shoppingList){
         if (rowIndices[position] == -1){
             rowIndices[position] = position;
@@ -113,6 +118,8 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
     }
 
 
+    // method that checks which ToolbarButtons should be shown
+    // depending on (how many) items selected
     public boolean[] checkForToolbarButtonVisibility(){
         int shoppingListsSelectedCounter = 0;
 
@@ -133,6 +140,7 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
     }
 
 
+    // gets SLs from SQL
     public ArrayList<ShoppingList> getSLFromSQL(){
         Cursor res = myDb.getSL();
         ArrayList<ShoppingList> list = new ArrayList<>();
@@ -144,16 +152,22 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
         return list;
     }
 
+
+    // deletes SL from ArrayList
     public void deleteSLFromList(ShoppingList shoppingList){
         shoppingLists.remove(shoppingList);
     }
 
-    public ArrayList<ShoppingList> getSelectedShoppingLists(){
-        return this.selectedShoppingLists;
-    }
 
+    // deselects all SLs
     public void deselectAll(){
         Arrays.fill(rowIndices, -1);
+    }
+
+
+    // getters
+    public ArrayList<ShoppingList> getSelectedShoppingLists(){
+        return this.selectedShoppingLists;
     }
 
 

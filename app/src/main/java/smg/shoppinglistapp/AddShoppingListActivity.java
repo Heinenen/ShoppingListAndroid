@@ -30,18 +30,20 @@ public class AddShoppingListActivity extends AppCompatActivity {
 
         myDb = new DatabaseHelper(this);
 
-        addShoppingList();
+        fab();
     }
 
 
-    public void addShoppingList(){
+    // adds SL
+    public void fab(){
         FloatingActionButton addShoppingList = findViewById(R.id.addShoppingListFAB);
-//        Button addShoppingList = findViewById(R.id.addShoppingListBtn);
         addShoppingList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // receives text given by EditText
                 EditText shoppingListName = findViewById(R.id.addShoppingListNameEditText);
 
+                // adds SL to SQL
                 boolean isInserted = myDb.addSL(shoppingListName.getText().toString());
                 if (isInserted) {
                     Toast.makeText(AddShoppingListActivity.this, R.string.toast_shoppingListAdded, Toast.LENGTH_SHORT).show();
@@ -54,7 +56,8 @@ public class AddShoppingListActivity extends AppCompatActivity {
         });
     }
 
-    // goes to parent activity on backKey-press
+
+    // goes to parent activity (ShoppingListsActivity) on backKey
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode == KeyEvent.KEYCODE_BACK){

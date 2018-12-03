@@ -28,6 +28,8 @@ import smg.models.Item;
 public class ItemsActivity extends AppCompatActivity implements AdapterCallActivityMethod {
 
     // TODO implement checkboxes: maybe move sort them as last as soon as clicked
+    // TODO sort important items as first
+    // TODO set standard text color to black
 
     private String slID;
     private String shoppingList;
@@ -66,7 +68,7 @@ public class ItemsActivity extends AppCompatActivity implements AdapterCallActiv
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
-        addItemActivity();
+        fab();
     }
 
     @Override
@@ -106,6 +108,9 @@ public class ItemsActivity extends AppCompatActivity implements AdapterCallActiv
         return true;
     }
 
+
+    // method that sets visibility of ToolbarButtons and refreshes it
+    // Overrides custom interface: AdapterCallActivityMethod
     @Override
     public void refreshToolbar(boolean deleteButtonVisible, boolean editButtonVisible) {
         this.deleteButtonVisible = deleteButtonVisible;
@@ -113,7 +118,9 @@ public class ItemsActivity extends AppCompatActivity implements AdapterCallActiv
         invalidateOptionsMenu();
     }
 
-    public void addItemActivity(){
+
+    // goes to AddItemActivity
+    public void fab(){
         FloatingActionButton fab = findViewById(R.id.itemsFAB);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,6 +136,8 @@ public class ItemsActivity extends AppCompatActivity implements AdapterCallActiv
     }
 
 
+    // sorts items by Name/Category
+    // "important" items always first, checked items always last
     public void sortItems(String string){
         if (string.equals("Name")) {
             Collections.sort(items, new Comparator<Item>() {
@@ -163,6 +172,8 @@ public class ItemsActivity extends AppCompatActivity implements AdapterCallActiv
             });
         }
 
+        // TODO sort for important items
+
         Collections.sort(items, new Comparator<Item>() {
             @Override
             public int compare(Item o1, Item o2) {
@@ -186,7 +197,7 @@ public class ItemsActivity extends AppCompatActivity implements AdapterCallActiv
     }
 
 
-    // goes to parent activity on backKey-press
+    // goes to parent activity (ShoppingListsActivity) on backKey
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode == KeyEvent.KEYCODE_BACK){
@@ -195,7 +206,6 @@ public class ItemsActivity extends AppCompatActivity implements AdapterCallActiv
             NavUtils.navigateUpTo(this, intent);
             return true;
         }
-
         return super.onKeyDown(keyCode, event);
     }
 
@@ -203,11 +213,11 @@ public class ItemsActivity extends AppCompatActivity implements AdapterCallActiv
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
-
 //            case android.R.id.home:
 //                NavUtils.navigateUpFromSameTask(this);
 //                return true;
 
+            // deletes selected items
             case R.id.action_delete_item:
                 ArrayList<Item> selectedItems = mAdapter.getSelectedItems();
                 if (selectedItems.size() > 0) {
@@ -221,6 +231,8 @@ public class ItemsActivity extends AppCompatActivity implements AdapterCallActiv
                 refreshToolbar(false, false);
                 return true;
 
+
+            // goes to EditItemActivity for selected item
             case R.id.action_edit_item:
                 Item selectedItem = mAdapter.getSelectedItems().get(0);
                 Intent editItemIntent = new Intent(ItemsActivity.this, EditItemActivity.class);

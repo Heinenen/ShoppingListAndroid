@@ -42,7 +42,7 @@ public class EditShoppingListActivity extends AppCompatActivity {
 
 
 
-        editShoppingList();
+        fab();
     }
 
     @Override
@@ -51,12 +51,14 @@ public class EditShoppingListActivity extends AppCompatActivity {
         return true;
     }
 
-    public void editShoppingList(){
-//        Button editShoppingList = findViewById(R.id.editShoppingListBtn);
+
+    // edits SL
+    public void fab(){
         FloatingActionButton editShoppingList = findViewById(R.id.editShoppingListFAB);
         editShoppingList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // edits SL in SQL
                 boolean isInserted = myDb.updateSL(slID, shoppingListName.getText().toString());
                 if (isInserted) {
                     Toast.makeText(EditShoppingListActivity.this, R.string.toast_shoppingListEdited, Toast.LENGTH_SHORT).show();
@@ -69,20 +71,8 @@ public class EditShoppingListActivity extends AppCompatActivity {
         });
     }
 
-//    public void deleteShoppingListFromSQL(){
-//        int[] deletedRows = myDb.deleteSL(slID);
-//        if (deletedRows[1] > 0) {
-//            Toast.makeText(EditShoppingListActivity.this, "Shopping list and " + deletedRows[1] + " items deleted", Toast.LENGTH_LONG).show();
-//        } else if(deletedRows[0] > 0){
-//            Toast.makeText(EditShoppingListActivity.this, "Empty shopping list deleted", Toast.LENGTH_LONG).show();
-//        } else {
-//            Toast.makeText(EditShoppingListActivity.this, "Deleting failed", Toast.LENGTH_LONG).show();
-//        }
-//        Intent itemsActivity = new Intent(EditShoppingListActivity.this, ShoppingListsActivity.class);
-//        startActivity(itemsActivity);
-//    }
 
-    // goes to parent activity on backKey-press
+    // goes to parent activity (ShoppingListsActivity) on backKey-press
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode == KeyEvent.KEYCODE_BACK){

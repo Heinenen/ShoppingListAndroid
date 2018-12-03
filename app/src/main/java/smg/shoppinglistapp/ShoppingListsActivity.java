@@ -23,8 +23,7 @@ import smg.models.ShoppingList;
 
 public class ShoppingListsActivity extends AppCompatActivity implements AdapterCallActivityMethod {
 
-
-    // TODO change color theme
+    // TODO change color theme for every SL
     // TODO make a case for only one SL getting deleted (-> so that there is a nice animation)
 
     private DatabaseHelper myDb;
@@ -75,6 +74,8 @@ public class ShoppingListsActivity extends AppCompatActivity implements AdapterC
     }
 
 
+    // method that sets visibility of ToolbarButtons and refreshes it
+    // Overrides custom interface: AdapterCallActivityMethod
     @Override
     public void refreshToolbar(boolean deleteButtonVisible, boolean editButtonVisible) {
         this.deleteButtonVisible = deleteButtonVisible;
@@ -82,6 +83,8 @@ public class ShoppingListsActivity extends AppCompatActivity implements AdapterC
         invalidateOptionsMenu();
     }
 
+
+    // goes to AddShoppingListActivity
     public void fab(){
         FloatingActionButton fab = findViewById(R.id.shoppingListsFAB);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -93,6 +96,8 @@ public class ShoppingListsActivity extends AppCompatActivity implements AdapterC
         });
     }
 
+
+    // method for deleting SL fromSQL
     public void deleteShoppingListFromSQL(String slID){
         myDb.deleteSL(slID);
 //        int[] deletedRows = myDb.deleteSL(slID);
@@ -116,13 +121,13 @@ public class ShoppingListsActivity extends AppCompatActivity implements AdapterC
             startActivity(homeIntent);
             return true;
         }
-
         return super.onKeyDown(keyCode, event);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         switch (menuItem.getItemId()){
+            // deletes selected SLs
             case R.id.action_delete_shopping_list:
                 // if only one SL gets deleted, tell adapter to only delete/refresh one
                 // -> nice animation
@@ -155,28 +160,9 @@ public class ShoppingListsActivity extends AppCompatActivity implements AdapterC
                 });
                 alert.setNegativeButton(R.string.no, null);
                 alert.create().show();
-//                ArrayList<ShoppingList> selectedShoppingLists = mAdapter.getSelectedShoppingLists();
-//
-//                // commented code doesn't work
-////                if (selectedShoppingLists.size() == 1) {
-////                    deleteShoppingListFromSQL(selectedShoppingLists.get(0).getPosition());
-////                    mAdapter.deleteSLFromList(selectedShoppingLists.get(0));
-////                    mAdapter.notifyItemRemoved(Integer.parseInt(selectedShoppingLists.get(0).getPosition()));
-////                    mAdapter.deselectAll();
-////                    mAdapter.notifyItemChanged(Integer.parseInt(selectedShoppingLists.get(0).getPosition()));
-////                }
-//                if (selectedShoppingLists.size() > 0) {
-//                    for (int i = 0; i < selectedShoppingLists.size(); i++) {
-//                        deleteShoppingListFromSQL(selectedShoppingLists.get(i).getPosition());
-//                        mAdapter.deleteSLFromList(selectedShoppingLists.get(i));
-//                        mAdapter.deselectAll();
-//                        mAdapter.notifyDataSetChanged();
-//                    }
-//
-//                    refreshToolbar(false, false);
-//                }
                 return true;
 
+            // goes to EditShoppingListActivity for selected items
             case R.id.action_edit_shopping_list:
                 ShoppingList selectedShoppingList = mAdapter.getSelectedShoppingLists().get(0);
                 Intent editSLIntent = new Intent(ShoppingListsActivity.this, EditShoppingListActivity.class);
