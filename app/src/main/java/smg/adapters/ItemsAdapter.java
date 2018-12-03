@@ -106,18 +106,30 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
         });
 
         // sets colors depending on marked/not marked
-        if(rowIndices[holder.getAdapterPosition()] == holder.getAdapterPosition() && items.get(holder.getAdapterPosition()).getPriority().equals("1")) {
+        if(!(rowIndices[holder.getAdapterPosition()] == holder.getAdapterPosition()) && !items.get(holder.getAdapterPosition()).getPriority().equals("1")) {
+            holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.itemDefault));
+            holder.itemNameTextView.setTextColor(ContextCompat.getColor(context, R.color.itemDefaultText));
+            holder.itemCategoryTextView.setTextColor(ContextCompat.getColor(context, R.color.itemDefaultText));
+            holder.itemAmountTextView.setTextColor(ContextCompat.getColor(context, R.color.itemDefaultText));
+            holder.itemPriceTextView.setTextColor(ContextCompat.getColor(context, R.color.itemDefaultText));
+        } else if(rowIndices[holder.getAdapterPosition()] == holder.getAdapterPosition() && items.get(holder.getAdapterPosition()).getPriority().equals("1")) {
             holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.itemImportantMarked));
             holder.itemNameTextView.setTextColor(ContextCompat.getColor(context, R.color.itemImportantMarkedText));
+            holder.itemCategoryTextView.setTextColor(ContextCompat.getColor(context, R.color.itemImportantMarkedText));
+            holder.itemAmountTextView.setTextColor(ContextCompat.getColor(context, R.color.itemImportantMarkedText));
+            holder.itemPriceTextView.setTextColor(ContextCompat.getColor(context, R.color.itemImportantMarkedText));
         } else if(rowIndices[holder.getAdapterPosition()] == holder.getAdapterPosition()){
             holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.itemMarked));
             holder.itemNameTextView.setTextColor(ContextCompat.getColor(context, R.color.itemMarkedText));
-        } else if(items.get(holder.getAdapterPosition()).getPriority().equals("1")){
+            holder.itemCategoryTextView.setTextColor(ContextCompat.getColor(context, R.color.itemMarkedText));
+            holder.itemAmountTextView.setTextColor(ContextCompat.getColor(context, R.color.itemMarkedText));
+            holder.itemPriceTextView.setTextColor(ContextCompat.getColor(context, R.color.itemMarkedText));
+        } else {
             holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.itemImportant));
             holder.itemNameTextView.setTextColor(ContextCompat.getColor(context, R.color.itemImportantText));
-        } else {
-            holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.itemDefault));
-            holder.itemNameTextView.setTextColor(ContextCompat.getColor(context, R.color.itemDefaultText));
+            holder.itemCategoryTextView.setTextColor(ContextCompat.getColor(context, R.color.itemImportantText));
+            holder.itemAmountTextView.setTextColor(ContextCompat.getColor(context, R.color.itemImportantText));
+            holder.itemPriceTextView.setTextColor(ContextCompat.getColor(context, R.color.itemImportantText));
         }
     }
 

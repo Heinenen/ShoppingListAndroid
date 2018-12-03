@@ -28,8 +28,6 @@ import smg.models.Item;
 public class ItemsActivity extends AppCompatActivity implements AdapterCallActivityMethod {
 
     // TODO implement checkboxes: maybe move sort them as last as soon as clicked
-    // TODO sort important items as first
-    // TODO set standard text color to black
 
     private String slID;
     private String shoppingList;
@@ -62,6 +60,8 @@ public class ItemsActivity extends AppCompatActivity implements AdapterCallActiv
 
         mAdapter = new ItemsAdapter(ItemsActivity.this, this, slID, shoppingList);
         items = mAdapter.getItems();
+
+        sortItems("Name");
 
         RecyclerView recyclerView = findViewById(R.id.secondRecyclerView);
         recyclerView.setAdapter(mAdapter);
@@ -172,7 +172,12 @@ public class ItemsActivity extends AppCompatActivity implements AdapterCallActiv
             });
         }
 
-        // TODO sort for important items
+        Collections.sort(items, new Comparator<Item>() {
+            @Override
+            public int compare(Item o1, Item o2) {
+                return o2.getPriority().compareTo(o1.getPriority());
+            }
+        });
 
         Collections.sort(items, new Comparator<Item>() {
             @Override
@@ -184,7 +189,7 @@ public class ItemsActivity extends AppCompatActivity implements AdapterCallActiv
                 } else if (o2.isCheck()) {
                     return -1;
                 } else {
-                    return o1.getCategory().compareToIgnoreCase(o2.getCategory());
+                    return 0;
                 }
             }
         });
