@@ -15,7 +15,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import smg.interfaces.AdapterCallActivityMethod;
+import smg.interfaces.ItemsAdapterInterface;
 import smg.models.Item;
 import smg.shoppinglistapp.DatabaseHelper;
 import smg.shoppinglistapp.R;
@@ -23,15 +23,17 @@ import smg.shoppinglistapp.R;
 public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHolder> {
 
     private Context context;
-    private AdapterCallActivityMethod parentActivity;
+    private ItemsAdapterInterface parentActivity;
     private DatabaseHelper myDb;
     private String slID;
     private String shoppingList;
     private ArrayList<Item> items;
     private ArrayList<Item> selectedItems;
+    public boolean onBind;
+
     private int[] rowIndices;
 
-    public ItemsAdapter(Context context, AdapterCallActivityMethod parentActivity, String slID, String shoppingList){
+    public ItemsAdapter(Context context, ItemsAdapterInterface parentActivity, String slID, String shoppingList){
         this.context = context;
         this.parentActivity = parentActivity;
         this.slID = slID;
@@ -39,6 +41,8 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
         this.myDb = new DatabaseHelper(context);
         this.items = getItemsFromSQL();
         this.selectedItems = new ArrayList<>();
+        this.onBind = false;
+
         this.rowIndices = new int[items.size()];
         Arrays.fill(rowIndices, -1);
 
@@ -47,9 +51,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
 
     @Override
     public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
-        CustomViewHolder mHolder = new CustomViewHolder(LayoutInflater.from(context).inflate(R.layout.layout_item, parent, false));
-        // TODO move setOnClickListener to here, also for other things
-        return mHolder;
+        return new CustomViewHolder(LayoutInflater.from(context).inflate(R.layout.layout_item, parent, false));
     }
 
     @Override
@@ -60,7 +62,9 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
         holder.itemCategoryTextView.setText(item.getCategory());
         holder.itemAmountTextView.setText(item.getAmount());
         holder.itemPriceTextView.setText(item.getPrice());
+        onBind = true;
         holder.itemCheckBox.setChecked(item.isCheck());
+        onBind = false;
 
         // saves value to SQL if it changes
         holder.itemCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -75,6 +79,9 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
 
                 items.get(holder.getAdapterPosition()).setCheck(isChecked);
                 myDb.updateItemCheck(items.get(holder.getAdapterPosition()).getId(), isCheckedInt);
+                if(!onBind){
+                    parentActivity.sort();
+                }
             }
         });
 
@@ -230,6 +237,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
         private TextView itemPriceTextView;
         private CheckBox itemCheckBox;
         private View parentView;
+        private CompoundButton.OnCheckedChangeListener checkedChangeListener;
 
         public CustomViewHolder (@NonNull  View view){
             super(view);
@@ -239,6 +247,14 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
             this.itemPriceTextView = view.findViewById(R.id.itemPriceTextView);
             this.itemCheckBox = view.findViewById(R.id.itemCheckBox);
             this.parentView = view;
+
+//            this.checkedChangeListener = new CompoundButton.OnCheckedChangeListener() {
+//                @Override
+//                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                    if(!onBind) parentActivity.sort();
+//                }
+//            };
+//            itemCheckBox.setOnCheckedChangeListener(checkedChangeListener);
         }
     }
 }

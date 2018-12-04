@@ -14,7 +14,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import smg.interfaces.AdapterCallActivityMethod;
+import smg.interfaces.ShoppingListsAdapterInterface;
 import smg.models.ShoppingList;
 import smg.shoppinglistapp.DatabaseHelper;
 import smg.shoppinglistapp.ItemsActivity;
@@ -23,13 +23,13 @@ import smg.shoppinglistapp.R;
 public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdapter.ViewHolder> {
 
     private Context context;
-    private AdapterCallActivityMethod parentActivity;
+    private ShoppingListsAdapterInterface parentActivity;
     private DatabaseHelper myDb;
     private ArrayList<ShoppingList> shoppingLists;
     private ArrayList<ShoppingList> selectedShoppingLists;
     private int[] rowIndices;
 
-    public ShoppingListsAdapter(Context context, AdapterCallActivityMethod parentActivity){
+    public ShoppingListsAdapter(Context context, ShoppingListsAdapterInterface parentActivity){
         this.context = context;
         this.parentActivity = parentActivity;
         this.myDb = new DatabaseHelper(context);

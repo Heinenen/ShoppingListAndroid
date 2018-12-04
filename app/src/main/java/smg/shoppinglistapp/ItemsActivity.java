@@ -21,16 +21,17 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import smg.adapters.ItemsAdapter;
-import smg.interfaces.AdapterCallActivityMethod;
+import smg.interfaces.ItemsAdapterInterface;
 import smg.models.Item;
 
 
-public class ItemsActivity extends AppCompatActivity implements AdapterCallActivityMethod {
+public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInterface {
 
     // TODO implement checkboxes: maybe move sort them as last as soon as clicked
 
     private String slID;
     private String shoppingList;
+    private String lastSortedBy;
     private ArrayList<Item> items;
     private ItemsAdapter mAdapter;
     private DatabaseHelper myDb;
@@ -57,6 +58,7 @@ public class ItemsActivity extends AppCompatActivity implements AdapterCallActiv
         this.myDb = new DatabaseHelper(ItemsActivity.this);
         this.deleteButtonVisible = false;
         this.editButtonVisible = false;
+        this.lastSortedBy = " ";
 
         mAdapter = new ItemsAdapter(ItemsActivity.this, this, slID, shoppingList);
         items = mAdapter.getItems();
@@ -118,6 +120,10 @@ public class ItemsActivity extends AppCompatActivity implements AdapterCallActiv
         invalidateOptionsMenu();
     }
 
+    @Override
+    public void sort() {
+        sortItems(lastSortedBy);
+    }
 
     // goes to AddItemActivity
     public void fab(){
@@ -143,33 +149,35 @@ public class ItemsActivity extends AppCompatActivity implements AdapterCallActiv
             Collections.sort(items, new Comparator<Item>() {
                 @Override
                 public int compare(Item o1, Item o2) {
-                    if(o1.getName().equals("") && o2.getName().equals("")){
+                    if (o1.getName().equals("") && o2.getName().equals("")) {
                         return 0;
-                    } else if(o1.getName().equals("")){
+                    } else if (o1.getName().equals("")) {
                         return 1;
-                    } else if(o2.getName().equals("")){
+                    } else if (o2.getName().equals("")) {
                         return -1;
                     } else {
                         return o1.getName().compareToIgnoreCase(o2.getName());
                     }
                 }
             });
+            this.lastSortedBy = "Name";
         }
-        if (string.equals("Category")){
+        if (string.equals("Category")) {
             Collections.sort(items, new Comparator<Item>() {
                 @Override
                 public int compare(Item o1, Item o2) {
-                    if(o1.getCategory().equals("") && o2.getCategory().equals("")){
+                    if (o1.getCategory().equals("") && o2.getCategory().equals("")) {
                         return 0;
-                    } else if (o1.getCategory().equals("")){
+                    } else if (o1.getCategory().equals("")) {
                         return 1;
-                    } else if (o2.getCategory().equals("")){
+                    } else if (o2.getCategory().equals("")) {
                         return -1;
                     } else {
                         return o1.getCategory().compareToIgnoreCase(o2.getCategory());
                     }
                 }
             });
+            this.lastSortedBy = "Category";
         }
 
         Collections.sort(items, new Comparator<Item>() {
