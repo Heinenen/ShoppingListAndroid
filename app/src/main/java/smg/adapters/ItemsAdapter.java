@@ -228,7 +228,9 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
         return this.selectedItems;
     }
 
-
+    public void setItems(ArrayList<Item> items) {
+        this.items = items;
+    }
 
     public class CustomViewHolder extends RecyclerView.ViewHolder{
         private TextView itemNameTextView;

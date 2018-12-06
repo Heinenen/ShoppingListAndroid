@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.SearchView;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
@@ -28,11 +29,16 @@ import smg.models.Item;
 public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInterface {
 
     // TODO implement checkboxes: maybe move sort them as last as soon as clicked
+    // TODO make item suggestions
+    // TODO search thing
+    // TODO set spinner as action-Button
+    // to do that, use button that opens spinner, if not opened make spinner invisible
 
     private String slID;
     private String shoppingList;
     private String lastSortedBy;
     private ArrayList<Item> items;
+    private ArrayList<Item> allItems;
     private ItemsAdapter mAdapter;
     private DatabaseHelper myDb;
     private boolean deleteButtonVisible;
@@ -88,6 +94,31 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
         } else {
             menu.findItem(R.id.action_edit_item).setVisible(false);
         }
+
+        SearchView searchView = (SearchView) menu.findItem(R.id.action_search_item).getActionView();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                searchName(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                searchName(newText);
+                return false;
+            }
+        });
+
+//          MenuItem searchItem = menu.findItem(R.id.action_search_item);
+//        SearchManager searchManager = (SearchManager) ItemsActivity.this.getSystemService(Context.SEARCH_SERVICE);
+//
+//        SearchView searchView = null;
+//        searchView = (SearchView) searchItem.getActionView();
+//        if (searchView != null){
+//            searchView.setSearchableInfo(searchManager.getSearchableInfo(ItemsActivity.this.getComponentName()));
+//        }
 
         Spinner spinner = (Spinner) menu.findItem(R.id.action_sort).getActionView();
         ArrayAdapter<String> myAdapter = new ArrayAdapter<>(ItemsActivity.this,
@@ -207,6 +238,23 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
 
     public void deleteItemFromSQL(String itemID){
         myDb.deleteItem(itemID);
+    }
+
+
+    public void searchName(String searchString){
+        if(searchString.equals("")){
+            mAdapter.setItems(mAdapter.getItemsFromSQL());
+            mAdapter.notifyDataSetChanged();
+        }
+
+        ArrayList<Item> searchItems = new ArrayList<>();
+        for(Item item: items){
+            if(item.getName().contains(searchString)){
+                searchItems.add(item);
+            }
+        }
+        mAdapter.setItems(searchItems);
+        mAdapter.notifyDataSetChanged();
     }
 
 
