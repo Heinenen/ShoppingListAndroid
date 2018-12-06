@@ -14,7 +14,6 @@
     <string name="actAddItem_checkBoxText">Wichtig</string>
     <string name="actAddItem_priceHint">Preis</string>
     <string name="actAddItem_deleteItem">Löschen</string>
-    <string name="menuItems_spinner_title">Sortieren nach …</string>
     <string name="menuItems_edit_title">Bearbeiten</string>
     <string name="actAddItem_alertTitle">Bitte gebe einen Namen ein.</string>
     <string name="delete">Löschen</string>
@@ -27,4 +26,7 @@
     <string name="toast_itemEdited">Artikel bearbeitet</string>
     <string name="toast_shoppingListEdited">Einkaufliste bearbeitet</string>
     <string name="toast_editingFailed">Bearbeiten fehlgeschlagen</string>
+    <string name="menuItems_popupMenuTitle">Sortieren nach …</string>
+    <string name="popup_name">Name</string>
+    <string name="popup_category">Kategorie</string>
 </resources>

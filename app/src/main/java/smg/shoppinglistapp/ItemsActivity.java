@@ -12,10 +12,8 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.PopupMenu;
 import android.widget.SearchView;
-import android.widget.Spinner;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,7 +24,7 @@ import smg.interfaces.ItemsAdapterInterface;
 import smg.models.Item;
 
 
-public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInterface {
+public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInterface, PopupMenu.OnMenuItemClickListener{
 
     // TODO implement checkboxes: maybe move sort them as last as soon as clicked
     // TODO make item suggestions
@@ -38,7 +36,6 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
     private String shoppingList;
     private String lastSortedBy;
     private ArrayList<Item> items;
-    private ArrayList<Item> allItems;
     private ItemsAdapter mAdapter;
     private DatabaseHelper myDb;
     private boolean deleteButtonVisible;
@@ -110,34 +107,6 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
                 return false;
             }
         });
-
-//          MenuItem searchItem = menu.findItem(R.id.action_search_item);
-//        SearchManager searchManager = (SearchManager) ItemsActivity.this.getSystemService(Context.SEARCH_SERVICE);
-//
-//        SearchView searchView = null;
-//        searchView = (SearchView) searchItem.getActionView();
-//        if (searchView != null){
-//            searchView.setSearchableInfo(searchManager.getSearchableInfo(ItemsActivity.this.getComponentName()));
-//        }
-
-        Spinner spinner = (Spinner) menu.findItem(R.id.action_sort).getActionView();
-        ArrayAdapter<String> myAdapter = new ArrayAdapter<>(ItemsActivity.this,
-                R.layout.layout_spinner,
-                getResources().getStringArray(R.array.sortBys));
-        myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(myAdapter);
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                sortItems(parent.getSelectedItem().toString());
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
         return true;
     }
 
@@ -173,6 +142,30 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
     }
 
 
+    @Override
+    public boolean onMenuItemClick(MenuItem menuItem) {
+        switch (menuItem.getItemId()){
+            case R.id.sort_name:
+                sortItemsss(0);
+                return true;
+
+            case R.id.sort_category:
+                sortItemsss(1);
+                return true;
+
+            default:
+                return false;
+        }
+    }
+
+    public void showSortPopup(View v){
+        PopupMenu popup = new PopupMenu(this, v);
+        popup.setOnMenuItemClickListener(this);
+        popup.inflate(R.menu.menu_popup_sort);
+        popup.show();
+    }
+
+
     // sorts items by Name/Category
     // "important" items always first, checked items always last
     public void sortItems(String string){
@@ -194,6 +187,68 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
             this.lastSortedBy = "Name";
         }
         if (string.equals("Category")) {
+            Collections.sort(items, new Comparator<Item>() {
+                @Override
+                public int compare(Item o1, Item o2) {
+                    if (o1.getCategory().equals("") && o2.getCategory().equals("")) {
+                        return 0;
+                    } else if (o1.getCategory().equals("")) {
+                        return 1;
+                    } else if (o2.getCategory().equals("")) {
+                        return -1;
+                    } else {
+                        return o1.getCategory().compareToIgnoreCase(o2.getCategory());
+                    }
+                }
+            });
+            this.lastSortedBy = "Category";
+        }
+
+        Collections.sort(items, new Comparator<Item>() {
+            @Override
+            public int compare(Item o1, Item o2) {
+                return o2.getPriority().compareTo(o1.getPriority());
+            }
+        });
+
+        Collections.sort(items, new Comparator<Item>() {
+            @Override
+            public int compare(Item o1, Item o2) {
+                if (o1.isCheck() == o2.isCheck()) {
+                    return 0;
+                } else if (o1.isCheck()) {
+                    return 1;
+                } else if (o2.isCheck()) {
+                    return -1;
+                } else {
+                    return 0;
+                }
+            }
+        });
+
+        mAdapter.notifyDataSetChanged();
+    }
+
+
+    public void sortItemsss(int id){
+        if (id == 0) {
+            Collections.sort(items, new Comparator<Item>() {
+                @Override
+                public int compare(Item o1, Item o2) {
+                    if (o1.getName().equals("") && o2.getName().equals("")) {
+                        return 0;
+                    } else if (o1.getName().equals("")) {
+                        return 1;
+                    } else if (o2.getName().equals("")) {
+                        return -1;
+                    } else {
+                        return o1.getName().compareToIgnoreCase(o2.getName());
+                    }
+                }
+            });
+            this.lastSortedBy = "Name";
+        }
+        if (id == 1) {
             Collections.sort(items, new Comparator<Item>() {
                 @Override
                 public int compare(Item o1, Item o2) {
@@ -302,6 +357,9 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
                 editItemIntent.putExtra("smg.ITEM_ID", selectedItem.getId());
                 startActivity(editItemIntent);
                 return true;
+
+            case R.id.action_sort:
+                showSortPopup(findViewById(R.id.action_sort));
         }
         return super.onOptionsItemSelected(item);
     }

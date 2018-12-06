@@ -48,13 +48,17 @@
     <string name="actAssShoppingList_nameHint">Name</string>
 
     <!-- menu_items -->
-    <string name="menuItems_spinner_title">Sort by …</string>
+    <string name="menuItems_popupMenuTitle">Sort by …</string>
     <string name="menuItems_edit_title">Edit</string>
 
-    <string-array name="sortBys">
+    <!-- popup menu items -->
+    <string name="popup_name">Name</string>
+    <string name="popup_category">Category</string>
+
+    <!-- <string-array name="sortBys">
         <item>Name</item>
         <item>Category</item>
-    </string-array>
+    </string-array> -->
 
 
     <!-- Toasts -->
