@@ -29,7 +29,6 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
     // TODO make item suggestions
     // TODO don't exit search thing when deleting an item
     // TODO set spinner as action-Button
-    // to do that, use button that opens spinner, if not opened make spinner invisible
 
     private String slID;
     private String shoppingList;
