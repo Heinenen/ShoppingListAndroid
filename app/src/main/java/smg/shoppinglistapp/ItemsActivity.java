@@ -227,13 +227,13 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
     }
 
 
-    public void searchName(String searchString){
+    public ArrayList<Item> searchName(String searchString){
         this.lastSearchedBy = searchString;
         System.out.println(searchString);
+        ArrayList<Item> searchItems = new ArrayList<>();
         if(searchString.equals("")){
             mAdapter.setItems(items);
         } else {
-            ArrayList<Item> searchItems = new ArrayList<>();
             for (Item item : items) {
                 if (item.getName().contains(searchString)) {
                     searchItems.add(item);
@@ -242,6 +242,7 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
             mAdapter.setItems(searchItems);
         }
         mAdapter.notifyDataSetChanged();
+        return searchItems;
     }
 
 
@@ -296,7 +297,11 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
                     mAdapter.deselectAll();
                     mAdapter.notifyDataSetChanged();
                 }
-                searchName(lastSearchedBy);
+                if (searchName(lastSearchedBy).isEmpty()){
+                    mAdapter.setItems(items);
+                } else {
+                    searchName(lastSearchedBy);
+                }
                 refreshToolbar(false, false);
                 return true;
 
