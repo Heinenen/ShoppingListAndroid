@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import smg.databasehelpers.DatabaseHelper;
+
 public class EditShoppingListActivity extends AppCompatActivity {
 
     private DatabaseHelper myDb;

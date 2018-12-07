@@ -1,4 +1,4 @@
-package smg.shoppinglistapp;
+package smg.databasehelpers;
 
 import android.content.ContentValues;
 import android.content.Context;

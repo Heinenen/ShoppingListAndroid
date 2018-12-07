@@ -17,7 +17,7 @@ import java.util.Arrays;
 
 import smg.interfaces.ItemsAdapterInterface;
 import smg.models.Item;
-import smg.shoppinglistapp.DatabaseHelper;
+import smg.databasehelpers.DatabaseHelper;
 import smg.shoppinglistapp.R;
 
 public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHolder> {

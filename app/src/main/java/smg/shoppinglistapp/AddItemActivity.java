@@ -12,6 +12,8 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import smg.databasehelpers.DatabaseHelper;
+
 public class AddItemActivity extends AppCompatActivity {
 
 

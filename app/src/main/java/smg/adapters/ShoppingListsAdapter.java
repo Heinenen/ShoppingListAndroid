@@ -16,7 +16,7 @@ import java.util.Arrays;
 
 import smg.interfaces.ShoppingListsAdapterInterface;
 import smg.models.ShoppingList;
-import smg.shoppinglistapp.DatabaseHelper;
+import smg.databasehelpers.DatabaseHelper;
 import smg.shoppinglistapp.ItemsActivity;
 import smg.shoppinglistapp.R;
 

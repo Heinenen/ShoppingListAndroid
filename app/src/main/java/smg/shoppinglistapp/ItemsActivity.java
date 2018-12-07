@@ -20,15 +20,16 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import smg.adapters.ItemsAdapter;
+import smg.databasehelpers.DatabaseHelper;
 import smg.interfaces.ItemsAdapterInterface;
 import smg.models.Item;
 
 
 public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInterface, PopupMenu.OnMenuItemClickListener{
 
-    // TODO make item suggestions
+    // TODO make item suggestions in addItem
+    // TODO make item suggestions in Search
     // TODO don't exit search thing when deleting an item
-    // TODO set spinner as action-Button
 
     private String slID;
     private String shoppingList;

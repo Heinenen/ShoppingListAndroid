@@ -17,6 +17,7 @@ import android.view.View;
 import java.util.ArrayList;
 
 import smg.adapters.ShoppingListsAdapter;
+import smg.databasehelpers.DatabaseHelper;
 import smg.interfaces.ShoppingListsAdapterInterface;
 import smg.models.ShoppingList;
 

@@ -13,6 +13,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import smg.databasehelpers.DatabaseHelper;
 import smg.models.Item;
 
 public class EditItemActivity extends AppCompatActivity {
