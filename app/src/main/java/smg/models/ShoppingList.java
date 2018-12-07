@@ -2,12 +2,12 @@ package smg.models;
 
 public class ShoppingList {
 
+    private String slID;
     private String name;
-    private String position;
 
-    public ShoppingList(String position, String name){
+    public ShoppingList(String slID, String name){
         this.name = name;
-        this.position = position;
+        this.slID = slID;
     }
 
     public String getName() {
@@ -18,11 +18,11 @@ public class ShoppingList {
         this.name = name;
     }
 
-    public String getPosition() {
-        return position;
+    public String getSlID() {
+        return slID;
     }
 
-    public void setPosition(String position) {
-        this.position = position;
+    public void setSlID(String slId) {
+        this.slID = slId;
     }
 }

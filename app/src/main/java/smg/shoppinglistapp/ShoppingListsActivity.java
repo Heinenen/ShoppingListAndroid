@@ -149,7 +149,7 @@ public class ShoppingListsActivity extends AppCompatActivity implements Shopping
 //                }
                         if (selectedShoppingLists.size() > 0) {
                             for (int i = 0; i < selectedShoppingLists.size(); i++) {
-                                deleteShoppingListFromSQL(selectedShoppingLists.get(i).getPosition());
+                                deleteShoppingListFromSQL(selectedShoppingLists.get(i).getSlID());
                                 mAdapter.deleteSLFromList(selectedShoppingLists.get(i));
                                 mAdapter.deselectAll();
                                 mAdapter.notifyDataSetChanged();
@@ -167,7 +167,7 @@ public class ShoppingListsActivity extends AppCompatActivity implements Shopping
             case R.id.action_edit_shopping_list:
                 ShoppingList selectedShoppingList = mAdapter.getSelectedShoppingLists().get(0);
                 Intent editSLIntent = new Intent(ShoppingListsActivity.this, EditShoppingListActivity.class);
-                editSLIntent.putExtra("smg.SL_ID", selectedShoppingList.getPosition());
+                editSLIntent.putExtra("smg.SL_ID", selectedShoppingList.getSlID());
                 editSLIntent.putExtra("smg.SHOPPING_LIST", selectedShoppingList.getName());
                 startActivity(editSLIntent);
                 return true;

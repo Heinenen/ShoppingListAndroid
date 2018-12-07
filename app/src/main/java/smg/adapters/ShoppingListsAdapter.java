@@ -48,7 +48,7 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         // sets value(s) to shown shopping list
         final ShoppingList shoppingList = shoppingLists.get(position);
-        final String slID = shoppingList.getPosition();
+        final String slID = shoppingList.getSlID();
         final String shoppingListName = shoppingList.getName();
         holder.nameTextView.setText(shoppingListName);
 
