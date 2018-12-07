@@ -26,15 +26,14 @@ import smg.models.Item;
 
 public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInterface, PopupMenu.OnMenuItemClickListener{
 
-    // TODO implement checkboxes: maybe move sort them as last as soon as clicked
     // TODO make item suggestions
-    // TODO search thing
+    // TODO don't exit search thing when deleting an item
     // TODO set spinner as action-Button
     // to do that, use button that opens spinner, if not opened make spinner invisible
 
     private String slID;
     private String shoppingList;
-    private String lastSortedBy;
+    private int lastSortedBy;
     private ArrayList<Item> items;
     private ItemsAdapter mAdapter;
     private DatabaseHelper myDb;
@@ -61,12 +60,12 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
         this.myDb = new DatabaseHelper(ItemsActivity.this);
         this.deleteButtonVisible = false;
         this.editButtonVisible = false;
-        this.lastSortedBy = " ";
+        this.lastSortedBy = 0;
 
         mAdapter = new ItemsAdapter(ItemsActivity.this, this, slID, shoppingList);
         items = mAdapter.getItems();
 
-        sortItems("Name");
+        sortItems(0);
 
         RecyclerView recyclerView = findViewById(R.id.secondRecyclerView);
         recyclerView.setAdapter(mAdapter);
@@ -146,11 +145,11 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
     public boolean onMenuItemClick(MenuItem menuItem) {
         switch (menuItem.getItemId()){
             case R.id.sort_name:
-                sortItemsss(0);
+                sortItems(0);
                 return true;
 
             case R.id.sort_category:
-                sortItemsss(1);
+                sortItems(1);
                 return true;
 
             default:
@@ -168,69 +167,69 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
 
     // sorts items by Name/Category
     // "important" items always first, checked items always last
-    public void sortItems(String string){
-        if (string.equals("Name")) {
-            Collections.sort(items, new Comparator<Item>() {
-                @Override
-                public int compare(Item o1, Item o2) {
-                    if (o1.getName().equals("") && o2.getName().equals("")) {
-                        return 0;
-                    } else if (o1.getName().equals("")) {
-                        return 1;
-                    } else if (o2.getName().equals("")) {
-                        return -1;
-                    } else {
-                        return o1.getName().compareToIgnoreCase(o2.getName());
-                    }
-                }
-            });
-            this.lastSortedBy = "Name";
-        }
-        if (string.equals("Category")) {
-            Collections.sort(items, new Comparator<Item>() {
-                @Override
-                public int compare(Item o1, Item o2) {
-                    if (o1.getCategory().equals("") && o2.getCategory().equals("")) {
-                        return 0;
-                    } else if (o1.getCategory().equals("")) {
-                        return 1;
-                    } else if (o2.getCategory().equals("")) {
-                        return -1;
-                    } else {
-                        return o1.getCategory().compareToIgnoreCase(o2.getCategory());
-                    }
-                }
-            });
-            this.lastSortedBy = "Category";
-        }
+//    public void sortItems(String string){
+//        if (string.equals("Name")) {
+//            Collections.sort(items, new Comparator<Item>() {
+//                @Override
+//                public int compare(Item o1, Item o2) {
+//                    if (o1.getName().equals("") && o2.getName().equals("")) {
+//                        return 0;
+//                    } else if (o1.getName().equals("")) {
+//                        return 1;
+//                    } else if (o2.getName().equals("")) {
+//                        return -1;
+//                    } else {
+//                        return o1.getName().compareToIgnoreCase(o2.getName());
+//                    }
+//                }
+//            });
+//            this.lastSortedBy = 0;
+//        }
+//        if (string.equals("Category")) {
+//            Collections.sort(items, new Comparator<Item>() {
+//                @Override
+//                public int compare(Item o1, Item o2) {
+//                    if (o1.getCategory().equals("") && o2.getCategory().equals("")) {
+//                        return 0;
+//                    } else if (o1.getCategory().equals("")) {
+//                        return 1;
+//                    } else if (o2.getCategory().equals("")) {
+//                        return -1;
+//                    } else {
+//                        return o1.getCategory().compareToIgnoreCase(o2.getCategory());
+//                    }
+//                }
+//            });
+//            this.lastSortedBy = 0;
+//        }
+//
+//        Collections.sort(items, new Comparator<Item>() {
+//            @Override
+//            public int compare(Item o1, Item o2) {
+//                return o2.getPriority().compareTo(o1.getPriority());
+//            }
+//        });
+//
+//        Collections.sort(items, new Comparator<Item>() {
+//            @Override
+//            public int compare(Item o1, Item o2) {
+//                if (o1.isCheck() == o2.isCheck()) {
+//                    return 0;
+//                } else if (o1.isCheck()) {
+//                    return 1;
+//                } else if (o2.isCheck()) {
+//                    return -1;
+//                } else {
+//                    return 0;
+//                }
+//            }
+//        });
+//
+//        mAdapter.notifyDataSetChanged();
+//    }
 
-        Collections.sort(items, new Comparator<Item>() {
-            @Override
-            public int compare(Item o1, Item o2) {
-                return o2.getPriority().compareTo(o1.getPriority());
-            }
-        });
 
-        Collections.sort(items, new Comparator<Item>() {
-            @Override
-            public int compare(Item o1, Item o2) {
-                if (o1.isCheck() == o2.isCheck()) {
-                    return 0;
-                } else if (o1.isCheck()) {
-                    return 1;
-                } else if (o2.isCheck()) {
-                    return -1;
-                } else {
-                    return 0;
-                }
-            }
-        });
-
-        mAdapter.notifyDataSetChanged();
-    }
-
-
-    public void sortItemsss(int id){
+    public void sortItems(int id){
         if (id == 0) {
             Collections.sort(items, new Comparator<Item>() {
                 @Override
@@ -246,7 +245,7 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
                     }
                 }
             });
-            this.lastSortedBy = "Name";
+            this.lastSortedBy = 0;
         }
         if (id == 1) {
             Collections.sort(items, new Comparator<Item>() {
@@ -263,7 +262,7 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
                     }
                 }
             });
-            this.lastSortedBy = "Category";
+            this.lastSortedBy = 1;
         }
 
         Collections.sort(items, new Comparator<Item>() {
@@ -341,8 +340,10 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
                         deleteItemFromSQL(selectedItems.get(i).getId());
                         mAdapter.deleteItemFromList(selectedItems.get(i));
                         mAdapter.deselectAll();
-                        mAdapter.notifyDataSetChanged();
                     }
+
+                    mAdapter.setItems(mAdapter.getItemsFromSQL());
+                    mAdapter.notifyDataSetChanged();
                 }
                 refreshToolbar(false, false);
                 return true;
