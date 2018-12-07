@@ -1,6 +1,7 @@
 package smg.shoppinglistapp;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.NavUtils;
@@ -29,11 +30,12 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
 
     // TODO make item suggestions in addItem
     // TODO make item suggestions in Search
-    // TODO don't exit search thing when deleting an item
+    // TODO save what was typed into searchBar
 
     private String slID;
     private String shoppingList;
     private int lastSortedBy;
+    private String lastSearchedBy;
     private ArrayList<Item> items;
     private ItemsAdapter mAdapter;
     private DatabaseHelper myDb;
@@ -61,9 +63,11 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
         this.deleteButtonVisible = false;
         this.editButtonVisible = false;
         this.lastSortedBy = 0;
+        this.lastSearchedBy = "";
+        this.items = getItemsFromSQL();
 
-        mAdapter = new ItemsAdapter(ItemsActivity.this, this, slID, shoppingList);
-        items = mAdapter.getItems();
+        mAdapter = new ItemsAdapter(ItemsActivity.this, this, items);
+//        items = mAdapter.getItems();
 
         sortItems(0);
 
@@ -165,84 +169,12 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
     }
 
 
-    // sorts items by Name/Category
-    // "important" items always first, checked items always last
-//    public void sortItems(String string){
-//        if (string.equals("Name")) {
-//            Collections.sort(items, new Comparator<Item>() {
-//                @Override
-//                public int compare(Item o1, Item o2) {
-//                    if (o1.getName().equals("") && o2.getName().equals("")) {
-//                        return 0;
-//                    } else if (o1.getName().equals("")) {
-//                        return 1;
-//                    } else if (o2.getName().equals("")) {
-//                        return -1;
-//                    } else {
-//                        return o1.getName().compareToIgnoreCase(o2.getName());
-//                    }
-//                }
-//            });
-//            this.lastSortedBy = 0;
-//        }
-//        if (string.equals("Category")) {
-//            Collections.sort(items, new Comparator<Item>() {
-//                @Override
-//                public int compare(Item o1, Item o2) {
-//                    if (o1.getCategory().equals("") && o2.getCategory().equals("")) {
-//                        return 0;
-//                    } else if (o1.getCategory().equals("")) {
-//                        return 1;
-//                    } else if (o2.getCategory().equals("")) {
-//                        return -1;
-//                    } else {
-//                        return o1.getCategory().compareToIgnoreCase(o2.getCategory());
-//                    }
-//                }
-//            });
-//            this.lastSortedBy = 0;
-//        }
-//
-//        Collections.sort(items, new Comparator<Item>() {
-//            @Override
-//            public int compare(Item o1, Item o2) {
-//                return o2.getPriority().compareTo(o1.getPriority());
-//            }
-//        });
-//
-//        Collections.sort(items, new Comparator<Item>() {
-//            @Override
-//            public int compare(Item o1, Item o2) {
-//                if (o1.isCheck() == o2.isCheck()) {
-//                    return 0;
-//                } else if (o1.isCheck()) {
-//                    return 1;
-//                } else if (o2.isCheck()) {
-//                    return -1;
-//                } else {
-//                    return 0;
-//                }
-//            }
-//        });
-//
-//        mAdapter.notifyDataSetChanged();
-//    }
-
-
     public void sortItems(int id){
         if (id == 0) {
             Collections.sort(items, new Comparator<Item>() {
                 @Override
                 public int compare(Item o1, Item o2) {
-                    if (o1.getName().equals("") && o2.getName().equals("")) {
-                        return 0;
-                    } else if (o1.getName().equals("")) {
-                        return 1;
-                    } else if (o2.getName().equals("")) {
-                        return -1;
-                    } else {
-                        return o1.getName().compareToIgnoreCase(o2.getName());
-                    }
+                    return o1.getName().compareToIgnoreCase(o2.getName());
                 }
             });
             this.lastSortedBy = 0;
@@ -296,19 +228,40 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
 
 
     public void searchName(String searchString){
+        this.lastSearchedBy = searchString;
+        System.out.println(searchString);
         if(searchString.equals("")){
-            mAdapter.setItems(mAdapter.getItemsFromSQL());
-            mAdapter.notifyDataSetChanged();
+            mAdapter.setItems(items);
+        } else {
+            ArrayList<Item> searchItems = new ArrayList<>();
+            for (Item item : items) {
+                if (item.getName().contains(searchString)) {
+                    searchItems.add(item);
+                }
+            }
+            mAdapter.setItems(searchItems);
+        }
+        mAdapter.notifyDataSetChanged();
+    }
+
+
+    public ArrayList<Item> getItemsFromSQL() {
+        Cursor res = myDb.getItems(slID);
+        ArrayList<Item> list = new ArrayList<>();
+
+        while (res.moveToNext()) {
+            list.add(new Item(
+                    res.getString(0),
+                    res.getString(2),
+                    res.getString(3),
+                    res.getString(4),
+                    res.getString(5),
+                    res.getString(6),
+                    res.getInt(7)));
+
         }
 
-        ArrayList<Item> searchItems = new ArrayList<>();
-        for(Item item: items){
-            if(item.getName().contains(searchString)){
-                searchItems.add(item);
-            }
-        }
-        mAdapter.setItems(searchItems);
-        mAdapter.notifyDataSetChanged();
+        return list;
     }
 
 
@@ -338,13 +291,12 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
                 if (selectedItems.size() > 0) {
                     for (int i = 0; i < selectedItems.size(); i++) {
                         deleteItemFromSQL(selectedItems.get(i).getId());
-                        mAdapter.deleteItemFromList(selectedItems.get(i));
-                        mAdapter.deselectAll();
+                        items.remove(selectedItems.get(i));
                     }
-
-                    mAdapter.setItems(mAdapter.getItemsFromSQL());
+                    mAdapter.deselectAll();
                     mAdapter.notifyDataSetChanged();
                 }
+                searchName(lastSearchedBy);
                 refreshToolbar(false, false);
                 return true;
 

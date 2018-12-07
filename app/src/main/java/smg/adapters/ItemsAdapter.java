@@ -1,7 +1,6 @@
 package smg.adapters;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -15,9 +14,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import smg.databasehelpers.DatabaseHelper;
 import smg.interfaces.ItemsAdapterInterface;
 import smg.models.Item;
-import smg.databasehelpers.DatabaseHelper;
 import smg.shoppinglistapp.R;
 
 public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHolder> {
@@ -25,21 +24,18 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
     private Context context;
     private ItemsAdapterInterface parentActivity;
     private DatabaseHelper myDb;
-    private String slID;
-    private String shoppingList;
     private ArrayList<Item> items;
     private ArrayList<Item> selectedItems;
     public boolean onBind;
 
     private int[] rowIndices;
 
-    public ItemsAdapter(Context context, ItemsAdapterInterface parentActivity, String slID, String shoppingList){
+    public ItemsAdapter(Context context, ItemsAdapterInterface parentActivity, ArrayList<Item> items){
         this.context = context;
         this.parentActivity = parentActivity;
-        this.slID = slID;
-        this.shoppingList = shoppingList;
         this.myDb = new DatabaseHelper(context);
-        this.items = getItemsFromSQL();
+        this.items = items;
+//        this.items = getItemsFromSQL();
         this.selectedItems = new ArrayList<>();
         this.onBind = false;
 
@@ -186,30 +182,30 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
 
 
     // gets items from SQL
-    public ArrayList<Item> getItemsFromSQL() {
-        Cursor res = myDb.getItems(slID);
-        ArrayList<Item> list = new ArrayList<>();
+//    public ArrayList<Item> getItemsFromSQL() {
+//        Cursor res = myDb.getItems(slID);
+//        ArrayList<Item> list = new ArrayList<>();
+//
+//        while (res.moveToNext()) {
+//            list.add(new Item(
+//                    res.getString(0),
+//                    res.getString(2),
+//                    res.getString(3),
+//                    res.getString(4),
+//                    res.getString(5),
+//                    res.getString(6),
+//                    res.getInt(7)));
+//
+//        }
+//
+//        return list;
+//    }
 
-        while (res.moveToNext()) {
-            list.add(new Item(
-                    res.getString(0),
-                    res.getString(2),
-                    res.getString(3),
-                    res.getString(4),
-                    res.getString(5),
-                    res.getString(6),
-                    res.getInt(7)));
 
-        }
-
-        return list;
-    }
-
-
-    // deletes item from ArrayList
-    public void deleteItemFromList(Item item){
-        this.items.remove(item);
-    }
+//    // deletes item from ArrayList
+//    public void deleteItemFromList(Item item){
+//        this.items.remove(item);
+//    }
 
 
     // deselects all items
@@ -219,10 +215,10 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
     }
 
 
-    // getters
-    public ArrayList<Item> getItems(){
-        return this.items;
-    }
+//    // getters
+//    public ArrayList<Item> getItems(){
+//        return this.items;
+//    }
 
     public ArrayList<Item> getSelectedItems(){
         return this.selectedItems;
