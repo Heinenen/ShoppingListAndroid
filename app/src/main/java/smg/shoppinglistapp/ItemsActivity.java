@@ -42,6 +42,7 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
     private DatabaseHelper myDb;
     private boolean deleteButtonVisible;
     private boolean editButtonVisible;
+    private boolean sortButtonVisible;
 
 
     private Toolbar mToolbar;
@@ -96,6 +97,10 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.menu_items, menu);
+
+        menu.findItem(R.id.action_delete_item).setVisible(deleteButtonVisible);
+        menu.findItem(R.id.action_edit_item).setVisible(editButtonVisible);
+        menu.findItem(R.id.action_sort_items).setVisible(sortButtonVisible);
 
         MenuItem searchButton = menu.findItem(R.id.action_search_button);
         searchButton.setVisible(!mIsSearchMode && !mIsSelectionMode);
@@ -371,11 +376,15 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
 
     public void configureSearchMode(){
         mActionBarAdapter.setSearchMode(mIsSearchMode);
+        sortButtonVisible = !mIsSearchMode;
         invalidateOptionsMenu();
     }
 
     public void configureSelectionMode(){
         mActionBarAdapter.setSelectionMode(mIsSelectionMode);
+        deleteButtonVisible = mIsSelectionMode;
+        editButtonVisible = (mSelectedItems == 1);
+        sortButtonVisible = !mIsSelectionMode;
         invalidateOptionsMenu();
     }
 
@@ -403,10 +412,44 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
             case android.R.id.home:
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
+
+            // deletes selected items
+            case R.id.action_delete_item:
+                ArrayList<Item> selectedItems = mAdapter.getSelectedItems();
+                if (selectedItems.size() > 0) {
+                    for (int i = 0; i < selectedItems.size(); i++) {
+                        deleteItemFromSQL(selectedItems.get(i).getId());
+                        items.remove(selectedItems.get(i));
+                    }
+                    mAdapter.deselectAll();
+                    mAdapter.notifyDataSetChanged();
+                }
+                if (searchName(lastSearchedBy).isEmpty()) {
+                    mAdapter.setItems(items);
+                } else {
+                    searchName(lastSearchedBy);
+                }
+                mSelectedItems = 0;
+                mIsSelectionMode = false;
+                configureSelectionMode();
+                return true;
+
+            // goes to EditItemActivity for selected item
+            case R.id.action_edit_item:
+                Item selectedItem = mAdapter.getSelectedItems().get(0);
+                Intent editItemIntent = new Intent(ItemsActivity.this, EditItemActivity.class);
+                editItemIntent.putExtra("smg.SL_ID", slID);
+                editItemIntent.putExtra("smg.SHOPPING_LIST", shoppingList);
+                editItemIntent.putExtra("smg.ITEM_ID", selectedItem.getId());
+                startActivity(editItemIntent);
+                return true;
+
+            case R.id.action_sort_items:
+                showSortPopup(findViewById(R.id.action_sort_items));
+                return true;
         }
-//            case android.R.id.home:
-//                NavUtils.navigateUpFromSameTask(this);
-//                return true;
+        return super.onOptionsItemSelected(item);
+    }
 //
 //            // deletes selected items
 //            case R.id.action_delete_item:
@@ -441,6 +484,4 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
 //            case R.id.action_sort:
 //                showSortPopup(findViewById(R.id.action_sort));
 //        }
-        return super.onOptionsItemSelected(item);
-    }
 }
