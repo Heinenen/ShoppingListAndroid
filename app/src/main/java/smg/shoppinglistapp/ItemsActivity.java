@@ -9,24 +9,25 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
-import android.widget.SearchView;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import smg.adapters.ActionBarAdapter;
 import smg.adapters.ItemsAdapter;
 import smg.databasehelpers.DatabaseHelper;
 import smg.interfaces.ItemsAdapterInterface;
 import smg.models.Item;
 
 
-public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInterface, PopupMenu.OnMenuItemClickListener{
+public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInterface, PopupMenu.OnMenuItemClickListener, ActionBarAdapter.Listener {
 
     // TODO make item suggestions in addItem
     // TODO make item suggestions in Search
@@ -42,6 +43,11 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
     private boolean deleteButtonVisible;
     private boolean editButtonVisible;
 
+
+    private Toolbar mToolbar;
+    private ActionBarAdapter mActionBarAdapter;
+    private boolean mIsSearchMode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +56,7 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
         slID = getIntent().getStringExtra("smg.SL_ID");
         shoppingList = getIntent().getStringExtra("smg.SHOPPING_LIST");
 
-        android.support.v7.widget.Toolbar mToolbar = findViewById(R.id.items_toolbar);
+        mToolbar = findViewById(R.id.items_toolbar);
         setSupportActionBar(mToolbar);
 
         if(getSupportActionBar() != null){
@@ -66,6 +72,8 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
         this.lastSearchedBy = "";
         this.items = getItemsFromSQL();
 
+//        ActionBarAdapter actionBarAdapter = new ActionBarAdapter(ItemsActivity.this, this,getSupportActionBar(), mToolbar, R.string.actAddItem_categoryHint);
+//        actionBarAdapter.initialize(null);
         mAdapter = new ItemsAdapter(ItemsActivity.this, this, items);
 //        items = mAdapter.getItems();
 
@@ -77,41 +85,55 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
         fab();
+        prepareSearchViewAndActionBar(null);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.menu_items, menu);
 
-        if(deleteButtonVisible){
-            menu.findItem(R.id.action_delete_item).setVisible(true);
-        } else {
-            menu.findItem(R.id.action_delete_item).setVisible(false);
-        }
-
-        if(editButtonVisible){
-            menu.findItem(R.id.action_edit_item).setVisible(true);
-        } else {
-            menu.findItem(R.id.action_edit_item).setVisible(false);
-        }
-
-        SearchView searchView = (SearchView) menu.findItem(R.id.action_search_item).getActionView();
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                searchName(query);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                searchName(newText);
-                return false;
-            }
-        });
+        MenuItem searchButton = menu.findItem(R.id.action_search_button);
+        searchButton.setVisible(!mIsSearchMode);
         return true;
     }
+
+    //    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.menu_items, menu);
+//
+//        if(deleteButtonVisible){
+//            menu.findItem(R.id.action_delete_item).setVisible(true);
+//        } else {
+//            menu.findItem(R.id.action_delete_item).setVisible(false);
+//        }
+//
+//        if(editButtonVisible){
+//            menu.findItem(R.id.action_edit_item).setVisible(true);
+//        } else {
+//            menu.findItem(R.id.action_edit_item).setVisible(false);
+//        }
+//
+//        SearchView searchView = (SearchView) menu.findItem(R.id.action_search_items).getActionView();
+//        searchView.setQueryHint("Search items");
+//        searchView.setIconifiedByDefault(false);
+////        searchView.setIconified(false);
+//
+//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                searchName(query);
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//                searchName(newText);
+//                return false;
+//            }
+//        });
+//        return true;
+//    }
 
 
     // method that sets visibility of ToolbarButtons and refreshes it
@@ -121,6 +143,25 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
         this.deleteButtonVisible = deleteButtonVisible;
         this.editButtonVisible = editButtonVisible;
         invalidateOptionsMenu();
+    }
+
+    private void prepareSearchViewAndActionBar(Bundle savedState) {
+        mToolbar = findViewById(R.id.items_toolbar);
+        setSupportActionBar(mToolbar);
+        // Add a shadow under the toolbar.
+//        ViewUtils.addRectangularOutlineProvider(findViewById(R.id.toolbar_parent), getResources());
+        mActionBarAdapter = new ActionBarAdapter(ItemsActivity.this, this, getSupportActionBar(), mToolbar,
+                R.string.itemAct_searchHint);
+//        mActionBarAdapter.setShowHomeIcon(true);
+//        mActionBarAdapter.setShowHomeAsUp(true);
+        mActionBarAdapter.initialize(null);
+        // Postal address pickers (and legacy pickers) don't support search, so just show
+        // "HomeAsUp" button and title.
+//        mIsSearchSupported = mRequest.getActionCode() != ContactsRequest.ACTION_PICK_POSTAL
+//                && mRequest.getActionCode() != ContactsRequest.ACTION_PICK_EMAILS
+//                && mRequest.getActionCode() != ContactsRequest.ACTION_PICK_PHONES
+//                && !mRequest.isLegacyCompatibilityMode();
+        configureSearchMode();
     }
 
     @Override
@@ -159,6 +200,40 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
             default:
                 return false;
         }
+    }
+
+    @Override
+    public void onAction(int action) {
+        switch (action) {
+            case ActionBarAdapter.Listener.Action.START_SEARCH_MODE:
+                mIsSearchMode = true;
+                configureSearchMode();
+                break;
+            case ActionBarAdapter.Listener.Action.CHANGE_SEARCH_QUERY:
+                final String queryString = mActionBarAdapter.getQueryString();
+//                mListFragment.setQueryString(queryString, /* delaySelection */ false);
+                searchName(queryString);
+                break;
+//            case ActionBarAdapter.Listener.Action.START_SELECTION_MODE:
+//                if (getMultiSelectListFragment() != null) {
+//                    getMultiSelectListFragment().displayCheckBoxes(true);
+//                }
+//                invalidateOptionsMenu();
+//                break;
+            case ActionBarAdapter.Listener.Action.STOP_SEARCH_AND_SELECTION_MODE:
+                searchName("");
+                mActionBarAdapter.setSearchMode(false);
+//                if (getMultiSelectListFragment() != null) {
+//                    getMultiSelectListFragment().displayCheckBoxes(false);
+//                }
+                invalidateOptionsMenu();
+                break;
+        }
+    }
+
+    @Override
+    public void onUpButtonPressed() {
+        onBackPressed();
     }
 
     public void showSortPopup(View v){
@@ -265,6 +340,25 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
         return list;
     }
 
+    @Override
+    public void onBackPressed() {
+//        if(mActionBarAdapter.isSelectionMode()){
+//            mActionBarAdapter.setSelectionMode(false);
+//            if(getMultiSelectListFragment() != null) {
+//                getMultiselectListFragment().displayCheckBoxes(false);
+//            }
+//        } else if
+        if (mIsSearchMode) {
+            mIsSearchMode = false;
+            configureSearchMode();
+        } else {
+            super.onBackPressed();
+        }
+    }
+    public void configureSearchMode(){
+        mActionBarAdapter.setSearchMode(mIsSearchMode);
+        invalidateOptionsMenu();
+    }
 
     // goes to parent activity (ShoppingListsActivity) on backKey
     @Override
@@ -282,43 +376,50 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
-//            case android.R.id.home:
-//                NavUtils.navigateUpFromSameTask(this);
-//                return true;
-
-            // deletes selected items
-            case R.id.action_delete_item:
-                ArrayList<Item> selectedItems = mAdapter.getSelectedItems();
-                if (selectedItems.size() > 0) {
-                    for (int i = 0; i < selectedItems.size(); i++) {
-                        deleteItemFromSQL(selectedItems.get(i).getId());
-                        items.remove(selectedItems.get(i));
-                    }
-                    mAdapter.deselectAll();
-                    mAdapter.notifyDataSetChanged();
-                }
-                if (searchName(lastSearchedBy).isEmpty()){
-                    mAdapter.setItems(items);
-                } else {
-                    searchName(lastSearchedBy);
-                }
-                refreshToolbar(false, false);
-                return true;
-
-
-            // goes to EditItemActivity for selected item
-            case R.id.action_edit_item:
-                Item selectedItem = mAdapter.getSelectedItems().get(0);
-                Intent editItemIntent = new Intent(ItemsActivity.this, EditItemActivity.class);
-                editItemIntent.putExtra("smg.SL_ID", slID);
-                editItemIntent.putExtra("smg.SHOPPING_LIST", shoppingList);
-                editItemIntent.putExtra("smg.ITEM_ID", selectedItem.getId());
-                startActivity(editItemIntent);
-                return true;
-
-            case R.id.action_sort:
-                showSortPopup(findViewById(R.id.action_sort));
+            case R.id.action_search_button:
+                mIsSearchMode = !mIsSearchMode;
+                configureSearchMode();
+//                configureSearchMode();
+//                mActionBarAdapter = new ActionBarAdapter(ItemsActivity.this, this,getSupportActionBar(), mToolbar, R.string.actAddItem_categoryHint);
+//                mActionBarAdapter.initialize(null);
         }
+////            case android.R.id.home:
+////                NavUtils.navigateUpFromSameTask(this);
+////                return true;
+//
+//            // deletes selected items
+//            case R.id.action_delete_item:
+//                ArrayList<Item> selectedItems = mAdapter.getSelectedItems();
+//                if (selectedItems.size() > 0) {
+//                    for (int i = 0; i < selectedItems.size(); i++) {
+//                        deleteItemFromSQL(selectedItems.get(i).getId());
+//                        items.remove(selectedItems.get(i));
+//                    }
+//                    mAdapter.deselectAll();
+//                    mAdapter.notifyDataSetChanged();
+//                }
+//                if (searchName(lastSearchedBy).isEmpty()){
+//                    mAdapter.setItems(items);
+//                } else {
+//                    searchName(lastSearchedBy);
+//                }
+//                refreshToolbar(false, false);
+//                return true;
+//
+//
+//            // goes to EditItemActivity for selected item
+//            case R.id.action_edit_item:
+//                Item selectedItem = mAdapter.getSelectedItems().get(0);
+//                Intent editItemIntent = new Intent(ItemsActivity.this, EditItemActivity.class);
+//                editItemIntent.putExtra("smg.SL_ID", slID);
+//                editItemIntent.putExtra("smg.SHOPPING_LIST", shoppingList);
+//                editItemIntent.putExtra("smg.ITEM_ID", selectedItem.getId());
+//                startActivity(editItemIntent);
+//                return true;
+//
+//            case R.id.action_sort:
+//                showSortPopup(findViewById(R.id.action_sort));
+//        }
         return super.onOptionsItemSelected(item);
     }
 }

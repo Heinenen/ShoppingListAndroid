@@ -25,9 +25,8 @@
     <!-- EditShoppingListActivity -->
     <string name="editShoppingListAct_title">Edit shopping list</string>
 
-    <!-- ItemsActivity
-    <string name="itemsAct_title">Items</string>
-    -->
+    <!-- ItemsActivity -->
+    <string name="itemAct_searchHint">Search items</string>
 
     <!-- ShoppingListsActivity -->
     <string name="shoppingListsAct_title">Shopping lists</string>
@@ -54,12 +53,6 @@
     <!-- popup menu items -->
     <string name="popup_name">Name</string>
     <string name="popup_category">Category</string>
-
-    <!-- <string-array name="sortBys">
-        <item>Name</item>
-        <item>Category</item>
-    </string-array> -->
-
 
     <!-- Toasts -->
     <!-- adding -->

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/search_box_expanded"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:visibility="gone" >
+
+    <ImageButton
+        android:id="@+id/search_back_button"
+        android:layout_width="@dimen/search_box_icon_size"
+        android:layout_height="@dimen/search_box_icon_size"
+        android:layout_marginEnd="@dimen/search_box_navigation_icon_margin"
+        android:layout_marginRight="@dimen/search_box_navigation_icon_margin"
+        android:src="@drawable/ic_arrow_back_white_24dp"
+        android:background="?attr/selectableItemBackgroundBorderless" />
+        <!-- android:tint="@color/actionbar_background_color" -->
+
+    <android.widget.AutoCompleteTextView
+        android:id="@+id/search_view"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/search_box_icon_size"
+        android:layout_weight="1"
+        android:layout_marginLeft="@dimen/search_box_text_left_margin"
+        android:layout_marginStart="@dimen/search_box_text_left_margin"
+        android:textSize="@dimen/search_text_size"
+        android:background="@null"
+        android:inputType="textFilter"
+        android:singleLine="true"
+        android:imeOptions="flagNoExtractUi" />
+        <!-- android:fontFamily="@string/search_font_family"
+        android:textColor="@color/searchbox_text_color"
+        android:textColorHint="@color/searchbox_hint_text_color"
+        android:textCursorDrawable="@drawable/searchedittext_custom_cursor" -->
+
+    <ImageView
+        android:id="@+id/search_close_button"
+        android:layout_width="@dimen/search_box_close_icon_size"
+        android:layout_height="@dimen/search_box_close_icon_size"
+        android:padding="@dimen/search_box_close_icon_padding"
+        android:src="@drawable/ic_close_white_24dp"
+        android:clickable="true"
+        android:background="?attr/selectableItemBackgroundBorderless" />
+        <!-- android:tint="@color/quantum_black_secondary_text"
+        android:contentDescription="@string/description_clear_search" -->
+
+</LinearLayout>

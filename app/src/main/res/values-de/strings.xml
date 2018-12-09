@@ -29,4 +29,5 @@
     <string name="menuItems_popupMenuTitle">Sortieren nach …</string>
     <string name="popup_name">Name</string>
     <string name="popup_category">Kategorie</string>
+    <string name="itemAct_searchHint">Artikel suchen</string>
 </resources>
