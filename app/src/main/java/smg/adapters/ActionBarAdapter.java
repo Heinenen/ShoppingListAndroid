@@ -21,6 +21,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -433,6 +434,16 @@ public class ActionBarAdapter implements SearchView.OnCloseListener {
 //                        decorView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                     }
                 });
+    }
+
+    public void setSelectionCount(int selectionCount) {
+        TextView textView = (TextView) mSelectionContainer.findViewById(R.id.selection_count_text);
+        if (selectionCount == 0) {
+            textView.setVisibility(View.GONE);
+        } else {
+            textView.setVisibility(View.VISIBLE);
+        }
+        textView.setText(String.valueOf(selectionCount));
     }
 
     public void setFocusOnSearchView() {

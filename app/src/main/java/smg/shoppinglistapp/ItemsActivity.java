@@ -153,11 +153,11 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
 //        this.editButtonVisible = editButtonVisible;
 //        invalidateOptionsMenu();
         mSelectedItems = count;
-        refreshToolbar(count);
+        refreshSelectionMode();
     }
 
-    public void refreshToolbar(int count){
-        mIsSelectionMode = (count == 1 || count == 2);
+    public void refreshSelectionMode(){
+        mIsSelectionMode = (mSelectedItems > 0);
         configureSelectionMode();
     }
 
@@ -382,6 +382,7 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
 
     public void configureSelectionMode(){
         mActionBarAdapter.setSelectionMode(mIsSelectionMode);
+        mActionBarAdapter.setSelectionCount(mSelectedItems);
         deleteButtonVisible = mIsSelectionMode;
         editButtonVisible = (mSelectedItems == 1);
         sortButtonVisible = !mIsSelectionMode;
@@ -450,38 +451,4 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
         }
         return super.onOptionsItemSelected(item);
     }
-//
-//            // deletes selected items
-//            case R.id.action_delete_item:
-//                ArrayList<Item> selectedItems = mAdapter.getSelectedItems();
-//                if (selectedItems.size() > 0) {
-//                    for (int i = 0; i < selectedItems.size(); i++) {
-//                        deleteItemFromSQL(selectedItems.get(i).getId());
-//                        items.remove(selectedItems.get(i));
-//                    }
-//                    mAdapter.deselectAll();
-//                    mAdapter.notifyDataSetChanged();
-//                }
-//                if (searchName(lastSearchedBy).isEmpty()){
-//                    mAdapter.setItems(items);
-//                } else {
-//                    searchName(lastSearchedBy);
-//                }
-//                refreshToolbar(false, false);
-//                return true;
-//
-//
-//            // goes to EditItemActivity for selected item
-//            case R.id.action_edit_item:
-//                Item selectedItem = mAdapter.getSelectedItems().get(0);
-//                Intent editItemIntent = new Intent(ItemsActivity.this, EditItemActivity.class);
-//                editItemIntent.putExtra("smg.SL_ID", slID);
-//                editItemIntent.putExtra("smg.SHOPPING_LIST", shoppingList);
-//                editItemIntent.putExtra("smg.ITEM_ID", selectedItem.getId());
-//                startActivity(editItemIntent);
-//                return true;
-//
-//            case R.id.action_sort:
-//                showSortPopup(findViewById(R.id.action_sort));
-//        }
 }

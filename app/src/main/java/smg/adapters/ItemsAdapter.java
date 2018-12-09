@@ -154,70 +154,14 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
         }
         notifyDataSetChanged();
 
-        parentActivity.setSelectedItemsCount(checkForToolbarButtonVisibility());
+        parentActivity.setSelectedItemsCount(selectedItems.size());
     }
-
-
-    // method that checks which ToolbarButtons should be shown
-    // depending on (how many) items selected
-    public int checkForToolbarButtonVisibility(){
-        int itemsSelectedCounter = 0;
-
-        for(int i = 0; i < rowIndices.length; i++){
-            if(rowIndices[i] != -1){
-                itemsSelectedCounter = itemsSelectedCounter + 1;
-                if(itemsSelectedCounter > 1) break;
-            }
-        }
-
-        if(itemsSelectedCounter == 1){
-            return 1;
-        } else if(itemsSelectedCounter > 1){
-            return 2;
-        } else {
-            return 0;
-        }
-    }
-
-
-    // gets items from SQL
-//    public ArrayList<Item> getItemsFromSQL() {
-//        Cursor res = myDb.getItems(slID);
-//        ArrayList<Item> list = new ArrayList<>();
-//
-//        while (res.moveToNext()) {
-//            list.add(new Item(
-//                    res.getString(0),
-//                    res.getString(2),
-//                    res.getString(3),
-//                    res.getString(4),
-//                    res.getString(5),
-//                    res.getString(6),
-//                    res.getInt(7)));
-//
-//        }
-//
-//        return list;
-//    }
-
-
-//    // deletes item from ArrayList
-//    public void deleteItemFromList(Item item){
-//        this.items.remove(item);
-//    }
-
 
     // deselects all items
     public void deselectAll(){
         Arrays.fill(rowIndices, -1);
         selectedItems.clear();
     }
-
-
-//    // getters
-//    public ArrayList<Item> getItems(){
-//        return this.items;
-//    }
 
     public ArrayList<Item> getSelectedItems(){
         return this.selectedItems;
@@ -234,7 +178,6 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
         private TextView itemPriceTextView;
         private CheckBox itemCheckBox;
         private View parentView;
-        private CompoundButton.OnCheckedChangeListener checkedChangeListener;
 
         public CustomViewHolder (@NonNull  View view){
             super(view);
@@ -244,14 +187,6 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
             this.itemPriceTextView = view.findViewById(R.id.itemPriceTextView);
             this.itemCheckBox = view.findViewById(R.id.itemCheckBox);
             this.parentView = view;
-
-//            this.checkedChangeListener = new CompoundButton.OnCheckedChangeListener() {
-//                @Override
-//                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                    if(!onBind) parentActivity.sort();
-//                }
-//            };
-//            itemCheckBox.setOnCheckedChangeListener(checkedChangeListener);
         }
     }
 }
