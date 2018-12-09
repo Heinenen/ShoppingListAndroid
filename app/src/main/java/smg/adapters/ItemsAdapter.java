@@ -154,14 +154,13 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
         }
         notifyDataSetChanged();
 
-        boolean[] booleans = checkForToolbarButtonVisibility();
-        parentActivity.refreshToolbar(booleans[0], booleans[1]);
+        parentActivity.setSelectedItemsCount(checkForToolbarButtonVisibility());
     }
 
 
     // method that checks which ToolbarButtons should be shown
     // depending on (how many) items selected
-    public boolean[] checkForToolbarButtonVisibility(){
+    public int checkForToolbarButtonVisibility(){
         int itemsSelectedCounter = 0;
 
         for(int i = 0; i < rowIndices.length; i++){
@@ -172,11 +171,11 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
         }
 
         if(itemsSelectedCounter == 1){
-            return new boolean[]{true, true};
+            return 1;
         } else if(itemsSelectedCounter > 1){
-            return new boolean[]{true, false};
+            return 2;
         } else {
-            return  new boolean[]{false, false};
+            return 0;
         }
     }
 

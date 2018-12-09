@@ -164,6 +164,8 @@ public class ActionBarAdapter implements SearchView.OnCloseListener {
         // When skipAnimation=true, it is possible that we will switch from search mode
         // to selection mode directly. So we need to remove the undesired container in addition
         // to adding the desired container.
+
+        skipAnimation = true;
         if (skipAnimation || isSwitchingFromSearchToSelection) {
             if (isTabHeightChanging || isSwitchingFromSearchToSelection) {
                 mToolbar.removeView(mSearchContainer);
@@ -178,27 +180,27 @@ public class ActionBarAdapter implements SearchView.OnCloseListener {
             return;
         }
         // Handle a switch to/from selection mode, due to UI interaction.
-        if (isSelectionModeChanging) {
-            if (mSelectionMode) {
-                addSelectionContainer();
-                mSelectionContainer.setAlpha(0);
-//                mSelectionContainer.animate().alpha(1).setDuration(mActionBarAnimationDuration);
-                updateDisplayOptions(isSearchModeChanging);
-            } else {
-                if (mListener != null) {
-                    mListener.onAction(Listener.Action.BEGIN_STOPPING_SEARCH_AND_SELECTION_MODE);
-                }
-                mSelectionContainer.setAlpha(1);
-//                mSelectionContainer.animate().alpha(0).setDuration(mActionBarAnimationDuration)
-//                        .withEndAction(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                updateDisplayOptions(isSearchModeChanging);
-//                                mToolBarFrame.removeView(mSelectionContainer);
-//                            }
-//                        });
-            }
-        }
+//        if (isSelectionModeChanging) {
+//            if (mSelectionMode) {
+//                addSelectionContainer();
+//                mSelectionContainer.setAlpha(0);
+////                mSelectionContainer.animate().alpha(1).setDuration(mActionBarAnimationDuration);
+//                updateDisplayOptions(isSearchModeChanging);
+//            } else {
+//                if (mListener != null) {
+//                    mListener.onAction(Listener.Action.BEGIN_STOPPING_SEARCH_AND_SELECTION_MODE);
+//                }
+//                mSelectionContainer.setAlpha(1);
+////                mSelectionContainer.animate().alpha(0).setDuration(mActionBarAnimationDuration)
+////                        .withEndAction(new Runnable() {
+////                            @Override
+////                            public void run() {
+////                                updateDisplayOptions(isSearchModeChanging);
+////                                mToolBarFrame.removeView(mSelectionContainer);
+////                            }
+////                        });
+//            }
+//        }
         // Handle a switch to/from search mode, due to UI interaction.
         if (isSearchModeChanging) {
             if (mSearchMode) {
@@ -314,12 +316,12 @@ public class ActionBarAdapter implements SearchView.OnCloseListener {
             }
             if (mSearchMode) {
                 mSearchView.setEnabled(true);
-                mSearchView.setVisibility(View.VISIBLE);
+//                mSearchView.setVisibility(View.VISIBLE);
                 setFocusOnSearchView();
             } else {
                 // Disable search view, so that it doesn't keep the IME visible.
                 mSearchView.setEnabled(false);
-                mSearchView.setVisibility(View.INVISIBLE);
+//                mSearchView.setVisibility(View.INVISIBLE);
             }
             setQueryString(null);
         } else if (flag) {

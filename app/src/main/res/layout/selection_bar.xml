@@ -3,22 +3,32 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/selection_bar"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary">
+
     <ImageButton
         android:id="@+id/selection_close"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/selection_bar_close_icon_size"
+        android:layout_height="@dimen/selection_bar_close_icon_size"
         android:layout_gravity="center_vertical|start"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:src="@drawable/ic_close_white_24dp"/>
+        <!-- android:contentDescription="@string/action_menu_back_from_edit_select" -->
+
     <TextView
         android:id="@+id/selection_count_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|start"
+        android:layout_marginEnd="@dimen/edit_group_end_margin"
+        android:layout_marginRight="@dimen/edit_group_end_margin"
+        android:layout_marginStart="72dp"
+        android:layout_marginLeft="72dp"
         android:ellipsize="end"
         android:singleLine="true"
         android:visibility="gone"/>
+        <!-- style="@style/ContactsActionBarTitleTextBlack" -->
+
     <TextView
         android:id="@+id/add_contacts"
         android:layout_width="wrap_content"

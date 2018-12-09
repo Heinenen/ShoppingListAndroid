@@ -47,6 +47,8 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
     private Toolbar mToolbar;
     private ActionBarAdapter mActionBarAdapter;
     private boolean mIsSearchMode;
+    private boolean mIsSelectionMode;
+    private int mSelectedItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +88,8 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
 
         fab();
         prepareSearchViewAndActionBar(null);
+        mIsSearchMode = false;
+        configureSearchMode();
     }
 
     @Override
@@ -94,7 +98,7 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
         getMenuInflater().inflate(R.menu.menu_items, menu);
 
         MenuItem searchButton = menu.findItem(R.id.action_search_button);
-        searchButton.setVisible(!mIsSearchMode);
+        searchButton.setVisible(!mIsSearchMode && !mIsSelectionMode);
         return true;
     }
 
@@ -139,10 +143,17 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
     // method that sets visibility of ToolbarButtons and refreshes it
     // Overrides custom interface: AdapterCallActivityMethod
     @Override
-    public void refreshToolbar(boolean deleteButtonVisible, boolean editButtonVisible) {
-        this.deleteButtonVisible = deleteButtonVisible;
-        this.editButtonVisible = editButtonVisible;
-        invalidateOptionsMenu();
+    public void setSelectedItemsCount(int count) {
+//        this.deleteButtonVisible = deleteButtonVisible;
+//        this.editButtonVisible = editButtonVisible;
+//        invalidateOptionsMenu();
+        mSelectedItems = count;
+        refreshToolbar(count);
+    }
+
+    public void refreshToolbar(int count){
+        mIsSelectionMode = (count == 1 || count == 2);
+        configureSelectionMode();
     }
 
     private void prepareSearchViewAndActionBar(Bundle savedState) {
@@ -342,21 +353,29 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
 
     @Override
     public void onBackPressed() {
-//        if(mActionBarAdapter.isSelectionMode()){
-//            mActionBarAdapter.setSelectionMode(false);
+        if(mActionBarAdapter.isSelectionMode()){
+            mAdapter.deselectAll();
+            mAdapter.notifyDataSetChanged();
+            mIsSelectionMode = false;
+            configureSelectionMode();
 //            if(getMultiSelectListFragment() != null) {
 //                getMultiselectListFragment().displayCheckBoxes(false);
 //            }
-//        } else if
-        if (mIsSearchMode) {
+        } else if (mIsSearchMode) {
             mIsSearchMode = false;
             configureSearchMode();
         } else {
             super.onBackPressed();
         }
     }
+
     public void configureSearchMode(){
         mActionBarAdapter.setSearchMode(mIsSearchMode);
+        invalidateOptionsMenu();
+    }
+
+    public void configureSelectionMode(){
+        mActionBarAdapter.setSelectionMode(mIsSelectionMode);
         invalidateOptionsMenu();
     }
 
@@ -379,13 +398,15 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
             case R.id.action_search_button:
                 mIsSearchMode = !mIsSearchMode;
                 configureSearchMode();
-//                configureSearchMode();
-//                mActionBarAdapter = new ActionBarAdapter(ItemsActivity.this, this,getSupportActionBar(), mToolbar, R.string.actAddItem_categoryHint);
-//                mActionBarAdapter.initialize(null);
+                return true;
+
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
         }
-////            case android.R.id.home:
-////                NavUtils.navigateUpFromSameTask(this);
-////                return true;
+//            case android.R.id.home:
+//                NavUtils.navigateUpFromSameTask(this);
+//                return true;
 //
 //            // deletes selected items
 //            case R.id.action_delete_item:
