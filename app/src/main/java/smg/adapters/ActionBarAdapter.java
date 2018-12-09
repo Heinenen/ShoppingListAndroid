@@ -261,11 +261,7 @@ public class ActionBarAdapter implements SearchView.OnCloseListener {
         updateDisplayOptionsInner();
     }
 
-
-
-
-
-
+    
 
     private class SearchTextWatcher implements TextWatcher {
         @Override
