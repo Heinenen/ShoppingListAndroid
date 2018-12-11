@@ -144,7 +144,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
 
 
     // method for deSelecting items
-    public void deSelectItem(int position, Item item){
+    private void deSelectItem(int position, Item item){
         if (rowIndices[position] == -1){
             rowIndices[position] = position;
             selectedItems.add(item);
@@ -177,7 +177,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
         Arrays.fill(rowIndices, -1);
     }
 
-    public class CustomViewHolder extends RecyclerView.ViewHolder{
+    class CustomViewHolder extends RecyclerView.ViewHolder{
         private TextView itemNameTextView;
         private TextView itemCategoryTextView;
         private TextView itemAmountTextView;
@@ -185,7 +185,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
         private CheckBox itemCheckBox;
         private View parentView;
 
-        public CustomViewHolder (@NonNull  View view){
+        private CustomViewHolder (@NonNull  View view){
             super(view);
             this.itemNameTextView = view.findViewById(R.id.itemNameTextView);
             this.itemCategoryTextView = view.findViewById(R.id.itemCategoryTextView);

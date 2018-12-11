@@ -58,8 +58,8 @@ public class ActionBarAdapter implements SearchView.OnCloseListener {
     private Toolbar mToolbar;
 
     private FrameLayout mToolBarFrame;
-    private boolean mShowHomeIcon;
-    private boolean mShowHomeAsUp;
+//    private boolean mShowHomeIcon;
+//    private boolean mShowHomeAsUp;
     private int mSearchHintResId;
 
 
@@ -362,12 +362,12 @@ public class ActionBarAdapter implements SearchView.OnCloseListener {
         final boolean isSearchOrSelectionMode = mSearchMode || mSelectionMode;
         // Build the new flags...
         int newFlags = 0;
-        if (mShowHomeIcon && !isSearchOrSelectionMode) {
-            newFlags |= ActionBar.DISPLAY_SHOW_HOME;
-            if (mShowHomeAsUp) {
-                newFlags |= ActionBar.DISPLAY_HOME_AS_UP;
-            }
-        }
+//        if (mShowHomeIcon && !isSearchOrSelectionMode) {
+//            newFlags |= ActionBar.DISPLAY_SHOW_HOME;
+//            if (mShowHomeAsUp) {
+//                newFlags |= ActionBar.DISPLAY_HOME_AS_UP;
+//            }
+//        }
         if (mSearchMode && !mSelectionMode) {
             // The search container is placed inside the toolbar. So we need to disable the
             // Toolbar's content inset in order to allow the search container to be the width of

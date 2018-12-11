@@ -30,4 +30,5 @@
     <string name="popup_name">Name</string>
     <string name="popup_category">Kategorie</string>
     <string name="itemAct_searchHint">Artikel suchen</string>
+    <string name="shoppingListAct_reallyDeleteSL">Willst du diese Einkaufsliste(n) wirklich löschen?</string>
 </resources>

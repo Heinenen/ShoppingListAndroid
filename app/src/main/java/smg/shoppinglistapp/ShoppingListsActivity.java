@@ -2,6 +2,7 @@ package smg.shoppinglistapp;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
@@ -29,6 +30,7 @@ public class ShoppingListsActivity extends AppCompatActivity implements Shopping
 
     private DatabaseHelper myDb;
     private ShoppingListsAdapter mAdapter;
+    private ArrayList<ShoppingList> shoppingLists;
 
     private boolean deleteButtonVisible;
     private boolean editButtonVisible;
@@ -43,7 +45,8 @@ public class ShoppingListsActivity extends AppCompatActivity implements Shopping
         setSupportActionBar(mToolbar);
 
         this.myDb = new DatabaseHelper(ShoppingListsActivity.this);
-        this.mAdapter = new ShoppingListsAdapter(ShoppingListsActivity.this, this);
+        this.shoppingLists = getSLFromSQL();
+        this.mAdapter = new ShoppingListsAdapter(ShoppingListsActivity.this, this, shoppingLists);
         this.deleteButtonVisible = false;
         this.editButtonVisible = false;
 
@@ -98,6 +101,19 @@ public class ShoppingListsActivity extends AppCompatActivity implements Shopping
     }
 
 
+    // gets SLs from SQL
+    public ArrayList<ShoppingList> getSLFromSQL(){
+        Cursor res = myDb.getSL();
+        ArrayList<ShoppingList> list = new ArrayList<>();
+
+        while (res.moveToNext()){
+            list.add(new ShoppingList(res.getString(0), res.getString(1)));
+        }
+
+        return list;
+    }
+
+
     // method for deleting SL fromSQL
     public void deleteShoppingListFromSQL(String slID){
         myDb.deleteSL(slID);
@@ -133,28 +149,18 @@ public class ShoppingListsActivity extends AppCompatActivity implements Shopping
                 // if only one SL gets deleted, tell adapter to only delete/refresh one
                 // -> nice animation
                 AlertDialog.Builder alert = new AlertDialog.Builder(this);
-                alert.setMessage("Do you really want to delete the selected shopping list(s)?");
+                alert.setMessage(R.string.shoppingListAct_reallyDeleteSL);
                 alert.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         ArrayList<ShoppingList> selectedShoppingLists = mAdapter.getSelectedShoppingLists();
-
-                        // commented code doesn't work
-//                if (selectedShoppingLists.size() == 1) {
-//                    deleteShoppingListFromSQL(selectedShoppingLists.get(0).getPosition());
-//                    mAdapter.deleteSLFromList(selectedShoppingLists.get(0));
-//                    mAdapter.notifyItemRemoved(Integer.parseInt(selectedShoppingLists.get(0).getPosition()));
-//                    mAdapter.deselectAll();
-//                    mAdapter.notifyItemChanged(Integer.parseInt(selectedShoppingLists.get(0).getPosition()));
-//                }
                         if (selectedShoppingLists.size() > 0) {
                             for (int i = 0; i < selectedShoppingLists.size(); i++) {
                                 deleteShoppingListFromSQL(selectedShoppingLists.get(i).getSlID());
-                                mAdapter.deleteSLFromList(selectedShoppingLists.get(i));
-                                mAdapter.deselectAll();
-                                mAdapter.notifyDataSetChanged();
+                                shoppingLists.remove(selectedShoppingLists.get(i));
                             }
-
+                            mAdapter.deselectAll();
+                            mAdapter.notifyDataSetChanged();
                             refreshToolbar(false, false);
                         }
                     }

@@ -17,11 +17,7 @@ public class Item {
         this.amount = amount;
         this.priority = priority;
         this.price = price;
-        if(intCheck == 1){
-            this.check = true;
-        } else {
-            this.check = false;
-        }
+        this.check = intCheck == 1;
     }
 
     public String getId(){

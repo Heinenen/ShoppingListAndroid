@@ -30,6 +30,7 @@
 
     <!-- ShoppingListsActivity -->
     <string name="shoppingListsAct_title">Shopping lists</string>
+    <string name="shoppingListAct_reallyDeleteSL">Do you really want to delete the selected shopping list(s)?</string>
 
 
     <!-- Strings for layouts -->

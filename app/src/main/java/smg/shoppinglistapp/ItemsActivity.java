@@ -135,8 +135,6 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
     }
 
     private void prepareSearchViewAndActionBar(Bundle savedState) {
-        if(savedState != null){
-        }
         mToolbar = findViewById(R.id.items_toolbar);
         setSupportActionBar(mToolbar);
         // Add a shadow under the toolbar.
@@ -424,7 +422,6 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
                     mAdapter.deselectAll();
                     mAdapter.notifyDataSetChanged();
                 }
-                // TODO make it function again
                 if (searchName(lastSearchedBy).isEmpty()) {
                     mAdapter.setItems(items);
                     lastSearchedBy = "";

@@ -2,7 +2,6 @@ package smg.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -14,9 +13,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import smg.databasehelpers.DatabaseHelper;
 import smg.interfaces.ShoppingListsAdapterInterface;
 import smg.models.ShoppingList;
-import smg.databasehelpers.DatabaseHelper;
 import smg.shoppinglistapp.ItemsActivity;
 import smg.shoppinglistapp.R;
 
@@ -29,11 +28,12 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
     private ArrayList<ShoppingList> selectedShoppingLists;
     private int[] rowIndices;
 
-    public ShoppingListsAdapter(Context context, ShoppingListsAdapterInterface parentActivity){
+    public ShoppingListsAdapter(Context context, ShoppingListsAdapterInterface parentActivity, ArrayList<ShoppingList> shoppingLists){
         this.context = context;
         this.parentActivity = parentActivity;
         this.myDb = new DatabaseHelper(context);
-        this.shoppingLists = getSLFromSQL();
+//        this.shoppingLists = getSLFromSQL();
+        this.shoppingLists = shoppingLists;
         this.selectedShoppingLists = new ArrayList<>();
         this.rowIndices = new int[shoppingLists.size()];
         Arrays.fill(rowIndices, -1);
@@ -103,7 +103,7 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
 
 
     // method for deSelecting SLs
-    public void deSelectShoppingList(int position, ShoppingList shoppingList){
+    private void deSelectShoppingList(int position, ShoppingList shoppingList){
         if (rowIndices[position] == -1){
             rowIndices[position] = position;
             selectedShoppingLists.add(shoppingList);
@@ -117,6 +117,11 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
         parentActivity.refreshToolbar(booleans[0], booleans[1]);
     }
 
+    // deselects all SLs
+    public void deselectAll(){
+        Arrays.fill(rowIndices, -1);
+        selectedShoppingLists.clear();
+    }
 
     // method that checks which ToolbarButtons should be shown
     // depending on (how many) items selected
@@ -138,32 +143,6 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
             return  new boolean[]{false, false};
         }
     }
-
-
-    // gets SLs from SQL
-    public ArrayList<ShoppingList> getSLFromSQL(){
-        Cursor res = myDb.getSL();
-        ArrayList<ShoppingList> list = new ArrayList<>();
-
-        while (res.moveToNext()){
-            list.add(new ShoppingList(res.getString(0), res.getString(1)));
-        }
-
-        return list;
-    }
-
-
-    // deletes SL from ArrayList
-    public void deleteSLFromList(ShoppingList shoppingList){
-        shoppingLists.remove(shoppingList);
-    }
-
-
-    // deselects all SLs
-    public void deselectAll(){
-        Arrays.fill(rowIndices, -1);
-    }
-
 
     // getters
     public ArrayList<ShoppingList> getSelectedShoppingLists(){
