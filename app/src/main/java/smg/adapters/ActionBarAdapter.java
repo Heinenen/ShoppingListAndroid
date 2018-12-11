@@ -132,7 +132,7 @@ public class ActionBarAdapter implements SearchView.OnCloseListener {
 
     public void initialize(Bundle savedState) {
         if (savedState == null) {
-            mSearchMode = true;
+            mSearchMode = false;
             mQueryString = "";
             mSelectionMode = false;
         } else {
@@ -145,9 +145,9 @@ public class ActionBarAdapter implements SearchView.OnCloseListener {
         update(true /* skipAnimation */);
         // Expanding the {@link SearchView} clears the query, so set the query from the
         // {@link ContactsRequest} after it has been expanded, if applicable.
-        if (mSearchMode && !TextUtils.isEmpty(mQueryString)) {
+//        if (mSearchMode && !TextUtils.isEmpty(mQueryString)) {
             setQueryString(mQueryString);
-        }
+//        }
     }
 
     private void update(boolean skipAnimation) {
@@ -457,6 +457,12 @@ public class ActionBarAdapter implements SearchView.OnCloseListener {
         if (imm != null) {
             imm.showSoftInput(view, 0);
         }
+    }
+
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putBoolean(EXTRA_KEY_SEARCH_MODE, mSearchMode);
+        outState.putBoolean(EXTRA_KEY_SELECTED_MODE, mSelectionMode);
+        outState.putString(EXTRA_KEY_QUERY, mQueryString);
     }
 
     @Override

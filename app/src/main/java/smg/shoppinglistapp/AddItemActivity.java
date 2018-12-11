@@ -3,6 +3,7 @@ package smg.shoppinglistapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
@@ -101,10 +102,13 @@ public class AddItemActivity extends AppCompatActivity {
                     boolean isInserted = myDb.addItem(slID, itemNameString, itemCategoryString, itemAmountString, itemPriorityInt, itemPriceString);
                     if (isInserted) {
                         Toast.makeText(AddItemActivity.this, R.string.toast_itemAdded, Toast.LENGTH_SHORT).show();
-                        Intent itemsActivity = new Intent(AddItemActivity.this, ItemsActivity.class);
-                        itemsActivity.putExtra("smg.SL_ID", slID);
-                        itemsActivity.putExtra("smg.SHOPPING_LIST", shoppingList);
-                        startActivity(itemsActivity);
+//                        Intent itemsActivity = new Intent(AddItemActivity.this, ItemsActivity.class);
+//                        itemsActivity.putExtra("smg.SL_ID", slID);
+//                        itemsActivity.putExtra("smg.SHOPPING_LIST", shoppingList);
+//                        startActivity(itemsActivity);
+                        Intent intent = NavUtils.getParentActivityIntent(AddItemActivity.this);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        NavUtils.navigateUpTo(AddItemActivity.this, intent);
 
                     } else {
                         Toast.makeText(AddItemActivity.this, R.string.toast_addingFailed, Toast.LENGTH_SHORT).show();
@@ -126,25 +130,35 @@ public class AddItemActivity extends AppCompatActivity {
     // goes to ItemActivity on backKey
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(keyCode == KeyEvent.KEYCODE_BACK){
-            Intent intent = new Intent(AddItemActivity.this, ItemsActivity.class);
-            intent.putExtra("smg.SL_ID", slID);
-            intent.putExtra("smg.SHOPPING_LIST", shoppingList);
-            startActivity(intent);
-            return true;
-        }
+//        if(keyCode == KeyEvent.KEYCODE_BACK){
+//            Intent intent = new Intent(AddItemActivity.this, ItemsActivity.class);
+//            intent.putExtra("smg.SL_ID", slID);
+//            intent.putExtra("smg.SHOPPING_LIST", shoppingList);
+//            startActivity(intent);
+//            return true;
+//        }
+//        return super.onKeyDown(keyCode, event);
 
-        return super.onKeyDown(keyCode, event);
+        Intent intent = NavUtils.getParentActivityIntent(this);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        NavUtils.navigateUpTo(this, intent);
+        return true;
     }
 
     // goes to ItemActivity on .home
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
-        if (menuItem.getItemId() == android.R.id.home){
-            Intent intent = new Intent(AddItemActivity.this, ItemsActivity.class);
-            intent.putExtra("smg.SL_ID", slID);
-            intent.putExtra("smg.SHOPPING_LIST", shoppingList);
-            startActivity(intent);
+        switch (menuItem.getItemId()) {
+            case android.R.id.home:
+//                Intent intent = new Intent(EditItemActivity.this, ItemsActivity.class);
+//                intent.putExtra("smg.SL_ID", slID);
+//                intent.putExtra("smg.SHOPPING_LIST", shoppingList);
+//                startActivity(intent);
+//                return true;
+                Intent intent = NavUtils.getParentActivityIntent(this);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                NavUtils.navigateUpTo(this, intent);
+                return true;
         }
         return super.onOptionsItemSelected(menuItem);
     }

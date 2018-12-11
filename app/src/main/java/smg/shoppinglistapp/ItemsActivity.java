@@ -31,7 +31,10 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
 
     // TODO make item suggestions in addItem
     // TODO make item suggestions in Search
-    // TODO save what was typed into searchBar
+
+    private static final String KEY_SEARCH_MODE = "searchMode";
+    private static final String KEY_SHOPPING_LIST = "shoppingList";
+    private static final String KEY_SL_ID = "slID";
 
     private String slID;
     private String shoppingList;
@@ -45,6 +48,7 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
     private boolean sortButtonVisible;
 
 
+//    private int mActionCode = -1;
     private Toolbar mToolbar;
     private ActionBarAdapter mActionBarAdapter;
     private boolean mIsSearchMode;
@@ -56,14 +60,21 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_items);
 
-        slID = getIntent().getStringExtra("smg.SL_ID");
-        shoppingList = getIntent().getStringExtra("smg.SHOPPING_LIST");
-
         mToolbar = findViewById(R.id.items_toolbar);
         setSupportActionBar(mToolbar);
 
         if(getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
+        slID = getIntent().getStringExtra("smg.SL_ID");
+        shoppingList = getIntent().getStringExtra("smg.SHOPPING_LIST");
+
+        if (savedInstanceState != null) {
+//            mActionCode = savedInstanceState.getInt(KEY_ACTION_CODE);
+            mIsSearchMode = savedInstanceState.getBoolean(KEY_SEARCH_MODE);
+            slID = savedInstanceState.getString(KEY_SL_ID);
+            shoppingList = savedInstanceState.getString(KEY_SHOPPING_LIST);
         }
 
         setTitle(shoppingList);
@@ -78,8 +89,6 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
 //        ActionBarAdapter actionBarAdapter = new ActionBarAdapter(ItemsActivity.this, this,getSupportActionBar(), mToolbar, R.string.actAddItem_categoryHint);
 //        actionBarAdapter.initialize(null);
         mAdapter = new ItemsAdapter(ItemsActivity.this, this, items);
-//        items = mAdapter.getItems();
-
         sortItems(0);
 
         RecyclerView recyclerView = findViewById(R.id.secondRecyclerView);
@@ -87,10 +96,9 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
+
         fab();
-        prepareSearchViewAndActionBar(null);
-        mIsSearchMode = false;
-        configureSearchMode();
+        prepareSearchViewAndActionBar(savedInstanceState);
     }
 
     @Override
@@ -107,53 +115,18 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
         return true;
     }
 
-    //    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.menu_items, menu);
-//
-//        if(deleteButtonVisible){
-//            menu.findItem(R.id.action_delete_item).setVisible(true);
-//        } else {
-//            menu.findItem(R.id.action_delete_item).setVisible(false);
-//        }
-//
-//        if(editButtonVisible){
-//            menu.findItem(R.id.action_edit_item).setVisible(true);
-//        } else {
-//            menu.findItem(R.id.action_edit_item).setVisible(false);
-//        }
-//
-//        SearchView searchView = (SearchView) menu.findItem(R.id.action_search_items).getActionView();
-//        searchView.setQueryHint("Search items");
-//        searchView.setIconifiedByDefault(false);
-////        searchView.setIconified(false);
-//
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                searchName(query);
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                searchName(newText);
-//                return false;
-//            }
-//        });
-//        return true;
-//    }
-
 
     // method that sets visibility of ToolbarButtons and refreshes it
     // Overrides custom interface: AdapterCallActivityMethod
     @Override
     public void setSelectedItemsCount(int count) {
-//        this.deleteButtonVisible = deleteButtonVisible;
-//        this.editButtonVisible = editButtonVisible;
-//        invalidateOptionsMenu();
         mSelectedItems = count;
         refreshSelectionMode();
+    }
+
+    @Override
+    public void sort() {
+        sortItems(lastSortedBy);
     }
 
     public void refreshSelectionMode(){
@@ -162,6 +135,8 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
     }
 
     private void prepareSearchViewAndActionBar(Bundle savedState) {
+        if(savedState != null){
+        }
         mToolbar = findViewById(R.id.items_toolbar);
         setSupportActionBar(mToolbar);
         // Add a shadow under the toolbar.
@@ -170,7 +145,7 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
                 R.string.itemAct_searchHint);
 //        mActionBarAdapter.setShowHomeIcon(true);
 //        mActionBarAdapter.setShowHomeAsUp(true);
-        mActionBarAdapter.initialize(null);
+        mActionBarAdapter.initialize(savedState);
         // Postal address pickers (and legacy pickers) don't support search, so just show
         // "HomeAsUp" button and title.
 //        mIsSearchSupported = mRequest.getActionCode() != ContactsRequest.ACTION_PICK_POSTAL
@@ -181,9 +156,24 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
     }
 
     @Override
-    public void sort() {
-        sortItems(lastSortedBy);
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+//        outState.putInt(KEY_ACTION_CODE, mActionCode);
+        outState.putBoolean(KEY_SEARCH_MODE, mIsSearchMode);
+        if (mActionBarAdapter != null) {
+            mActionBarAdapter.onSaveInstanceState(outState);
+        }
     }
+
+//    @Override
+//    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+//        super.onRestoreInstanceState(savedInstanceState);
+//        System.out.println("restored items activity");
+//        mIsSearchMode = savedInstanceState.getBoolean(KEY_SEARCH_MODE);
+//        shoppingList = savedInstanceState.getString(KEY_SHOPPING_LIST);
+//        slID = savedInstanceState.getString(KEY_SL_ID);
+//    }
+
 
     // goes to AddItemActivity
     public void fab(){
@@ -192,11 +182,9 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
             @Override
             public void onClick(View v) {
                 Intent addItemActivity = new Intent(ItemsActivity.this, AddItemActivity.class);
-                onSaveInstanceState(new Bundle());
                 addItemActivity.putExtra("smg.SL_ID", slID);
                 addItemActivity.putExtra("smg.SHOPPING_LIST", shoppingList);
                 startActivity(addItemActivity);
-                finish();
             }
         });
     }
@@ -389,6 +377,17 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
         invalidateOptionsMenu();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        this.items = getItemsFromSQL();
+        mAdapter.setItems(items);
+        mAdapter.refreshRowIndices();
+        mIsSelectionMode = false;
+        configureSelectionMode();
+        mAdapter.notifyDataSetChanged();
+    }
+
     // goes to parent activity (ShoppingListsActivity) on backKey
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -425,8 +424,12 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
                     mAdapter.deselectAll();
                     mAdapter.notifyDataSetChanged();
                 }
+                // TODO make it function again
                 if (searchName(lastSearchedBy).isEmpty()) {
                     mAdapter.setItems(items);
+                    lastSearchedBy = "";
+                    mIsSearchMode = false;
+                    configureSearchMode();
                 } else {
                     searchName(lastSearchedBy);
                 }
@@ -442,6 +445,7 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
                 editItemIntent.putExtra("smg.SL_ID", slID);
                 editItemIntent.putExtra("smg.SHOPPING_LIST", shoppingList);
                 editItemIntent.putExtra("smg.ITEM_ID", selectedItem.getId());
+                mAdapter.deselectAll();
                 startActivity(editItemIntent);
                 return true;
 

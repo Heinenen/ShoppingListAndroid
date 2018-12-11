@@ -29,7 +29,11 @@
         <activity
             android:name=".AddItemActivity"
             android:label="@string/addItemAct_title"
-            android:parentActivityName=".ItemsActivity" />
+            android:parentActivityName=".ItemsActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="smg.shoppinglistapp.ItemsActivity" />
+        </activity>
         <activity
             android:name=".EditShoppingListActivity"
             android:label="@string/editShoppingListAct_title"
@@ -37,7 +41,11 @@
         <activity
             android:name=".EditItemActivity"
             android:label="@string/editItemAct_title"
-            android:parentActivityName=".ItemsActivity"/>
+            android:parentActivityName=".ItemsActivity" >
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="smg.shoppinglistapp.ItemsActivity" />
+        </activity>
     </application>
 
 </manifest>

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -128,10 +129,13 @@ public class EditItemActivity extends AppCompatActivity {
                 boolean isInserted = myDb.updateItem(itemID, slID, itemAttributes[0], itemAttributes[1], itemAttributes[3], itemPriorityInt, itemAttributes[4]);
                 if (isInserted) {
                     Toast.makeText(EditItemActivity.this, R.string.toast_itemEdited, Toast.LENGTH_SHORT).show();
-                    Intent itemsActivity = new Intent(EditItemActivity.this, ItemsActivity.class);
-                    itemsActivity.putExtra("smg.SL_ID", slID);
-                    itemsActivity.putExtra("smg.SHOPPING_LIST", shoppingList);
-                    startActivity(itemsActivity);
+//                    Intent itemsActivity = new Intent(EditItemActivity.this, ItemsActivity.class);
+//                    itemsActivity.putExtra("smg.SL_ID", slID);
+//                    itemsActivity.putExtra("smg.SHOPPING_LIST", shoppingList);
+//                    startActivity(itemsActivity);
+                    Intent intent = NavUtils.getParentActivityIntent(EditItemActivity.this);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    NavUtils.navigateUpTo(EditItemActivity.this, intent);
                 } else {
                     Toast.makeText(EditItemActivity.this, R.string.toast_editingFailed, Toast.LENGTH_SHORT).show();
                 }
@@ -159,14 +163,19 @@ public class EditItemActivity extends AppCompatActivity {
     // goes to ItemActivity on backKey
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(keyCode == KeyEvent.KEYCODE_BACK){
-            Intent intent = new Intent(EditItemActivity.this, ItemsActivity.class);
-            intent.putExtra("smg.SL_ID", slID);
-            intent.putExtra("smg.SHOPPING_LIST", shoppingList);
-            startActivity(intent);
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
+//        if(keyCode == KeyEvent.KEYCODE_BACK){
+//            Intent intent = new Intent(EditItemActivity.this, ItemsActivity.class);
+//            intent.putExtra("smg.SL_ID", slID);
+//            intent.putExtra("smg.SHOPPING_LIST", shoppingList);
+//            startActivity(intent);
+//            return true;
+//        }
+//        return super.onKeyDown(keyCode, event);
+
+        Intent intent = NavUtils.getParentActivityIntent(this);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        NavUtils.navigateUpTo(this, intent);
+        return true;
     }
 
     // goes to ItemActivity on .home
@@ -174,12 +183,18 @@ public class EditItemActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case android.R.id.home:
-                Intent intent = new Intent(EditItemActivity.this, ItemsActivity.class);
-                intent.putExtra("smg.SL_ID", slID);
-                intent.putExtra("smg.SHOPPING_LIST", shoppingList);
-                startActivity(intent);
+//                Intent intent = new Intent(EditItemActivity.this, ItemsActivity.class);
+//                intent.putExtra("smg.SL_ID", slID);
+//                intent.putExtra("smg.SHOPPING_LIST", shoppingList);
+//                startActivity(intent);
+//                return true;
+                Intent intent = NavUtils.getParentActivityIntent(this);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                NavUtils.navigateUpTo(this, intent);
                 return true;
         }
         return super.onOptionsItemSelected(menuItem);
+
+
     }
 }
