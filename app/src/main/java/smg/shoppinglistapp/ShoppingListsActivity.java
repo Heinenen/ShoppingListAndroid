@@ -154,13 +154,20 @@ public class ShoppingListsActivity extends AppCompatActivity implements Shopping
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         ArrayList<ShoppingList> selectedShoppingLists = mAdapter.getSelectedShoppingLists();
+                        int[] rowIndices = mAdapter.getRowIndices();
                         if (selectedShoppingLists.size() > 0) {
                             for (int i = 0; i < selectedShoppingLists.size(); i++) {
                                 deleteShoppingListFromSQL(selectedShoppingLists.get(i).getSlID());
                                 shoppingLists.remove(selectedShoppingLists.get(i));
                             }
+                            for(int i = 0; i< rowIndices.length; i++){
+                                if(rowIndices[i] != -1){
+                                    mAdapter.notifyItemRemoved(i);
+                                    mAdapter.notifyItemRangeChanged(i, mAdapter.getItemCount());
+                                }
+                            }
                             mAdapter.deselectAll();
-                            mAdapter.notifyDataSetChanged();
+//                            mAdapter.notifyDataSetChanged();
                             refreshToolbar(false, false);
                         }
                     }

@@ -123,6 +123,11 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
         selectedShoppingLists.clear();
     }
 
+    public void refreshRowIndices(){
+        this.rowIndices = new int[shoppingLists.size()];
+        Arrays.fill(rowIndices, -1);
+    }
+
     // method that checks which ToolbarButtons should be shown
     // depending on (how many) items selected
     public boolean[] checkForToolbarButtonVisibility(){
@@ -149,7 +154,9 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
         return this.selectedShoppingLists;
     }
 
-
+    public int[] getRowIndices() {
+        return rowIndices;
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         private TextView nameTextView;

@@ -159,9 +159,14 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
 
     // deselects all items
     public void deselectAll(){
-        Arrays.fill(rowIndices, -1);
+        refreshRowIndices();
         selectedItems.clear();
         parentActivity.setSelectedItemsCount(0);
+    }
+
+    public void refreshRowIndices(){
+        this.rowIndices = new int[items.size()];
+        Arrays.fill(rowIndices, -1);
     }
 
     public ArrayList<Item> getSelectedItems(){
@@ -172,10 +177,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
         this.items = items;
     }
 
-    public void refreshRowIndices(){
-        this.rowIndices = new int[items.size()];
-        Arrays.fill(rowIndices, -1);
-    }
+
 
     class CustomViewHolder extends RecyclerView.ViewHolder{
         private TextView itemNameTextView;
