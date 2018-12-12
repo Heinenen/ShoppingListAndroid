@@ -20,8 +20,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_2_3 = "ITEM_NAME";
     public static final String COL_2_4 = "ITEM_CATEGORY";
     public static final String COL_2_5 = "ITEM_AMOUNT";
-    public static final String COL_2_6 = "ITEM_PRIORITY";
-    public static final String COL_2_7 = "ITEM_PRICE";
+    public static final String COL_2_6 = "ITEM_PRICE";
+    public static final String COL_2_7 = "ITEM_PRIORITY";
     public static final String COL_2_8 = "ITEM_CHECK";
 
     public DatabaseHelper(Context context) {
@@ -30,9 +30,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE " + TABLE1_NAME + " (" + COL_1_1 + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_1_2 + " TEXT)");
-        db.execSQL("CREATE TABLE " + TABLE2_NAME + " (" + COL_2_1 + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_2_2  + " TEXT, "
-                + COL_2_3 + " TEXT, " + COL_2_4 + " TEXT, " + COL_2_5 + " TEXT, " + COL_2_6 + " INTEGER, " + COL_2_7 + " TEXT, " + COL_2_8 + " INTEGER)");
+        db.execSQL("CREATE TABLE "
+                + TABLE1_NAME + " ("
+                + COL_1_1 + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + COL_1_2 + " TEXT)");
+        db.execSQL("CREATE TABLE "
+                + TABLE2_NAME + " ("
+                + COL_2_1 + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + COL_2_2 + " TEXT, "
+                + COL_2_3 + " TEXT, "
+                + COL_2_4 + " TEXT, "
+                + COL_2_5 + " TEXT, "
+                + COL_2_6 + " TEXT, "
+                + COL_2_7 + " INTEGER, "
+                + COL_2_8 + " INTEGER)");
     }
 
     @Override
@@ -52,15 +63,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return !(res == -1);
     }
 
-    public boolean addItem(String shoppingList, String itemName, String itemCategory, String itemAmount, int itemPriority, String itemPrice) {
+    public boolean addItem(String shoppingList, String itemName, String itemCategory, String itemAmount, String itemPrice, int itemPriority) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_2_2, shoppingList);
         contentValues.put(COL_2_3, itemName);
         contentValues.put(COL_2_4, itemCategory);
         contentValues.put(COL_2_5, itemAmount);
-        contentValues.put(COL_2_6, itemPriority);
-        contentValues.put(COL_2_7, itemPrice);
+        contentValues.put(COL_2_6, itemPrice);
+        contentValues.put(COL_2_7, itemPriority);
         contentValues.put(COL_2_8, 0);
 
         long result = db.insert(TABLE2_NAME, null, contentValues);
@@ -71,15 +82,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public Cursor getSL() {
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor res = db.rawQuery("SELECT * FROM " + TABLE1_NAME, null);
-        return res;
+        return db.rawQuery("SELECT * FROM " + TABLE1_NAME, null);
     }
 
 
     public Cursor getItem(String itemID){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor res = db.rawQuery("SELECT * FROM " + TABLE2_NAME + " WHERE " + COL_2_1 + "='" + itemID + "'", null);
-        return res;
+        return db.rawQuery("SELECT * FROM " + TABLE2_NAME + " WHERE " + COL_2_1 + "='" + itemID + "'", null);
     }
 
 
@@ -106,7 +115,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public boolean updateItem(String itemID, String shoppingList, String itemName, String itemCategory, String itemAmount, int itemPriority, String itemPrice) {
+    public boolean updateItem(String itemID, String shoppingList, String itemName, String itemCategory, String itemAmount, String itemPrice, int itemPriority) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_2_1, itemID);
@@ -114,8 +123,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(COL_2_3, itemName);
         contentValues.put(COL_2_4, itemCategory);
         contentValues.put(COL_2_5, itemAmount);
-        contentValues.put(COL_2_6, itemPriority);
-        contentValues.put(COL_2_7, itemPrice);
+        contentValues.put(COL_2_6, itemPrice);
+        contentValues.put(COL_2_7, itemPriority);
 
         db.update(TABLE2_NAME, contentValues, COL_2_1 + "= ?", new String[]{itemID});
         return true;

@@ -6,17 +6,17 @@ public class Item {
     private String name;
     private String category;
     private String amount;
-    private String priority;
     private String price;
+    private boolean priority;
     private boolean check;
 
-    public Item (String id, String name, String category, String amount, String priority, String price, int intCheck){
+    public Item (String id, String name, String category, String amount, String price,int intPriority, int intCheck){
         this.id = id;
         this.name = name;
         this.category = category;
         this.amount = amount;
-        this.priority = priority;
         this.price = price;
+        this.priority = intPriority == 1;
         this.check = intCheck == 1;
     }
 
@@ -52,20 +52,20 @@ public class Item {
         this.amount = amount;
     }
 
-    public String getPriority() {
-        return priority;
-    }
-
-    public void setPriority(String priority) {
-        this.priority = priority;
-    }
-
     public String getPrice(){
         return price;
     }
 
     public void setPrice(String price){
         this.price = price;
+    }
+
+    public boolean isPriority() {
+        return priority;
+    }
+
+    public void setPriority(boolean priority) {
+        this.priority = priority;
     }
 
     public boolean isCheck() {

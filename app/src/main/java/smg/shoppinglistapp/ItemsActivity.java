@@ -275,7 +275,15 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
         Collections.sort(items, new Comparator<Item>() {
             @Override
             public int compare(Item o1, Item o2) {
-                return o2.getPriority().compareTo(o1.getPriority());
+                if (o1.isPriority() == o2.isPriority()) {
+                    return 0;
+                } else if (o1.isPriority()) {
+                    return 1;
+                } else if (o2.isPriority()) {
+                    return -1;
+                } else {
+                    return 0;
+                }
             }
         });
 
@@ -334,7 +342,7 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
                     res.getString(3),
                     res.getString(4),
                     res.getString(5),
-                    res.getString(6),
+                    res.getInt(6),
                     res.getInt(7)));
 
         }

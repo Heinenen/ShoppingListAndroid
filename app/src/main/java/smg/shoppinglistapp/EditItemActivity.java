@@ -68,7 +68,7 @@ public class EditItemActivity extends AppCompatActivity {
 
 
         itemPriority = findViewById(R.id.editItemPriorityCheckBox);
-        if(item.getPriority().equals("1")) itemPriority.setChecked(true);
+        if(item.isPriority()) itemPriority.setChecked(true);
 
         fab();
     }
@@ -88,7 +88,7 @@ public class EditItemActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 // takes previous values of the item as default values if nothing is typed into EditText
-                String[] itemAttributes = new String[5];
+                String[] itemAttributes = new String[4];
 
                 // default value for itemName
                 if(itemName.getText().toString().equals("")){
@@ -106,15 +106,15 @@ public class EditItemActivity extends AppCompatActivity {
 
                 // default value for itemAmount
                 if(itemAmount.getText().toString().equals("")){
-                    itemAttributes[3] = item.getAmount();
+                    itemAttributes[2] = item.getAmount();
                 } else {
-                    itemAttributes[3] = itemAmount.getText().toString();
+                    itemAttributes[2] = itemAmount.getText().toString();
                 }
 
                 if(itemPrice.getText().toString().equals("") || itemPrice.getText().toString().equals(" ")){
-                    itemAttributes[4] = item.getPrice();
+                    itemAttributes[3] = item.getPrice();
                 } else {
-                    itemAttributes[4] = itemPrice.getText().toString() + "€";
+                    itemAttributes[3] = itemPrice.getText().toString() + "€";
                 }
 
                 // default value for itemPriority
@@ -126,7 +126,7 @@ public class EditItemActivity extends AppCompatActivity {
                 }
 
                 // edits item in SQL
-                boolean isInserted = myDb.updateItem(itemID, slID, itemAttributes[0], itemAttributes[1], itemAttributes[3], itemPriorityInt, itemAttributes[4]);
+                boolean isInserted = myDb.updateItem(itemID, slID, itemAttributes[0], itemAttributes[1], itemAttributes[2], itemAttributes[3], itemPriorityInt);
                 if (isInserted) {
                     Toast.makeText(EditItemActivity.this, R.string.toast_itemEdited, Toast.LENGTH_SHORT).show();
 //                    Intent itemsActivity = new Intent(EditItemActivity.this, ItemsActivity.class);
@@ -155,7 +155,7 @@ public class EditItemActivity extends AppCompatActivity {
                 res.getString(3),
                 res.getString(4),
                 res.getString(5),
-                res.getString(6),
+                res.getInt(6),
                 res.getInt(7));
     }
 

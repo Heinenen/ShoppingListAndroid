@@ -82,14 +82,6 @@ public class AddItemActivity extends AppCompatActivity {
                         itemAmountString = itemAmount.getText().toString();
                     }
 
-                    // default value for priority (-> 0)
-                    int itemPriorityInt;
-                    if (itemPriority.isChecked()) {
-                        itemPriorityInt = 1;
-                    } else {
-                        itemPriorityInt = 0;
-                    }
-
                     // default value for amount (-> "")
                     String itemPriceString = itemPrice.getText().toString();
                     if (itemPrice.getText().toString().equals("")) {
@@ -98,8 +90,16 @@ public class AddItemActivity extends AppCompatActivity {
                         itemPriceString = itemPriceString + "€";
                     }
 
+                    // default value for priority (-> 0)
+                    int itemPriorityInt;
+                    if (itemPriority.isChecked()) {
+                        itemPriorityInt = 1;
+                    } else {
+                        itemPriorityInt = 0;
+                    }
+
                     // adds Item to SQL
-                    boolean isInserted = myDb.addItem(slID, itemNameString, itemCategoryString, itemAmountString, itemPriorityInt, itemPriceString);
+                    boolean isInserted = myDb.addItem(slID, itemNameString, itemCategoryString, itemAmountString, itemPriceString, itemPriorityInt);
                     if (isInserted) {
                         Toast.makeText(AddItemActivity.this, R.string.toast_itemAdded, Toast.LENGTH_SHORT).show();
 //                        Intent itemsActivity = new Intent(AddItemActivity.this, ItemsActivity.class);
