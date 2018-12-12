@@ -37,6 +37,9 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
     private static final String KEY_SHOPPING_LIST = "shoppingList";
     private static final String KEY_SL_ID = "slID";
 
+    private static final int SORT_BY_NAME = 0;
+    private static final int SORT_BY_CATEGORY = 1;
+
     private String slID;
     private String shoppingList;
     private int lastSortedBy;
@@ -86,7 +89,6 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
 //        ActionBarAdapter actionBarAdapter = new ActionBarAdapter(ItemsActivity.this, this,getSupportActionBar(), mToolbar, R.string.actAddItem_categoryHint);
 //        actionBarAdapter.initialize(null);
         mAdapter = new ItemsAdapter(ItemsActivity.this, this, items);
-        sortItems(0);
 
         RecyclerView recyclerView = findViewById(R.id.secondRecyclerView);
         recyclerView.setAdapter(mAdapter);
@@ -190,11 +192,11 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
     public boolean onMenuItemClick(MenuItem menuItem) {
         switch (menuItem.getItemId()){
             case R.id.sort_name:
-                sortItems(0);
+                sortItems(SORT_BY_NAME);
                 return true;
 
             case R.id.sort_category:
-                sortItems(1);
+                sortItems(SORT_BY_CATEGORY);
                 return true;
 
             default:
@@ -245,16 +247,16 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
 
 
     public void sortItems(int id){
-        if (id == 0) {
+        if (id == SORT_BY_NAME) {
             Collections.sort(items, new Comparator<Item>() {
                 @Override
                 public int compare(Item o1, Item o2) {
                     return o1.getName().compareToIgnoreCase(o2.getName());
                 }
             });
-            this.lastSortedBy = 0;
+            this.lastSortedBy = SORT_BY_NAME;
         }
-        if (id == 1) {
+        if (id == SORT_BY_CATEGORY) {
             Collections.sort(items, new Comparator<Item>() {
                 @Override
                 public int compare(Item o1, Item o2) {
@@ -269,7 +271,7 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
                     }
                 }
             });
-            this.lastSortedBy = 1;
+            this.lastSortedBy = SORT_BY_CATEGORY;
         }
 
         Collections.sort(items, new Comparator<Item>() {
@@ -388,6 +390,7 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
         super.onResume();
         this.items = getItemsFromSQL();
         mAdapter.setItems(items);
+        sortItems(SORT_BY_NAME);
         mAdapter.refreshRowIndices();
         mIsSelectionMode = false;
         configureSelectionMode();

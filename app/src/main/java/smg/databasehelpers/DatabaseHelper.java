@@ -7,22 +7,22 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
-    public static final String DATABASE_NAME = "Main.db";
+    private static final String DATABASE_NAME = "Main.db";
 
-    public static final String TABLE1_NAME = "sL_table";
-    public static final String TABLE2_NAME = "item_table";
+    private static final String TABLE1_NAME = "sL_table";
+    private static final String TABLE2_NAME = "item_table";
 
-    public static final String COL_1_1 = "SL_ID";
-    public static final String COL_1_2 = "SL_NAME";
+    private static final String COL_1_1 = "SL_ID";
+    private static final String COL_1_2 = "SL_NAME";
 
-    public static final String COL_2_1 = "ITEM_ID";
-    public static final String COL_2_2 = "SL";
-    public static final String COL_2_3 = "ITEM_NAME";
-    public static final String COL_2_4 = "ITEM_CATEGORY";
-    public static final String COL_2_5 = "ITEM_AMOUNT";
-    public static final String COL_2_6 = "ITEM_PRICE";
-    public static final String COL_2_7 = "ITEM_PRIORITY";
-    public static final String COL_2_8 = "ITEM_CHECK";
+    private static final String COL_2_1 = "ITEM_ID";
+    private static final String COL_2_2 = "SL";
+    private static final String COL_2_3 = "ITEM_NAME";
+    private static final String COL_2_4 = "ITEM_CATEGORY";
+    private static final String COL_2_5 = "ITEM_AMOUNT";
+    private static final String COL_2_6 = "ITEM_PRICE";
+    private static final String COL_2_7 = "ITEM_PRIORITY";
+    private static final String COL_2_8 = "ITEM_CHECK";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
