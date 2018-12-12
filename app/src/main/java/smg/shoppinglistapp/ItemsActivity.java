@@ -119,7 +119,7 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
     @Override
     public void setSelectedItemsCount(int count) {
         mSelectedItems = count;
-        refreshSelectionMode();
+        refreshToolbar();
     }
 
     @Override
@@ -127,11 +127,55 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
         sortItems(lastSortedBy);
     }
 
-    public void refreshSelectionMode(){
+    public void refreshToolbar(){
         mIsSelectionMode = (mSelectedItems > 0);
-        configureSelectionMode();
-        configureSearchMode();
+        if(mIsSearchMode && mIsSelectionMode){
+            deleteButtonVisible = true;
+            editButtonVisible = mSelectedItems == 1;
+            sortButtonVisible = false;
+            mActionBarAdapter.setSearchMode(true);
+            mActionBarAdapter.setSelectionMode(true);
+            mActionBarAdapter.setSelectionCount(mSelectedItems);
+        } else if(mIsSearchMode){
+            deleteButtonVisible = false;
+            editButtonVisible = false;
+            sortButtonVisible = false;
+            mActionBarAdapter.setSearchMode(true);
+            mActionBarAdapter.setSelectionMode(false);
+        } else if(mIsSelectionMode){
+            deleteButtonVisible = true;
+            editButtonVisible = mSelectedItems == 1;
+            sortButtonVisible = false;
+            mActionBarAdapter.setSearchMode(false);
+            mActionBarAdapter.setSelectionMode(true);
+            mActionBarAdapter.setSelectionCount(mSelectedItems);
+        } else {
+            deleteButtonVisible = false;
+            editButtonVisible = false;
+            sortButtonVisible = true;
+            mActionBarAdapter.setSearchMode(false);
+            mActionBarAdapter.setSelectionMode(false);
+        }
+//        configureSelectionMode();
+//        configureSearchMode();
+        invalidateOptionsMenu();
     }
+
+
+//    public void configureSearchMode(){
+//        mActionBarAdapter.setSearchMode(mIsSearchMode);
+//        sortButtonVisible = !mIsSearchMode;
+//        invalidateOptionsMenu();
+//    }
+//
+//    public void configureSelectionMode(){
+//        mActionBarAdapter.setSelectionMode(mIsSelectionMode);
+//        mActionBarAdapter.setSelectionCount(mSelectedItems);
+//        deleteButtonVisible = mIsSelectionMode;
+//        editButtonVisible = mSelectedItems == 1;
+//        sortButtonVisible = !mIsSelectionMode;
+//        invalidateOptionsMenu();
+//    }
 
     private void prepareSearchViewAndActionBar(Bundle savedState) {
         mToolbar = findViewById(R.id.items_toolbar);
@@ -149,7 +193,8 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
 //                && mRequest.getActionCode() != ContactsRequest.ACTION_PICK_EMAILS
 //                && mRequest.getActionCode() != ContactsRequest.ACTION_PICK_PHONES
 //                && !mRequest.isLegacyCompatibilityMode();
-        configureSearchMode();
+//        configureSearchMode();
+        refreshToolbar();
     }
 
     @Override
@@ -208,7 +253,8 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
         switch (action) {
             case ActionBarAdapter.Listener.Action.START_SEARCH_MODE:
                 mIsSearchMode = true;
-                configureSearchMode();
+//                configureSearchMode();
+                refreshToolbar();
                 break;
             case ActionBarAdapter.Listener.Action.CHANGE_SEARCH_QUERY:
                 final String queryString = mActionBarAdapter.getQueryString();
@@ -357,31 +403,18 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
             mAdapter.deselectAll();
             mAdapter.notifyDataSetChanged();
             mIsSelectionMode = false;
-            configureSelectionMode();
+//            configureSelectionMode();
+            refreshToolbar();
 //            if(getMultiSelectListFragment() != null) {
 //                getMultiselectListFragment().displayCheckBoxes(false);
 //            }
         } else if (mIsSearchMode) {
             mIsSearchMode = false;
-            configureSearchMode();
+            refreshToolbar();
+//            configureSearchMode();
         } else {
             super.onBackPressed();
         }
-    }
-
-    public void configureSearchMode(){
-        mActionBarAdapter.setSearchMode(mIsSearchMode);
-        sortButtonVisible = !mIsSearchMode;
-        invalidateOptionsMenu();
-    }
-
-    public void configureSelectionMode(){
-        mActionBarAdapter.setSelectionMode(mIsSelectionMode);
-        mActionBarAdapter.setSelectionCount(mSelectedItems);
-        deleteButtonVisible = mIsSelectionMode;
-        editButtonVisible = mSelectedItems == 1;
-        sortButtonVisible = !mIsSelectionMode;
-        invalidateOptionsMenu();
     }
 
     @Override
@@ -392,8 +425,9 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
         sortItems(SORT_BY_NAME);
         mAdapter.refreshRowIndices();
         mIsSelectionMode = false;
-        configureSelectionMode();
-        configureSearchMode();
+        refreshToolbar();
+//        configureSelectionMode();
+//        configureSearchMode();
         mAdapter.notifyDataSetChanged();
     }
 
@@ -415,7 +449,8 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
         switch (item.getItemId()) {
             case R.id.action_search_button:
                 mIsSearchMode = !mIsSearchMode;
-                configureSearchMode();
+                refreshToolbar();
+//                configureSearchMode();
                 return true;
 
             case android.R.id.home:
@@ -450,7 +485,8 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
 //                }
                 mSelectedItems = 0;
                 mIsSelectionMode = false;
-                configureSelectionMode();
+//                configureSelectionMode();
+                refreshToolbar();
                 return true;
 
             // goes to EditItemActivity for selected item
