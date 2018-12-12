@@ -31,7 +31,6 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
 
     // TODO make item suggestions in addItem
     // TODO make item suggestions in Search
-    // TODO make a case for only one item getting deleted (-> so that there is a nice animation)
 
     private static final String KEY_SEARCH_MODE = "searchMode";
     private static final String KEY_SHOPPING_LIST = "shoppingList";
@@ -280,9 +279,9 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
                 if (o1.isPriority() == o2.isPriority()) {
                     return 0;
                 } else if (o1.isPriority()) {
-                    return 1;
-                } else if (o2.isPriority()) {
                     return -1;
+                } else if (o2.isPriority()) {
+                    return 1;
                 } else {
                     return 0;
                 }
