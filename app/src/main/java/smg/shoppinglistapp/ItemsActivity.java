@@ -129,6 +129,7 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
     public void refreshSelectionMode(){
         mIsSelectionMode = (mSelectedItems > 0);
         configureSelectionMode();
+        configureSearchMode();
     }
 
     private void prepareSearchViewAndActionBar(Bundle savedState) {
@@ -369,7 +370,7 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
         mActionBarAdapter.setSelectionMode(mIsSelectionMode);
         mActionBarAdapter.setSelectionCount(mSelectedItems);
         deleteButtonVisible = mIsSelectionMode;
-        editButtonVisible = (mSelectedItems == 1);
+        editButtonVisible = mSelectedItems == 1;
         sortButtonVisible = !mIsSelectionMode;
         invalidateOptionsMenu();
     }
@@ -382,6 +383,7 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
         mAdapter.refreshRowIndices();
         mIsSelectionMode = false;
         configureSelectionMode();
+        configureSearchMode();
         mAdapter.notifyDataSetChanged();
     }
 
@@ -413,22 +415,29 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
             // deletes selected items
             case R.id.action_delete_item:
                 ArrayList<Item> selectedItems = mAdapter.getSelectedItems();
+                int[] rowIndices = mAdapter.getRowIndices();
                 if (selectedItems.size() > 0) {
                     for (int i = 0; i < selectedItems.size(); i++) {
                         deleteItemFromSQL(selectedItems.get(i).getId());
                         items.remove(selectedItems.get(i));
                     }
+                    for(int i = 0; i < rowIndices.length; i++){
+                        if(rowIndices[i] != -1){
+                            mAdapter.notifyItemRemoved(i);
+                            mAdapter.notifyItemRangeChanged(i, mAdapter.getItemCount());
+                        }
+                    }
                     mAdapter.deselectAll();
-                    mAdapter.notifyDataSetChanged();
+//                    mAdapter.notifyDataSetChanged();
                 }
-                if (searchName(lastSearchedBy).isEmpty()) {
-                    mAdapter.setItems(items);
-                    lastSearchedBy = "";
-                    mIsSearchMode = false;
-                    configureSearchMode();
-                } else {
-                    searchName(lastSearchedBy);
-                }
+//                if (searchName(lastSearchedBy).isEmpty()) {
+//                    mAdapter.setItems(items);
+//                    lastSearchedBy = "";
+//                    mIsSearchMode = false;
+//                    configureSearchMode();
+//                } else {
+//                    searchName(lastSearchedBy);
+//                }
                 mSelectedItems = 0;
                 mIsSelectionMode = false;
                 configureSelectionMode();

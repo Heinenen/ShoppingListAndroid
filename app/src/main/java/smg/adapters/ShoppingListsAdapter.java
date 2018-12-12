@@ -119,7 +119,7 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
 
     // deselects all SLs
     public void deselectAll(){
-        Arrays.fill(rowIndices, -1);
+        refreshRowIndices();
         selectedShoppingLists.clear();
     }
 

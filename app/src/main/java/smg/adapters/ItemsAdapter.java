@@ -173,6 +173,10 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
         return this.selectedItems;
     }
 
+    public int[] getRowIndices() {
+        return rowIndices;
+    }
+
     public void setItems(ArrayList<Item> items) {
         this.items = items;
     }
