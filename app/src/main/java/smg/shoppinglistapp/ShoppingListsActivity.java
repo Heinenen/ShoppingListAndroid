@@ -26,7 +26,6 @@ import smg.models.ShoppingList;
 public class ShoppingListsActivity extends AppCompatActivity implements ShoppingListsAdapterInterface {
 
     // TODO change color theme for every SL
-    // TODO make a case for only one SL getting deleted (-> so that there is a nice animation)
 
     private DatabaseHelper myDb;
     private ShoppingListsAdapter mAdapter;

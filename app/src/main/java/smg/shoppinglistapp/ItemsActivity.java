@@ -31,6 +31,7 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
 
     // TODO make item suggestions in addItem
     // TODO make item suggestions in Search
+    // TODO make a case for only one item getting deleted (-> so that there is a nice animation)
 
     private static final String KEY_SEARCH_MODE = "searchMode";
     private static final String KEY_SHOPPING_LIST = "shoppingList";
@@ -62,10 +63,6 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
 
         mToolbar = findViewById(R.id.items_toolbar);
         setSupportActionBar(mToolbar);
-
-        if(getSupportActionBar() != null){
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
 
         slID = getIntent().getStringExtra("smg.SL_ID");
         shoppingList = getIntent().getStringExtra("smg.SHOPPING_LIST");
@@ -305,6 +302,7 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
 
 
     public ArrayList<Item> searchName(String searchString){
+        searchString = searchString.toLowerCase();
         this.lastSearchedBy = searchString;
         System.out.println(searchString);
         ArrayList<Item> searchItems = new ArrayList<>();
@@ -312,7 +310,8 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
             mAdapter.setItems(items);
         } else {
             for (Item item : items) {
-                if (item.getName().contains(searchString)) {
+                String name = item.getName().toLowerCase();
+                if (name.contains(searchString)) {
                     searchItems.add(item);
                 }
             }
