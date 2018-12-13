@@ -2,6 +2,7 @@ package smg.shoppinglistapp;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.NavUtils;
@@ -35,12 +36,14 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
     private static final String KEY_SEARCH_MODE = "searchMode";
     private static final String KEY_SHOPPING_LIST = "shoppingList";
     private static final String KEY_SL_ID = "slID";
+    private static final String KEY_SL_COLOR = "slColor";
 
     private static final int SORT_BY_NAME = 0;
     private static final int SORT_BY_CATEGORY = 1;
 
     private String slID;
     private String shoppingList;
+    private int slColor;
     private int lastSortedBy;
     private String lastSearchedBy;
     private ArrayList<Item> items;
@@ -66,17 +69,20 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
         mToolbar = findViewById(R.id.items_toolbar);
         setSupportActionBar(mToolbar);
 
-        slID = getIntent().getStringExtra("smg.SL_ID");
-        shoppingList = getIntent().getStringExtra("smg.SHOPPING_LIST");
+        this.slID = getIntent().getStringExtra("smg.SL_ID");
+        this.shoppingList = getIntent().getStringExtra("smg.SHOPPING_LIST");
+        this.slColor = getIntent().getIntExtra("smg.COLOR", 16777215);
 
         if (savedInstanceState != null) {
 //            mActionCode = savedInstanceState.getInt(KEY_ACTION_CODE);
             mIsSearchMode = savedInstanceState.getBoolean(KEY_SEARCH_MODE);
             slID = savedInstanceState.getString(KEY_SL_ID);
             shoppingList = savedInstanceState.getString(KEY_SHOPPING_LIST);
+            slColor = savedInstanceState.getInt(KEY_SL_COLOR);
         }
 
         setTitle(shoppingList);
+        getWindow().getDecorView().setBackgroundColor(Color.parseColor("#" + Integer.toHexString(slColor)));
 
         this.myDb = new DatabaseHelper(ItemsActivity.this);
         this.deleteButtonVisible = false;
@@ -87,7 +93,7 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
 
 //        ActionBarAdapter actionBarAdapter = new ActionBarAdapter(ItemsActivity.this, this,getSupportActionBar(), mToolbar, R.string.actAddItem_categoryHint);
 //        actionBarAdapter.initialize(null);
-        mAdapter = new ItemsAdapter(ItemsActivity.this, this, items);
+        mAdapter = new ItemsAdapter(ItemsActivity.this, this, items, slColor);
 
         RecyclerView recyclerView = findViewById(R.id.secondRecyclerView);
         recyclerView.setAdapter(mAdapter);
@@ -202,6 +208,9 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
         super.onSaveInstanceState(outState);
 //        outState.putInt(KEY_ACTION_CODE, mActionCode);
         outState.putBoolean(KEY_SEARCH_MODE, mIsSearchMode);
+        outState.putString(KEY_SL_ID, slID);
+        outState.putString(KEY_SHOPPING_LIST, shoppingList);
+        outState.putInt(KEY_SL_COLOR, slColor);
         if (mActionBarAdapter != null) {
             mActionBarAdapter.onSaveInstanceState(outState);
         }
@@ -496,8 +505,8 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
                 editItemIntent.putExtra("smg.SL_ID", slID);
                 editItemIntent.putExtra("smg.SHOPPING_LIST", shoppingList);
                 editItemIntent.putExtra("smg.ITEM_ID", selectedItem.getId());
-                mAdapter.deselectAll();
                 startActivity(editItemIntent);
+                mAdapter.deselectAll();
                 return true;
 
             case R.id.action_sort_items:

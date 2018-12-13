@@ -1,6 +1,7 @@
 package smg.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -28,16 +29,17 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
     private DatabaseHelper myDb;
     private ArrayList<Item> items;
     private ArrayList<Item> selectedItems;
+    private int slColor;
     private boolean onBind;
 
     private int[] rowIndices;
 
-    public ItemsAdapter(Context context, ItemsAdapterInterface parentActivity, ArrayList<Item> items){
+    public ItemsAdapter(Context context, ItemsAdapterInterface parentActivity, ArrayList<Item> items, int slColor){
         this.context = context;
         this.parentActivity = parentActivity;
         this.myDb = new DatabaseHelper(context);
         this.items = items;
-//        this.items = getItemsFromSQL();
+        this.slColor = slColor;
         this.selectedItems = new ArrayList<>();
         this.onBind = false;
 
@@ -112,7 +114,8 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
 
         // sets colors depending on marked/not marked
         if(!(rowIndices[holder.getAdapterPosition()] == holder.getAdapterPosition()) && !items.get(holder.getAdapterPosition()).isPriority()) {
-            holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.itemDefault));
+//            holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.itemDefault));
+            holder.itemView.setBackgroundColor(Color.parseColor("#" + Integer.toHexString(slColor)));
             holder.itemNameTextView.setTextColor(ContextCompat.getColor(context, R.color.itemDefaultText));
             holder.itemCategoryTextView.setTextColor(ContextCompat.getColor(context, R.color.itemDefaultText));
             holder.itemAmountTextView.setTextColor(ContextCompat.getColor(context, R.color.itemDefaultText));

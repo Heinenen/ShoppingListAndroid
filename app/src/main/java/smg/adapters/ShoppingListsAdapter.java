@@ -47,6 +47,7 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
         final ShoppingList shoppingList = shoppingLists.get(position);
         final String slID = shoppingList.getSlID();
         final String shoppingListName = shoppingList.getName();
+        final int color = shoppingList.getColor();
         holder.nameTextView.setText(shoppingListName);
 
         // deSelects SL on longClick
@@ -77,6 +78,7 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
                     Intent itemActivityIntent = new Intent(context, ItemsActivity.class);
                     itemActivityIntent.putExtra("smg.SL_ID", slID);
                     itemActivityIntent.putExtra("smg.SHOPPING_LIST", shoppingListName);
+                    itemActivityIntent.putExtra("smg.COLOR", color);
                     context.startActivity(itemActivityIntent);
                 }
             }
