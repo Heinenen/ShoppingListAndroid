@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import smg.databasehelpers.DatabaseHelper;
+import uz.shift.colorpicker.LineColorPicker;
 
 public class AddShoppingListActivity extends AppCompatActivity {
 
@@ -46,7 +47,7 @@ public class AddShoppingListActivity extends AppCompatActivity {
                 EditText shoppingListName = findViewById(R.id.addShoppingListNameEditText);
 
                 // adds SL to SQL
-                boolean isInserted = myDb.addSL(shoppingListName.getText().toString());
+                boolean isInserted = myDb.addSL(shoppingListName.getText().toString(), colorPicker());
                 if (isInserted) {
                     Toast.makeText(AddShoppingListActivity.this, R.string.toast_shoppingListAdded, Toast.LENGTH_SHORT).show();
                     Intent shoppingListsActivity = new Intent(AddShoppingListActivity.this, ShoppingListsActivity.class);
@@ -56,6 +57,11 @@ public class AddShoppingListActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public String colorPicker(){
+        LineColorPicker colorPicker = findViewById(R.id.add_shopping_list_color_picker);
+        return "#" + Integer.toHexString(colorPicker.getColor());
     }
 
 

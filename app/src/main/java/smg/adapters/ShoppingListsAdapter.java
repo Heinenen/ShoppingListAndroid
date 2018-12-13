@@ -2,6 +2,7 @@ package smg.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -13,7 +14,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import smg.databasehelpers.DatabaseHelper;
 import smg.interfaces.ShoppingListsAdapterInterface;
 import smg.models.ShoppingList;
 import smg.shoppinglistapp.ItemsActivity;
@@ -23,7 +23,6 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
 
     private Context context;
     private ShoppingListsAdapterInterface parentActivity;
-    private DatabaseHelper myDb;
     private ArrayList<ShoppingList> shoppingLists;
     private ArrayList<ShoppingList> selectedShoppingLists;
     private int[] rowIndices;
@@ -31,8 +30,6 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
     public ShoppingListsAdapter(Context context, ShoppingListsAdapterInterface parentActivity, ArrayList<ShoppingList> shoppingLists){
         this.context = context;
         this.parentActivity = parentActivity;
-        this.myDb = new DatabaseHelper(context);
-//        this.shoppingLists = getSLFromSQL();
         this.shoppingLists = shoppingLists;
         this.selectedShoppingLists = new ArrayList<>();
         this.rowIndices = new int[shoppingLists.size()];
@@ -90,7 +87,7 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
             holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.shoppingListMarked));
             holder.nameTextView.setTextColor(ContextCompat.getColor(context, R.color.shoppingListMarkedText));
         } else {
-            holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.shoppingListDefault));
+            holder.itemView.setBackgroundColor(Color.parseColor(shoppingList.getColor()));
             holder.nameTextView.setTextColor(ContextCompat.getColor(context, R.color.shoppingListDefaultText));
         }
 

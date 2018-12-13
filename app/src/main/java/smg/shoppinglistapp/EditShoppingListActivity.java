@@ -61,7 +61,7 @@ public class EditShoppingListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // edits SL in SQL
-                boolean isInserted = myDb.updateSL(slID, shoppingListName.getText().toString());
+                boolean isInserted = myDb.updateSL(slID, shoppingListName.getText().toString(), getResources().getColor(R.color.white)+ "");
                 if (isInserted) {
                     Toast.makeText(EditShoppingListActivity.this, R.string.toast_shoppingListEdited, Toast.LENGTH_SHORT).show();
                     Intent shoppingListsActivity = new Intent(EditShoppingListActivity.this, ShoppingListsActivity.class);

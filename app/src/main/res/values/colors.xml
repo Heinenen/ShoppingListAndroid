@@ -29,6 +29,7 @@
 
 <resources>
     <color name="white">#FFFFFFFF</color>
+    <color name="black">#000000</color>
     <color name="colorPrimary">#FF212121</color>
     <color name="colorPrimaryDark">#FF000000</color>
     <color name="colorAccent">#0051C2</color>
@@ -47,4 +48,17 @@
     <color name="itemImportantText">#000000</color>
     <color name="itemMarkedText">#000000</color>
     <color name="itemImportantMarkedText">#000000</color>
+
+    <array name="color_picker">
+        <item>#ffffff</item>
+        <item>#123123</item>
+        <item>#321321</item>
+        <item>#456456</item>
+        <item>#654654</item>
+        <item>#789789</item>
+        <item>#987987</item>
+        <item>#147</item>
+        <item>#741471</item>
+        <item>#258258</item>
+    </array>
 </resources>

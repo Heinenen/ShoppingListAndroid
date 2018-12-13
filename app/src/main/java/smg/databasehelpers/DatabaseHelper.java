@@ -14,6 +14,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String COL_1_1 = "SL_ID";
     private static final String COL_1_2 = "SL_NAME";
+    private static final String COL_1_3 = "SL_COLOR";
 
     private static final String COL_2_1 = "ITEM_ID";
     private static final String COL_2_2 = "SL";
@@ -33,7 +34,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE "
                 + TABLE1_NAME + " ("
                 + COL_1_1 + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + COL_1_2 + " TEXT)");
+                + COL_1_2 + " TEXT, "
+                + COL_1_3 + " TEXT)");
         db.execSQL("CREATE TABLE "
                 + TABLE2_NAME + " ("
                 + COL_2_1 + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -53,10 +55,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean addSL(String slName){
+    public boolean addSL(String slName, String color){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_1_2, slName);
+        contentValues.put(COL_1_3, color);
 
         long res = db.insert(TABLE1_NAME, null, contentValues);
 
@@ -94,7 +97,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public Cursor getItems(String shoppingList) {
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.rawQuery("SELECT * FROM " + TABLE2_NAME + " WHERE " + COL_2_2 + "='" + shoppingList + "'", null);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE2_NAME + " WHERE " + COL_2_2 + "='" + shoppingList + "'", null);
+//        db.close();
+        return cursor;
     }
 
 
@@ -104,11 +109,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 //    }
 
 
-    public boolean updateSL(String id, String shoppingListName){
+    public boolean updateSL(String id, String shoppingListName, String color){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_1_1, id);
         contentValues.put(COL_1_2, shoppingListName);
+        contentValues.put(COL_1_3, color);
 
         db.update(TABLE1_NAME, contentValues, COL_1_1 + "= ?", new String[]{id});
         return true;

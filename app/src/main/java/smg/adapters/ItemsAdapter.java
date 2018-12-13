@@ -21,12 +21,14 @@ import smg.shoppinglistapp.R;
 
 public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHolder> {
 
+    // TODO remove bug: app crashes when multiple items are clicked at once while in selection mode
+
     private Context context;
     private ItemsAdapterInterface parentActivity;
     private DatabaseHelper myDb;
     private ArrayList<Item> items;
     private ArrayList<Item> selectedItems;
-    public boolean onBind;
+    private boolean onBind;
 
     private int[] rowIndices;
 

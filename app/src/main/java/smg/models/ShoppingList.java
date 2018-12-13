@@ -4,10 +4,12 @@ public class ShoppingList {
 
     private String slID;
     private String name;
+    private String color;
 
-    public ShoppingList(String slID, String name){
+    public ShoppingList(String slID, String name, String color){
         this.name = name;
         this.slID = slID;
+        this.color = color;
     }
 
     public String getName() {
@@ -22,7 +24,11 @@ public class ShoppingList {
         return slID;
     }
 
-    public void setSlID(String slId) {
-        this.slID = slId;
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 }

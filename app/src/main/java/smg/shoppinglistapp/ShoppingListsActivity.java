@@ -106,7 +106,8 @@ public class ShoppingListsActivity extends AppCompatActivity implements Shopping
         ArrayList<ShoppingList> list = new ArrayList<>();
 
         while (res.moveToNext()){
-            list.add(new ShoppingList(res.getString(0), res.getString(1)));
+            list.add(new ShoppingList(res.getString(0), res.getString(1), res.getString(2)));
+            System.out.println(res.getInt(2));
         }
 
         return list;

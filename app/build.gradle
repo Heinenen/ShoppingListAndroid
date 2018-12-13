@@ -18,6 +18,22 @@ android {
     }
 }
 
+//Ensure that all dependencies use the same version of the Android Support library
+subprojects {
+    project.configurations.all {
+        resolutionStrategy.eachDependency { details ->
+            if (details.requested.group == 'com.android.support'
+                    && !details.requested.name.contains('multidex')) {
+                details.useVersion "$supportlib_version"
+            }
+            if (details.requested.group == 'com.google.android.gms'
+                    && !details.requested.name.contains('multidex')) {
+                details.useVersion "$gps_version"
+            }
+        }
+    }
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:28.0.0'
@@ -28,4 +44,5 @@ dependencies {
     implementation 'com.android.support:design:28.0.0'
     implementation 'com.android.support:recyclerview-v7:28.0.0'
     implementation 'com.android.support:cardview-v7:28.0.0'
+    implementation (group: 'uz.shift', name: 'colorpicker', version: '0.5', ext: 'aar')
 }

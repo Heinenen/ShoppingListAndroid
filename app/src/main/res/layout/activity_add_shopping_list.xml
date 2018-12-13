@@ -30,16 +30,16 @@
         -->
 
     <android.support.design.widget.FloatingActionButton
-    android:id="@+id/addShoppingListFAB"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginEnd="20dp"
-    android:layout_marginRight="20dp"
-    android:layout_marginBottom="20dp"
-    android:src="@drawable/ic_check_white_24dp"
-    app:backgroundTint="@color/colorAccent"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent" />
+        android:id="@+id/addShoppingListFAB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:src="@drawable/ic_check_white_24dp"
+        app:backgroundTint="@color/colorAccent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <EditText
         android:id="@+id/addShoppingListNameEditText"
@@ -66,5 +66,44 @@
         android:background="?attr/colorPrimary"
         android:theme="@style/ThemeOverlay.AppCompat.Dark"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" />
+
+    <!--
+    <Button
+        android:id="@+id/colorPickerBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/addShoppingListNameEditText"
+        app:layout_constraintTop_toBottomOf="@+id/addShoppingListNameEditText"
+        app:layout_constraintVertical_bias="0.13999999" />
+        -->
+    <FrameLayout
+        android:layout_width="300dp"
+        android:layout_height="75dp"
+        android:background="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <uz.shift.colorpicker.LineColorPicker
+            android:id="@+id/add_shopping_list_color_picker"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="7.5dp"
+            android:layout_marginStart="7.5dp"
+            android:layout_marginRight="7.5dp"
+            android:layout_marginEnd="7.5dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            app:colors="@array/color_picker"
+            app:orientation="horizontal"
+            app:selectedColorIndex="0" />
+
+    </FrameLayout>
+
 
 </android.support.constraint.ConstraintLayout>
