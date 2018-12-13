@@ -59,9 +59,9 @@ public class AddShoppingListActivity extends AppCompatActivity {
         });
     }
 
-    public String colorPicker(){
+    public int colorPicker(){
         LineColorPicker colorPicker = findViewById(R.id.add_shopping_list_color_picker);
-        return "#" + Integer.toHexString(colorPicker.getColor());
+        return colorPicker.getColor();
     }
 
 

@@ -106,7 +106,7 @@ public class ShoppingListsActivity extends AppCompatActivity implements Shopping
         ArrayList<ShoppingList> list = new ArrayList<>();
 
         while (res.moveToNext()){
-            list.add(new ShoppingList(res.getString(0), res.getString(1), res.getString(2)));
+            list.add(new ShoppingList(res.getString(0), res.getString(1), res.getInt(2)));
             System.out.println(res.getInt(2));
         }
 
@@ -182,6 +182,7 @@ public class ShoppingListsActivity extends AppCompatActivity implements Shopping
                 Intent editSLIntent = new Intent(ShoppingListsActivity.this, EditShoppingListActivity.class);
                 editSLIntent.putExtra("smg.SL_ID", selectedShoppingList.getSlID());
                 editSLIntent.putExtra("smg.SHOPPING_LIST", selectedShoppingList.getName());
+                editSLIntent.putExtra("smg.SL_COLOR", selectedShoppingList.getColor());
                 startActivity(editSLIntent);
                 return true;
         }

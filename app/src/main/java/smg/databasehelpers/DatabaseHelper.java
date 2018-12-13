@@ -35,7 +35,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + TABLE1_NAME + " ("
                 + COL_1_1 + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + COL_1_2 + " TEXT, "
-                + COL_1_3 + " TEXT)");
+                + COL_1_3 + " INTEGER)");
         db.execSQL("CREATE TABLE "
                 + TABLE2_NAME + " ("
                 + COL_2_1 + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -55,7 +55,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean addSL(String slName, String color){
+    public boolean addSL(String slName, int color){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_1_2, slName);
@@ -109,7 +109,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 //    }
 
 
-    public boolean updateSL(String id, String shoppingListName, String color){
+    public boolean updateSL(String id, String shoppingListName, int color){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_1_1, id);

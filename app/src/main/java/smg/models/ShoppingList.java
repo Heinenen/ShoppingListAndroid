@@ -4,9 +4,9 @@ public class ShoppingList {
 
     private String slID;
     private String name;
-    private String color;
+    private int color;
 
-    public ShoppingList(String slID, String name, String color){
+    public ShoppingList(String slID, String name, int color){
         this.name = name;
         this.slID = slID;
         this.color = color;
@@ -24,11 +24,11 @@ public class ShoppingList {
         return slID;
     }
 
-    public String getColor() {
+    public int getColor() {
         return color;
     }
 
-    public void setColor(String color) {
+    public void setColor(int color) {
         this.color = color;
     }
 }

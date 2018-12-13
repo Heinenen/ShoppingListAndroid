@@ -12,11 +12,13 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import smg.databasehelpers.DatabaseHelper;
+import uz.shift.colorpicker.LineColorPicker;
 
 public class EditShoppingListActivity extends AppCompatActivity {
 
     private DatabaseHelper myDb;
     private String slID;
+    private int color;
     private EditText shoppingListName;
 
     @Override
@@ -35,6 +37,7 @@ public class EditShoppingListActivity extends AppCompatActivity {
 
         this.myDb = new DatabaseHelper(this);
         this.slID = getIntent().getStringExtra("smg.SL_ID");
+        this.color = getIntent().getIntExtra("smg.SL_COLOR", 16777215); // default: white
 
         // set default text and set cursor to last position
         String shoppingList = getIntent().getStringExtra("smg.SHOPPING_LIST");
@@ -43,7 +46,7 @@ public class EditShoppingListActivity extends AppCompatActivity {
         shoppingListName.setSelection(shoppingList.length());
 
 
-
+        setSelectedColor();
         fab();
     }
 
@@ -61,7 +64,7 @@ public class EditShoppingListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // edits SL in SQL
-                boolean isInserted = myDb.updateSL(slID, shoppingListName.getText().toString(), getResources().getColor(R.color.white)+ "");
+                boolean isInserted = myDb.updateSL(slID, shoppingListName.getText().toString(), colorPicker());
                 if (isInserted) {
                     Toast.makeText(EditShoppingListActivity.this, R.string.toast_shoppingListEdited, Toast.LENGTH_SHORT).show();
                     Intent shoppingListsActivity = new Intent(EditShoppingListActivity.this, ShoppingListsActivity.class);
@@ -71,6 +74,16 @@ public class EditShoppingListActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public int colorPicker(){
+        LineColorPicker colorPicker = findViewById(R.id.add_shopping_list_color_picker);
+        return colorPicker.getColor();
+    }
+
+    public void setSelectedColor(){
+        LineColorPicker colorPicker = findViewById(R.id.add_shopping_list_color_picker);
+        colorPicker.setSelectedColor(color);
     }
 
 
