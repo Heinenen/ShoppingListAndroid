@@ -72,7 +72,7 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
                     }
                 }
 
-                if(shoppingListSelectedChecker){
+                if(shoppingListSelectedChecker && holder.getAdapterPosition() != -1){
                     deSelectShoppingList(holder.getAdapterPosition(), shoppingList);
                 } else {
                     Intent itemActivityIntent = new Intent(context, ItemsActivity.class);

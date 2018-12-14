@@ -22,8 +22,6 @@ import smg.shoppinglistapp.R;
 
 public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHolder> {
 
-    // TODO remove bug: app crashes when multiple items are clicked at once while in selection mode
-
     private Context context;
     private ItemsAdapterInterface parentActivity;
     private DatabaseHelper myDb;
@@ -70,17 +68,19 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
         holder.itemCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                int isCheckedInt;
-                if(isChecked){
-                    isCheckedInt = 1;
-                } else {
-                    isCheckedInt = 0;
-                }
+                if(holder.getAdapterPosition() != -1) {
+                    int isCheckedInt;
+                    if (isChecked) {
+                        isCheckedInt = 1;
+                    } else {
+                        isCheckedInt = 0;
+                    }
 
-                items.get(holder.getAdapterPosition()).setCheck(isChecked);
-                myDb.updateItemCheck(items.get(holder.getAdapterPosition()).getId(), isCheckedInt);
-                if(!onBind){
-                    parentActivity.sort();
+                    items.get(holder.getAdapterPosition()).setCheck(isChecked);
+                    myDb.updateItemCheck(items.get(holder.getAdapterPosition()).getId(), isCheckedInt);
+                    if (!onBind) {
+                        parentActivity.sort();
+                    }
                 }
             }
         });
@@ -106,7 +106,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.CustomViewHo
                     }
                 }
 
-                if(itemSelectedChecker){
+                if(itemSelectedChecker && holder.getAdapterPosition() != -1){
                     deSelectItem(holder.getAdapterPosition(), item);
                 }
             }
