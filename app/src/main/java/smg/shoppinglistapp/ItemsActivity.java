@@ -32,6 +32,7 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
 
     // TODO make item suggestions in addItem
     // TODO make item suggestions in Search
+    // TODO close keyboard on search close
 
     private static final String KEY_SEARCH_MODE = "searchMode";
     private static final String KEY_SHOPPING_LIST = "shoppingList";
@@ -45,7 +46,6 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
     private String shoppingList;
     private int slColor;
     private int lastSortedBy;
-    private String lastSearchedBy;
     private ArrayList<Item> items;
     private ItemsAdapter mAdapter;
     private DatabaseHelper myDb;
@@ -54,7 +54,6 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
     private boolean sortButtonVisible;
 
 
-//    private int mActionCode = -1;
     private Toolbar mToolbar;
     private ActionBarAdapter mActionBarAdapter;
     private boolean mIsSearchMode;
@@ -88,7 +87,6 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
         this.deleteButtonVisible = false;
         this.editButtonVisible = false;
         this.lastSortedBy = 0;
-        this.lastSearchedBy = "";
         this.items = getItemsFromSQL();
 
 //        ActionBarAdapter actionBarAdapter = new ActionBarAdapter(ItemsActivity.this, this,getSupportActionBar(), mToolbar, R.string.actAddItem_categoryHint);
@@ -162,26 +160,8 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
             mActionBarAdapter.setSearchMode(false);
             mActionBarAdapter.setSelectionMode(false);
         }
-//        configureSelectionMode();
-//        configureSearchMode();
         invalidateOptionsMenu();
     }
-
-
-//    public void configureSearchMode(){
-//        mActionBarAdapter.setSearchMode(mIsSearchMode);
-//        sortButtonVisible = !mIsSearchMode;
-//        invalidateOptionsMenu();
-//    }
-//
-//    public void configureSelectionMode(){
-//        mActionBarAdapter.setSelectionMode(mIsSelectionMode);
-//        mActionBarAdapter.setSelectionCount(mSelectedItems);
-//        deleteButtonVisible = mIsSelectionMode;
-//        editButtonVisible = mSelectedItems == 1;
-//        sortButtonVisible = !mIsSelectionMode;
-//        invalidateOptionsMenu();
-//    }
 
     private void prepareSearchViewAndActionBar(Bundle savedState) {
         mToolbar = findViewById(R.id.items_toolbar);
@@ -368,7 +348,6 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
 
     public ArrayList<Item> searchName(String searchString){
         searchString = searchString.toLowerCase();
-        this.lastSearchedBy = searchString;
         System.out.println(searchString);
         ArrayList<Item> searchItems = new ArrayList<>();
         if(searchString.equals("")){

@@ -21,6 +21,7 @@
         <activity
             android:name=".ItemsActivity"
             android:label="@string/addItemAct_title"
+            android:windowSoftInputMode="adjustNothing"
             android:parentActivityName=".ShoppingListsActivity" />
         <activity
             android:name=".AddShoppingListActivity"

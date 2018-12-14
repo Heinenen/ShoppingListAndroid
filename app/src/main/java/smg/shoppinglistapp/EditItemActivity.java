@@ -89,61 +89,64 @@ public class EditItemActivity extends AppCompatActivity {
         editItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                confirmEdit();
+            }
+        });
+    }
 
-                // takes previous values of the item as default values if nothing is typed into EditText
-                String[] itemAttributes = new String[4];
+    public void confirmEdit(){
+        // takes previous values of the item as default values if nothing is typed into EditText
+        String[] itemAttributes = new String[4];
 
-                // default value for itemName
-                if(itemName.getText().toString().equals("")){
-                    itemAttributes[0] = item.getName();
-                } else {
-                    itemAttributes[0] = itemName.getText().toString();
-                }
+        // default value for itemName
+        if(itemName.getText().toString().equals("")){
+            itemAttributes[0] = item.getName();
+        } else {
+            itemAttributes[0] = itemName.getText().toString();
+        }
 
-                // default value for itemCategory
-                if(itemCategory.getText().toString().equals("")){
-                    itemAttributes[1] = item.getCategory();
-                } else {
-                    itemAttributes[1] = itemCategory.getText().toString();
-                }
+        // default value for itemCategory
+        if(itemCategory.getText().toString().equals("")){
+            itemAttributes[1] = item.getCategory();
+        } else {
+            itemAttributes[1] = itemCategory.getText().toString();
+        }
 
-                // default value for itemAmount
-                if(itemAmount.getText().toString().equals("")){
-                    itemAttributes[2] = item.getAmount();
-                } else {
-                    itemAttributes[2] = itemAmount.getText().toString();
-                }
+        // default value for itemAmount
+        if(itemAmount.getText().toString().equals("")){
+            itemAttributes[2] = item.getAmount();
+        } else {
+            itemAttributes[2] = itemAmount.getText().toString();
+        }
 
-                if(itemPrice.getText().toString().equals("") || itemPrice.getText().toString().equals(" ")){
-                    itemAttributes[3] = item.getPrice();
-                } else {
-                    itemAttributes[3] = itemPrice.getText().toString() + "€";
-                }
+        if(itemPrice.getText().toString().equals("") || itemPrice.getText().toString().equals(" ")){
+            itemAttributes[3] = item.getPrice();
+        } else {
+            itemAttributes[3] = itemPrice.getText().toString() + "€";
+        }
 
-                // default value for itemPriority
-                int itemPriorityInt;
-                if(itemPriority.isChecked()){
-                    itemPriorityInt = 1;
-                } else {
-                    itemPriorityInt = 0;
-                }
+        // default value for itemPriority
+        int itemPriorityInt;
+        if(itemPriority.isChecked()){
+            itemPriorityInt = 1;
+        } else {
+            itemPriorityInt = 0;
+        }
 
-                // edits item in SQL
-                boolean isInserted = myDb.updateItem(itemID, slID, itemAttributes[0], itemAttributes[1], itemAttributes[2], itemAttributes[3], itemPriorityInt);
-                if (isInserted) {
-                    Toast.makeText(EditItemActivity.this, R.string.toast_itemEdited, Toast.LENGTH_SHORT).show();
+        // edits item in SQL
+        boolean isInserted = myDb.updateItem(itemID, slID, itemAttributes[0], itemAttributes[1], itemAttributes[2], itemAttributes[3], itemPriorityInt);
+        if (isInserted) {
+            Toast.makeText(EditItemActivity.this, R.string.toast_itemEdited, Toast.LENGTH_SHORT).show();
 //                    Intent itemsActivity = new Intent(EditItemActivity.this, ItemsActivity.class);
 //                    itemsActivity.putExtra("smg.SL_ID", slID);
 //                    itemsActivity.putExtra("smg.SHOPPING_LIST", shoppingList);
 //                    startActivity(itemsActivity);
-                    Intent intent = NavUtils.getParentActivityIntent(EditItemActivity.this);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    NavUtils.navigateUpTo(EditItemActivity.this, intent);
-                } else {
-                    Toast.makeText(EditItemActivity.this, R.string.toast_editingFailed, Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+            Intent intent = NavUtils.getParentActivityIntent(EditItemActivity.this);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            NavUtils.navigateUpTo(EditItemActivity.this, intent);
+        } else {
+            Toast.makeText(EditItemActivity.this, R.string.toast_editingFailed, Toast.LENGTH_SHORT).show();
+        }
     }
 
 
@@ -160,6 +163,10 @@ public class EditItemActivity extends AppCompatActivity {
                 res.getString(5),
                 res.getInt(6),
                 res.getInt(7));
+    }
+
+    public void deleteFromSQL(String itemID){
+        myDb.deleteItem(itemID);
     }
 
 
@@ -194,6 +201,17 @@ public class EditItemActivity extends AppCompatActivity {
                 Intent intent = NavUtils.getParentActivityIntent(this);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 NavUtils.navigateUpTo(this, intent);
+                return true;
+
+            case R.id.edit_item_save:
+                confirmEdit();
+                return true;
+
+            case R.id.edit_item_delete:
+                deleteFromSQL(itemID);
+                Intent parentActivityIntent = NavUtils.getParentActivityIntent(this);
+                parentActivityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                NavUtils.navigateUpTo(this, parentActivityIntent);
                 return true;
         }
         return super.onOptionsItemSelected(menuItem);

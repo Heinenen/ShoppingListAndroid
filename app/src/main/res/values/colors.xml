@@ -1,32 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<!--
-<resources>
-    <color name="white">#FFFFFFFF</color>
-    <color name="colorPrimary">#FF212121</color>
-    <color name="colorPrimaryDark">#FF000000</color>
-    <color name="colorAccent">#FF80CBC4</color>
-    <color name="colorImportant">#ce4848</color>
-    <color name="colorMarked">#FFf9c2</color>
-    <color name="colorImportantMarked">#FFc4</color>
-
-
-    <color name="shoppingListDefault">#FFFF</color>
-    <color name="shoppingListMarked">#FFF9C2</color>
-    <color name="shoppingListDefaultText">#000000</color>
-    <color name="shoppingListMarkedText">#000000</color>
-
-    <color name="itemDefault">#FFFFFF</color>
-    <color name="itemImportant">#CE4848</color>
-    <color name="itemMarked">#FFF9C2</color>
-    <color name="itemImportantMarked">#FFC4</color>
-    <color name="itemDefaultText">#000000</color>
-    <color name="itemImportantText">#000000</color>
-    <color name="itemMarkedText">#000000</color>
-    <color name="itemImportantMarkedText">#000000</color>
-</resources>
--->
-
 <resources>
     <color name="white">#FFFFFFFF</color>
     <color name="black">#000000</color>
