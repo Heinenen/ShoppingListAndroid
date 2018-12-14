@@ -30,20 +30,25 @@
 <resources>
     <color name="white">#FFFFFFFF</color>
     <color name="black">#000000</color>
+
     <color name="colorPrimary">#FF212121</color>
     <color name="colorPrimaryDark">#FF000000</color>
     <color name="colorAccent">#0051C2</color>
 
 
     <color name="shoppingListDefault">#FFFF</color>
-    <color name="shoppingListMarked">#98FF75</color>
+    <color name="shoppingListMarked">#62C951</color>
     <color name="shoppingListDefaultText">#000000</color>
     <color name="shoppingListMarkedText">#000000</color>
 
     <color name="itemDefault">#FFFFFF</color>
-    <color name="itemImportant">#E85454</color>
+    <color name="itemImportant">#CF6767</color>
+    <!--<color name="test">#CF6767</color>
+    <color name="test2">#88D47B</color>
     <color name="itemMarked">#98FF75</color>
-    <color name="itemImportantMarked">#98FF75</color>
+    <color name="itemImportantMarked">#98FF75</color>-->
+    <color name="itemMarked">#62C951</color>
+    <color name="itemImportantMarked">#62C951</color>
     <color name="itemDefaultText">#000000</color>
     <color name="itemImportantText">#000000</color>
     <color name="itemMarkedText">#000000</color>
@@ -51,14 +56,14 @@
 
     <array name="color_picker">
         <item>#ffffff</item>
-        <item>#123123</item>
-        <item>#321321</item>
-        <item>#456456</item>
-        <item>#654654</item>
-        <item>#789789</item>
-        <item>#987987</item>
-        <item>#147</item>
-        <item>#741471</item>
-        <item>#258258</item>
+        <item>#A8A8A8</item>
+        <item>#D4A87B</item>
+        <item>#D4CE7B</item>
+        <item>#B3D47B</item>
+        <item>#7BD4CE</item>
+        <item>#7BAFD4</item>
+        <item>#7B7BD4</item>
+        <item>#947BD4</item>
+        <item>#D47BD4</item>
     </array>
 </resources>

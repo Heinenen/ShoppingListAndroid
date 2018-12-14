@@ -475,23 +475,16 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
                         deleteItemFromSQL(selectedItems.get(i).getId());
                         items.remove(selectedItems.get(i));
                     }
-                    for(int i = 0; i < rowIndices.length; i++){
-                        if(rowIndices[i] != -1){
-                            mAdapter.notifyItemRemoved(i);
-                            mAdapter.notifyItemRangeChanged(i, mAdapter.getItemCount());
-                        }
-                    }
+//                    for(int i = 0; i < rowIndices.length; i++){
+//                        if(rowIndices[i] != -1){
+//                            mAdapter.notifyItemRemoved(i);
+//                            mAdapter.notifyItemRangeChanged(i, mAdapter.getItemCount());
+//                        }
+//                    }
                     mAdapter.deselectAll();
-//                    mAdapter.notifyDataSetChanged();
+                    mAdapter.notifyDataSetChanged();
                 }
-//                if (searchName(lastSearchedBy).isEmpty()) {
-//                    mAdapter.setItems(items);
-//                    lastSearchedBy = "";
-//                    mIsSearchMode = false;
-//                    configureSearchMode();
-//                } else {
-//                    searchName(lastSearchedBy);
-//                }
+
                 mSelectedItems = 0;
                 mIsSelectionMode = false;
 //                configureSelectionMode();
