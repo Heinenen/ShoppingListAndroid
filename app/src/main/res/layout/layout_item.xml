@@ -30,7 +30,7 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="10"
+            android:layout_weight="14"
             android:orientation="vertical">
 
             <TextView
@@ -45,7 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="test"
-                android:textSize="24sp" />
+                android:textSize="16sp" />
 
         </LinearLayout>
 
@@ -53,7 +53,7 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="10"
+            android:layout_weight="6"
             android:gravity="end"
             android:orientation="vertical">
 
@@ -68,8 +68,8 @@
                 android:id="@+id/itemPriceTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="4.20€"
-                android:textSize="24sp" />
+                android:text="100.00€"
+                android:textSize="16sp" />
 
         </LinearLayout>
 

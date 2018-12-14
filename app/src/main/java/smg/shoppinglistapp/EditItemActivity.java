@@ -64,6 +64,9 @@ public class EditItemActivity extends AppCompatActivity {
         itemAmount.setSelection(item.getAmount().length());
         itemPrice = findViewById(R.id.editItemPriceEditText);
         itemPrice.setText(item.getPrice().replace("€", ""));
+        if(item.getPrice().equals(" ")){
+            itemPrice.setText("");
+        }
         itemPrice.setSelection(item.getPrice().length() - 1);
 
 

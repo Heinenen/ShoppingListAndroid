@@ -74,7 +74,7 @@ public class AddItemActivity extends AppCompatActivity {
                         itemCategoryString = itemCategory.getText().toString();
                     }
 
-                    // default value for amount (-> 1)
+                    // default value for amount (-> null)
                     String itemAmountString;
                     if (itemAmount.getText().toString().equals("")) {
                         itemAmountString = getString(R.string.addItemAct_defaultAmount);

@@ -14,7 +14,7 @@
     <string name="addItemAct_title">Add new item</string>
     <string name="addItemAct_defaultItemName">Item1</string>
     <string name="addItemAct_defaultCategoryName" translatable="false"> </string>
-    <string name="addItemAct_defaultAmount" translatable="false">1</string>
+    <string name="addItemAct_defaultAmount" translatable="false"> </string>
 
     <!-- AddShoppingListActivity -->
     <string name="addShoppingListAct_title">Add new shopping list</string>
