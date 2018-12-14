@@ -1,5 +1,6 @@
 package smg.shoppinglistapp;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -15,6 +16,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.PopupMenu;
 
 import java.util.ArrayList;
@@ -32,7 +34,6 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
 
     // TODO make item suggestions in addItem
     // TODO make item suggestions in Search
-    // TODO close keyboard on search close
 
     private static final String KEY_SEARCH_MODE = "searchMode";
     private static final String KEY_SHOPPING_LIST = "shoppingList";
@@ -398,6 +399,9 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
         } else if (mIsSearchMode) {
             mIsSearchMode = false;
             refreshToolbar();
+            // closes keyboard
+            InputMethodManager imm = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
 //            configureSearchMode();
         } else {
             super.onBackPressed();
