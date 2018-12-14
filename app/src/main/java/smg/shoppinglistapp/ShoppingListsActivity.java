@@ -59,6 +59,14 @@ public class ShoppingListsActivity extends AppCompatActivity implements Shopping
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        this.shoppingLists = getSLFromSQL();
+        mAdapter.setShoppingLists(shoppingLists);
+        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_shopping_lists, menu);
         if(deleteButtonVisible){

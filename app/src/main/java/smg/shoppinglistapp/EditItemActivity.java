@@ -215,7 +215,5 @@ public class EditItemActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(menuItem);
-
-
     }
 }

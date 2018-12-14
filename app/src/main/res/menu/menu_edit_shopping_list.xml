@@ -4,6 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".EditShoppingListActivity">
 
+    <item
+        android:id="@+id/edit_shopping_list_save"
+        android:title="@string/save"
+        android:icon="@drawable/ic_check_white_24dp"
+        app:showAsAction="ifRoom" />
 
+    <item
+        android:id="@+id/edit_shopping_list_delete"
+        android:title="@string/delete"
+        android:icon="@drawable/ic_check_white_24dp"
+        app:showAsAction="never" />
 
 </menu>

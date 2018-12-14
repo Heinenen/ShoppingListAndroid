@@ -73,7 +73,6 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
         this.slColor = getIntent().getIntExtra("smg.COLOR", 16777215);
 
         if (savedInstanceState != null) {
-//            mActionCode = savedInstanceState.getInt(KEY_ACTION_CODE);
             mIsSearchMode = savedInstanceState.getBoolean(KEY_SEARCH_MODE);
             slID = savedInstanceState.getString(KEY_SL_ID);
             shoppingList = savedInstanceState.getString(KEY_SHOPPING_LIST);

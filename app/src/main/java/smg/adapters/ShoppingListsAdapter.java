@@ -153,6 +153,10 @@ public class ShoppingListsAdapter extends RecyclerView.Adapter<ShoppingListsAdap
         return this.selectedShoppingLists;
     }
 
+    public void setShoppingLists(ArrayList<ShoppingList> shoppingLists) {
+        this.shoppingLists = shoppingLists;
+    }
+
     public int[] getRowIndices() {
         return rowIndices;
     }

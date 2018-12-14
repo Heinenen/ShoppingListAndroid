@@ -7,6 +7,7 @@ import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -63,17 +64,21 @@ public class EditShoppingListActivity extends AppCompatActivity {
         editShoppingList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // edits SL in SQL
-                boolean isInserted = myDb.updateSL(slID, shoppingListName.getText().toString(), colorPicker());
-                if (isInserted) {
-                    Toast.makeText(EditShoppingListActivity.this, R.string.toast_shoppingListEdited, Toast.LENGTH_SHORT).show();
-                    Intent shoppingListsActivity = new Intent(EditShoppingListActivity.this, ShoppingListsActivity.class);
-                    startActivity(shoppingListsActivity);
-                } else {
-                    Toast.makeText(EditShoppingListActivity.this, R.string.toast_editingFailed, Toast.LENGTH_SHORT).show();
-                }
+                confirmEdit();
             }
         });
+    }
+
+    public void confirmEdit(){
+        // edits SL in SQL
+        boolean isInserted = myDb.updateSL(slID, shoppingListName.getText().toString(), colorPicker());
+        if (isInserted) {
+            Toast.makeText(EditShoppingListActivity.this, R.string.toast_shoppingListEdited, Toast.LENGTH_SHORT).show();
+            Intent shoppingListsActivity = new Intent(EditShoppingListActivity.this, ShoppingListsActivity.class);
+            startActivity(shoppingListsActivity);
+        } else {
+            Toast.makeText(EditShoppingListActivity.this, R.string.toast_editingFailed, Toast.LENGTH_SHORT).show();
+        }
     }
 
     public int colorPicker(){
@@ -86,6 +91,10 @@ public class EditShoppingListActivity extends AppCompatActivity {
         colorPicker.setSelectedColor(color);
     }
 
+    public void deleteFromSQL(String slID){
+        myDb.deleteSL(slID);
+    }
+
 
     // goes to parent activity (ShoppingListsActivity) on backKey-press
     @Override
@@ -96,5 +105,33 @@ public class EditShoppingListActivity extends AppCompatActivity {
         }
 
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case android.R.id.home:
+//                Intent intent = new Intent(EditItemActivity.this, ItemsActivity.class);
+//                intent.putExtra("smg.SL_ID", slID);
+//                intent.putExtra("smg.SHOPPING_LIST", shoppingList);
+//                startActivity(intent);
+//                return true;
+                Intent intent = NavUtils.getParentActivityIntent(this);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                NavUtils.navigateUpTo(this, intent);
+                return true;
+
+            case R.id.edit_shopping_list_save:
+                confirmEdit();
+                return true;
+
+            case R.id.edit_shopping_list_delete:
+                deleteFromSQL(slID);
+                Intent parentActivityIntent = NavUtils.getParentActivityIntent(this);
+                parentActivityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                NavUtils.navigateUpTo(this, parentActivityIntent);
+                return true;
+        }
+        return super.onOptionsItemSelected(menuItem);
     }
 }
