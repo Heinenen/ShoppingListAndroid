@@ -7,6 +7,7 @@ import android.support.v4.app.NavUtils;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
@@ -43,6 +44,11 @@ public class AddItemActivity extends AppCompatActivity {
         fab();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_add_item, menu);
+        return true;
+    }
 
     // adds item
     public void fab(){
@@ -51,71 +57,75 @@ public class AddItemActivity extends AppCompatActivity {
         addItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText itemName = findViewById(R.id.addItemNameEditText);
-                EditText itemCategory = findViewById(R.id.addItemCategoryEditText);
-                EditText itemAmount = findViewById(R.id.addItemAmountEditText);
-                EditText itemPrice = findViewById(R.id.addItemPriceEditText);
-                CheckBox itemPriority = findViewById(R.id.addItemPriorityCheckBox);
+                saveItem();
+            }
+        });
+    }
+
+    public void saveItem(){
+        EditText itemName = findViewById(R.id.addItemNameEditText);
+        EditText itemCategory = findViewById(R.id.addItemCategoryEditText);
+        EditText itemAmount = findViewById(R.id.addItemAmountEditText);
+        EditText itemPrice = findViewById(R.id.addItemPriceEditText);
+        CheckBox itemPriority = findViewById(R.id.addItemPriorityCheckBox);
 
 
-                // show alert dialog if no name is given, proceed if name is given
-                String itemNameString;
-                if(itemName.getText().toString().equals("")) {
-                    showAlertDialog();
-                } else {
-                    // Item parameters
-                    itemNameString = itemName.getText().toString();
+        // show alert dialog if no name is given, proceed if name is given
+        String itemNameString;
+        if(itemName.getText().toString().equals("")) {
+            showAlertDialog();
+        } else {
+            // Item parameters
+            itemNameString = itemName.getText().toString();
 
-                    // default value for category (-> "")
-                    String itemCategoryString;
-                    if (itemCategory.getText().toString().equals("")) {
-                        itemCategoryString = getString(R.string.addItemAct_defaultCategoryName);
-                    } else {
-                        itemCategoryString = itemCategory.getText().toString();
-                    }
+            // default value for category (-> "")
+            String itemCategoryString;
+            if (itemCategory.getText().toString().equals("")) {
+                itemCategoryString = getString(R.string.addItemAct_defaultCategoryName);
+            } else {
+                itemCategoryString = itemCategory.getText().toString();
+            }
 
-                    // default value for amount (-> null)
-                    String itemAmountString;
-                    if (itemAmount.getText().toString().equals("")) {
-                        itemAmountString = getString(R.string.addItemAct_defaultAmount);
-                    } else {
-                        itemAmountString = itemAmount.getText().toString();
-                    }
+            // default value for amount (-> null)
+            String itemAmountString;
+            if (itemAmount.getText().toString().equals("")) {
+                itemAmountString = getString(R.string.addItemAct_defaultAmount);
+            } else {
+                itemAmountString = itemAmount.getText().toString();
+            }
 
-                    // default value for amount (-> "")
-                    String itemPriceString = itemPrice.getText().toString();
-                    if (itemPrice.getText().toString().equals("")) {
-                        itemPriceString = " ";
-                    } else {
-                        itemPriceString = itemPriceString + "€";
-                    }
+            // default value for amount (-> "")
+            String itemPriceString = itemPrice.getText().toString();
+            if (itemPrice.getText().toString().equals("")) {
+                itemPriceString = " ";
+            } else {
+                itemPriceString = itemPriceString + "€";
+            }
 
-                    // default value for priority (-> 0)
-                    int itemPriorityInt;
-                    if (itemPriority.isChecked()) {
-                        itemPriorityInt = 1;
-                    } else {
-                        itemPriorityInt = 0;
-                    }
+            // default value for priority (-> 0)
+            int itemPriorityInt;
+            if (itemPriority.isChecked()) {
+                itemPriorityInt = 1;
+            } else {
+                itemPriorityInt = 0;
+            }
 
-                    // adds Item to SQL
-                    boolean isInserted = myDb.addItem(slID, itemNameString, itemCategoryString, itemAmountString, itemPriceString, itemPriorityInt);
-                    if (isInserted) {
-                        Toast.makeText(AddItemActivity.this, R.string.toast_itemAdded, Toast.LENGTH_SHORT).show();
+            // adds Item to SQL
+            boolean isInserted = myDb.addItem(slID, itemNameString, itemCategoryString, itemAmountString, itemPriceString, itemPriorityInt);
+            if (isInserted) {
+                Toast.makeText(AddItemActivity.this, R.string.toast_itemAdded, Toast.LENGTH_SHORT).show();
 //                        Intent itemsActivity = new Intent(AddItemActivity.this, ItemsActivity.class);
 //                        itemsActivity.putExtra("smg.SL_ID", slID);
 //                        itemsActivity.putExtra("smg.SHOPPING_LIST", shoppingList);
 //                        startActivity(itemsActivity);
-                        Intent intent = NavUtils.getParentActivityIntent(AddItemActivity.this);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        NavUtils.navigateUpTo(AddItemActivity.this, intent);
+                Intent intent = NavUtils.getParentActivityIntent(AddItemActivity.this);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                NavUtils.navigateUpTo(AddItemActivity.this, intent);
 
-                    } else {
-                        Toast.makeText(AddItemActivity.this, R.string.toast_addingFailed, Toast.LENGTH_SHORT).show();
-                    }
-                }
+            } else {
+                Toast.makeText(AddItemActivity.this, R.string.toast_addingFailed, Toast.LENGTH_SHORT).show();
             }
-        });
+        }
     }
 
 
@@ -158,6 +168,10 @@ public class AddItemActivity extends AppCompatActivity {
                 Intent intent = NavUtils.getParentActivityIntent(this);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 NavUtils.navigateUpTo(this, intent);
+                return true;
+
+            case R.id.add_item_save:
+                saveItem();
                 return true;
         }
         return super.onOptionsItemSelected(menuItem);
