@@ -12,6 +12,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TABLE1_NAME = "sL_table";
     private static final String TABLE2_NAME = "item_table";
     private static final String TABLE4_NAME = "name_p_table";
+    private static final String TABLE5_NAME = "category_p_table";
+    private static final String TABLE6_NAME = "amount_p_table";
+    private static final String TABLE7_NAME = "price_p_table";
 
     private static final String COL_1_1 = "SL_ID";
     private static final String COL_1_2 = "SL_NAME";
@@ -29,6 +32,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // P = prediction
     private static final String COL_4_1 = "NAME_P_ID";
     private static final String COL_4_2 = "NAME_P_CONTENT";
+
+    private static final String COL_5_1 = "CATEGORY_P_ID";
+    private static final String COL_5_2 = "CATEGORY_P_CONTENT";
+
+    private static final String COL_6_1 = "AMOUNT_P_ID";
+    private static final String COL_6_2 = "AMOUNT_P_CONTENT";
+
+    private static final String COL_7_1 = "PRICE_P_ID";
+    private static final String COL_7_2 = "PRICE_P_CONTENT";
 
 
     public DatabaseHelper(Context context) {
@@ -57,6 +69,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + TABLE4_NAME + " ("
                 + COL_4_1 + "INTEGER PRIMARY KEY, "
                 + COL_4_2 + " TEXT)");
+
+        db.execSQL("CREATE TABLE "
+                + TABLE5_NAME + " ("
+                + COL_5_1 + "INTEGER PRIMARY KEY, "
+                + COL_5_2 + " TEXT)");
+
+        db.execSQL("CREATE TABLE "
+                + TABLE6_NAME + " ("
+                + COL_6_1 + "INTEGER PRIMARY KEY, "
+                + COL_6_2 + " TEXT)");
+
+        db.execSQL("CREATE TABLE "
+                + TABLE7_NAME + " ("
+                + COL_7_1 + "INTEGER PRIMARY KEY, "
+                + COL_7_2 + " TEXT)");
     }
 
     @Override
@@ -64,6 +91,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE1_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE2_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE4_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE5_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE6_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE7_NAME);
         onCreate(db);
     }
 
@@ -102,6 +132,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result != -1;
     }
 
+    public boolean addCategoryPrediction(String category){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COL_5_2, category);
+        long result = db.insert(TABLE5_NAME, null, contentValues);
+        return result != -1;
+    }
+
+    public boolean addAmountPrediction(String amount){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COL_6_2, amount);
+        long result = db.insert(TABLE6_NAME, null, contentValues);
+        return result != -1;
+    }
+
+    public boolean addPricePrediction(String price){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COL_7_2, price);
+        long result = db.insert(TABLE7_NAME, null, contentValues);
+        return result != -1;
+    }
+
 
     public Cursor getSL() {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -125,6 +179,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Cursor getNamePredictions(){
         SQLiteDatabase db = this.getWritableDatabase();
         return db.rawQuery("SELECT * FROM " + TABLE4_NAME, null);
+    }
+
+    public Cursor getCategoryPredictions(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.rawQuery("SELECT * FROM " + TABLE5_NAME, null);
+    }
+
+    public Cursor getAmountPredictions(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.rawQuery("SELECT * FROM " + TABLE6_NAME, null);
+    }
+
+    public Cursor getPricePredictions(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.rawQuery("SELECT * FROM " + TABLE7_NAME, null);
     }
 
 
