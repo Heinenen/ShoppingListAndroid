@@ -11,6 +11,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String TABLE1_NAME = "sL_table";
     private static final String TABLE2_NAME = "item_table";
+    private static final String TABLE4_NAME = "name_p_table";
 
     private static final String COL_1_1 = "SL_ID";
     private static final String COL_1_2 = "SL_NAME";
@@ -25,6 +26,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COL_2_7 = "ITEM_PRIORITY";
     private static final String COL_2_8 = "ITEM_CHECK";
 
+    // P = prediction
+    private static final String COL_4_1 = "NAME_P_ID";
+    private static final String COL_4_2 = "NAME_P_CONTENT";
+
+
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
     }
@@ -33,12 +39,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE "
                 + TABLE1_NAME + " ("
-                + COL_1_1 + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + COL_1_1 + " INTEGER PRIMARY KEY, "
                 + COL_1_2 + " TEXT, "
                 + COL_1_3 + " INTEGER)");
         db.execSQL("CREATE TABLE "
                 + TABLE2_NAME + " ("
-                + COL_2_1 + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + COL_2_1 + " INTEGER PRIMARY KEY, "
                 + COL_2_2 + " TEXT, "
                 + COL_2_3 + " TEXT, "
                 + COL_2_4 + " TEXT, "
@@ -46,12 +52,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + COL_2_6 + " TEXT, "
                 + COL_2_7 + " INTEGER, "
                 + COL_2_8 + " INTEGER)");
+
+        db.execSQL("CREATE TABLE "
+                + TABLE4_NAME + " ("
+                + COL_4_1 + "INTEGER PRIMARY KEY, "
+                + COL_4_2 + " TEXT)");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE1_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE2_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE4_NAME);
         onCreate(db);
     }
 
@@ -79,7 +91,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         long result = db.insert(TABLE2_NAME, null, contentValues);
 
-        return !(result == -1);
+        return result != -1;
+    }
+
+    public boolean addNamePrediction(String name){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COL_4_2, name);
+        long result = db.insert(TABLE4_NAME, null, contentValues);
+        return result != -1;
     }
 
 
@@ -100,6 +120,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE2_NAME + " WHERE " + COL_2_2 + "='" + shoppingList + "'", null);
 //        db.close();
         return cursor;
+    }
+
+    public Cursor getNamePredictions(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.rawQuery("SELECT * FROM " + TABLE4_NAME, null);
     }
 
 

@@ -1,6 +1,7 @@
 package smg.shoppinglistapp;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.NavUtils;
@@ -10,9 +11,13 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 import smg.databasehelpers.DatabaseHelper;
 
@@ -22,6 +27,8 @@ public class AddItemActivity extends AppCompatActivity {
     private String slID;
     private String shoppingList;
     private DatabaseHelper myDb;
+    private ArrayList<String> namePredictions;
+    private AutoCompleteTextView itemName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +47,12 @@ public class AddItemActivity extends AppCompatActivity {
         this.slID = getIntent().getStringExtra("smg.SL_ID");
         this.shoppingList = getIntent().getStringExtra("smg.SHOPPING_LIST");
         this.myDb = new DatabaseHelper(this);
+        this.namePredictions = getNamePredictions();
+
+
+        itemName = findViewById(R.id.add_item_auto_complete);
+        ArrayAdapter<String> nameAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, namePredictions);
+        itemName.setAdapter(nameAdapter);
 
         fab();
     }
@@ -63,7 +76,7 @@ public class AddItemActivity extends AppCompatActivity {
     }
 
     public void saveItem(){
-        EditText itemName = findViewById(R.id.addItemNameEditText);
+//        EditText itemName = findViewById(R.id.addItemNameEditText);
         EditText itemCategory = findViewById(R.id.addItemCategoryEditText);
         EditText itemAmount = findViewById(R.id.addItemAmountEditText);
         EditText itemPrice = findViewById(R.id.addItemPriceEditText);
@@ -77,6 +90,9 @@ public class AddItemActivity extends AppCompatActivity {
         } else {
             // Item parameters
             itemNameString = itemName.getText().toString();
+            if(!namePredictions.contains(itemNameString)){
+                myDb.addNamePrediction(itemNameString);
+            }
 
             // default value for category (-> "")
             String itemCategoryString;
@@ -126,6 +142,15 @@ public class AddItemActivity extends AppCompatActivity {
                 Toast.makeText(AddItemActivity.this, R.string.toast_addingFailed, Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    public ArrayList<String> getNamePredictions(){
+        Cursor res = myDb.getNamePredictions();
+        ArrayList<String> namePredictions = new ArrayList<>();
+        while (res.moveToNext()){
+            namePredictions.add(res.getString(1));
+        }
+        return namePredictions;
     }
 
 

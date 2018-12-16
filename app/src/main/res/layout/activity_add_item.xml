@@ -18,7 +18,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <EditText
+    <!--<EditText
         android:id="@+id/addItemNameEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,6 +29,25 @@
         android:ems="10"
         android:hint="@string/actAddItem_nameHint"
         android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/add_item_toolbar"
+        app:layout_constraintVertical_bias="0.15" />-->
+
+    <AutoCompleteTextView
+        android:id="@+id/add_item_auto_complete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:ems="10"
+        android:hint="@string/actAddItem_nameHint"
+        android:inputType="textPersonName"
+        android:completionThreshold="1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -50,7 +69,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/addItemNameEditText"
+        app:layout_constraintStart_toStartOf="@+id/add_item_auto_complete"
         app:layout_constraintTop_toBottomOf="@id/add_item_toolbar"
         app:layout_constraintVertical_bias="0.3" />
 

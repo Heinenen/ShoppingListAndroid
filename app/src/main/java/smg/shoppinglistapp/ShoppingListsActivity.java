@@ -25,8 +25,6 @@ import smg.models.ShoppingList;
 
 public class ShoppingListsActivity extends AppCompatActivity implements ShoppingListsAdapterInterface {
 
-    // TODO change color theme for every SL
-
     private DatabaseHelper myDb;
     private ShoppingListsAdapter mAdapter;
     private ArrayList<ShoppingList> shoppingLists;
