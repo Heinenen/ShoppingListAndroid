@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -29,6 +28,9 @@ public class AddItemActivity extends AppCompatActivity {
     private DatabaseHelper myDb;
     private ArrayList<String> namePredictions;
     private AutoCompleteTextView itemName;
+    private AutoCompleteTextView itemCategory;
+    private AutoCompleteTextView itemAmount;
+    private AutoCompleteTextView itemPrice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +52,23 @@ public class AddItemActivity extends AppCompatActivity {
         this.namePredictions = getNamePredictions();
 
 
-        itemName = findViewById(R.id.add_item_auto_complete);
+        itemName = findViewById(R.id.add_item_name_auto_complete);
         ArrayAdapter<String> nameAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, namePredictions);
         itemName.setAdapter(nameAdapter);
+
+        itemCategory = findViewById(R.id.add_item_category_auto_complete);
+        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, namePredictions);
+        itemCategory.setAdapter(categoryAdapter);
+
+        itemAmount = findViewById(R.id.add_item_amount_auto_complete);
+        ArrayAdapter<String> amountAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, namePredictions);
+        itemAmount.setAdapter(categoryAdapter);
+
+        itemPrice = findViewById(R.id.add_item_price_auto_complete);
+        ArrayAdapter<String> priceAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, namePredictions);
+        itemPrice.setAdapter(categoryAdapter);
+
+
 
         fab();
     }
@@ -77,9 +93,9 @@ public class AddItemActivity extends AppCompatActivity {
 
     public void saveItem(){
 //        EditText itemName = findViewById(R.id.addItemNameEditText);
-        EditText itemCategory = findViewById(R.id.addItemCategoryEditText);
-        EditText itemAmount = findViewById(R.id.addItemAmountEditText);
-        EditText itemPrice = findViewById(R.id.addItemPriceEditText);
+//        EditText itemCategory = findViewById(R.id.addItemCategoryEditText);
+//        EditText itemAmount = findViewById(R.id.addItemAmountEditText);
+//        EditText itemPrice = findViewById(R.id.addItemPriceEditText);
         CheckBox itemPriority = findViewById(R.id.addItemPriorityCheckBox);
 
 
