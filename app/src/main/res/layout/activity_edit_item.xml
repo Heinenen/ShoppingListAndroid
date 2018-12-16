@@ -18,8 +18,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <EditText
-        android:id="@+id/editItemNameEditText"
+    <AutoCompleteTextView
+        android:id="@+id/edit_item_name_auto_complete"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -29,15 +29,16 @@
         android:ems="10"
         android:hint="@string/actAddItem_nameHint"
         android:inputType="textPersonName"
+        android:imeOptions="actionNext"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/edit_item_toolbar"
         app:layout_constraintVertical_bias="0.15" />
 
-    <EditText
-        android:id="@+id/editItemCategoryEditText"
+    <AutoCompleteTextView
+        android:id="@+id/edit_item_category_auto_complete"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -47,15 +48,16 @@
         android:ems="10"
         android:hint="@string/actAddItem_categoryHint"
         android:inputType="textPersonName"
+        android:imeOptions="actionNext"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/editItemNameEditText"
+        app:layout_constraintStart_toStartOf="@+id/edit_item_name_auto_complete"
         app:layout_constraintTop_toBottomOf="@id/edit_item_toolbar"
         app:layout_constraintVertical_bias="0.3" />
 
-    <EditText
-        android:id="@+id/editItemAmountEditText"
+    <AutoCompleteTextView
+        android:id="@+id/edit_item_amount_auto_complete"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -65,15 +67,16 @@
         android:ems="10"
         android:hint="@string/actAddItem_amountHint"
         android:inputType="textPersonName"
+        android:imeOptions="actionNext"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/editItemCategoryEditText"
+        app:layout_constraintStart_toStartOf="@+id/edit_item_name_auto_complete"
         app:layout_constraintTop_toBottomOf="@id/edit_item_toolbar"
         app:layout_constraintVertical_bias="0.45" />
 
-    <EditText
-        android:id="@+id/editItemPriceEditText"
+    <AutoCompleteTextView
+        android:id="@+id/edit_item_price_auto_complete"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -83,10 +86,11 @@
         android:ems="10"
         android:hint="@string/actAddItem_priceHint"
         android:inputType="number|numberSigned|numberDecimal"
+        android:imeOptions="actionDone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/editItemCategoryEditText"
+        app:layout_constraintStart_toStartOf="@+id/edit_item_name_auto_complete"
         app:layout_constraintTop_toBottomOf="@id/edit_item_toolbar"
         app:layout_constraintVertical_bias="0.6" />
 
@@ -99,7 +103,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/editItemAmountEditText"
+        app:layout_constraintStart_toStartOf="@+id/edit_item_name_auto_complete"
         app:layout_constraintTop_toBottomOf="@id/edit_item_toolbar"
         app:layout_constraintVertical_bias="0.75" />
 

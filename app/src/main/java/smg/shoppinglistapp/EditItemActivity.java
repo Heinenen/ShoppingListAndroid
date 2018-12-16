@@ -10,9 +10,12 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 import smg.databasehelpers.DatabaseHelper;
 import smg.models.Item;
@@ -26,10 +29,11 @@ public class EditItemActivity extends AppCompatActivity {
     private CheckBox itemPriority;
     private Item item;
 
-    private EditText itemName;
-    private EditText itemCategory;
-    private EditText itemAmount;
-    private EditText itemPrice;
+    private ArrayList<String> namePredictions;
+    private AutoCompleteTextView itemName;
+    private AutoCompleteTextView itemCategory;
+    private AutoCompleteTextView itemAmount;
+    private AutoCompleteTextView itemPrice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,24 +54,36 @@ public class EditItemActivity extends AppCompatActivity {
         this.slID = getIntent().getStringExtra("smg.SL_ID");
         this.shoppingList = getIntent().getStringExtra("smg.SHOPPING_LIST");
         this.item = getItemFromSQL(itemID);
+        this.namePredictions = getNamePredictions();
 
 
         // set default text and set cursor to last position
-        itemName = findViewById(R.id.editItemNameEditText);
+        itemName = findViewById(R.id.edit_item_name_auto_complete);
         itemName.setText(item.getName());
         itemName.setSelection(item.getName().length());
-        itemCategory = findViewById(R.id.editItemCategoryEditText);
+        ArrayAdapter<String> nameAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, namePredictions);
+        itemName.setAdapter(nameAdapter);
+
+        itemCategory = findViewById(R.id.edit_item_category_auto_complete);
         itemCategory.setText(item.getCategory());
         itemCategory.setSelection(item.getCategory().length());
-        itemAmount = findViewById(R.id.editItemAmountEditText);
+        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, namePredictions);
+        itemName.setAdapter(nameAdapter);
+
+        itemAmount = findViewById(R.id.edit_item_amount_auto_complete);
         itemAmount.setText(item.getAmount());
         itemAmount.setSelection(item.getAmount().length());
-        itemPrice = findViewById(R.id.editItemPriceEditText);
+        ArrayAdapter<String> amountAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, namePredictions);
+        itemName.setAdapter(nameAdapter);
+
+        itemPrice = findViewById(R.id.edit_item_price_auto_complete);
         itemPrice.setText(item.getPrice().replace("€", ""));
         if(item.getPrice().equals(" ")){
             itemPrice.setText("");
         }
         itemPrice.setSelection(item.getPrice().length() - 1);
+        ArrayAdapter<String> priceAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, namePredictions);
+        itemName.setAdapter(nameAdapter);
 
 
         itemPriority = findViewById(R.id.editItemPriorityCheckBox);
@@ -103,26 +119,25 @@ public class EditItemActivity extends AppCompatActivity {
             itemAttributes[0] = item.getName();
         } else {
             itemAttributes[0] = itemName.getText().toString();
+            myDb.addNamePrediction(itemAttributes[0]);
         }
 
-        // default value for itemCategory
-        if(itemCategory.getText().toString().equals("")){
-            itemAttributes[1] = item.getCategory();
-        } else {
-            itemAttributes[1] = itemCategory.getText().toString();
-        }
+        itemAttributes[1] = itemCategory.getText().toString();
+        itemAttributes[2] = itemAmount.getText().toString();
 
-        // default value for itemAmount
-        if(itemAmount.getText().toString().equals("")){
-            itemAttributes[2] = item.getAmount();
-        } else {
-            itemAttributes[2] = itemAmount.getText().toString();
-        }
+//        if(!itemCategory.getText().toString().equals("")){
+//            myDb.addCategoryPrediction(itemAttributes[1]);
+//        }
 
-        if(itemPrice.getText().toString().equals("") || itemPrice.getText().toString().equals(" ")){
-            itemAttributes[3] = item.getPrice();
+//        if(!itemAmount.getText().toString().equals("")){
+//            myDb.addAmountPrediction(itemAttributes[2]);
+//        }
+
+        if(itemPrice.getText().toString().equals("") || itemPrice.getText().toString().contains(" ")){
+            itemAttributes[3] = " ";
         } else {
             itemAttributes[3] = itemPrice.getText().toString() + "€";
+//            myDb.addPricePrediction(itemPrice.getText().toString());
         }
 
         // default value for itemPriority
@@ -149,7 +164,6 @@ public class EditItemActivity extends AppCompatActivity {
         }
     }
 
-
     // gets the item which is being edited from SQL
     public Item getItemFromSQL(String itemID){
         Cursor res = myDb.getItem(itemID);
@@ -163,6 +177,15 @@ public class EditItemActivity extends AppCompatActivity {
                 res.getString(5),
                 res.getInt(6),
                 res.getInt(7));
+    }
+
+    public ArrayList<String> getNamePredictions(){
+        Cursor res = myDb.getNamePredictions();
+        ArrayList<String> namePredictions = new ArrayList<>();
+        while (res.moveToNext()){
+            namePredictions.add(res.getString(1));
+        }
+        return namePredictions;
     }
 
     public void deleteFromSQL(String itemID){
