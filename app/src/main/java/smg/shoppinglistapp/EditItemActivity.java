@@ -125,17 +125,19 @@ public class EditItemActivity extends AppCompatActivity {
             itemAttributes[0] = item.getName();
         } else {
             itemAttributes[0] = itemName.getText().toString();
-            myDb.addNamePrediction(itemAttributes[0]);
+            if(!namePredictions.contains(itemAttributes[0])) {
+                myDb.addNamePrediction(itemAttributes[0]);
+            }
         }
 
         itemAttributes[1] = itemCategory.getText().toString();
         itemAttributes[2] = itemAmount.getText().toString();
 
-        if(!(itemCategory.getText().toString().equals("") && categoryPredictions.contains(itemAttributes[1]))){
+        if(!(itemCategory.getText().toString().equals("") || categoryPredictions.contains(itemAttributes[1]))){
             myDb.addCategoryPrediction(itemAttributes[1]);
         }
 
-        if(!(itemAmount.getText().toString().equals("") && categoryPredictions.contains(itemAttributes[2]))){
+        if(!(itemAmount.getText().toString().equals("") || amountPredictions.contains(itemAttributes[2]))){
             myDb.addAmountPrediction(itemAttributes[2]);
         }
 
