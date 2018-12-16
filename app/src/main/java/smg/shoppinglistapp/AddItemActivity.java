@@ -27,6 +27,9 @@ public class AddItemActivity extends AppCompatActivity {
     private String shoppingList;
     private DatabaseHelper myDb;
     private ArrayList<String> namePredictions;
+    private ArrayList<String> categoryPredictions;
+    private ArrayList<String> amountPredictions;
+    private ArrayList<String> pricePredictions;
     private AutoCompleteTextView itemName;
     private AutoCompleteTextView itemCategory;
     private AutoCompleteTextView itemAmount;
@@ -50,6 +53,9 @@ public class AddItemActivity extends AppCompatActivity {
         this.shoppingList = getIntent().getStringExtra("smg.SHOPPING_LIST");
         this.myDb = new DatabaseHelper(this);
         this.namePredictions = getNamePredictions();
+        this.categoryPredictions = getCategoryPredictions();
+        this.amountPredictions = getAmountPredictions();
+        this.pricePredictions = getPricePredictions();
 
 
         itemName = findViewById(R.id.add_item_name_auto_complete);
@@ -57,16 +63,16 @@ public class AddItemActivity extends AppCompatActivity {
         itemName.setAdapter(nameAdapter);
 
         itemCategory = findViewById(R.id.add_item_category_auto_complete);
-        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, namePredictions);
+        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, categoryPredictions);
         itemCategory.setAdapter(categoryAdapter);
 
         itemAmount = findViewById(R.id.add_item_amount_auto_complete);
-        ArrayAdapter<String> amountAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, namePredictions);
-        itemAmount.setAdapter(categoryAdapter);
+        ArrayAdapter<String> amountAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, amountPredictions);
+        itemAmount.setAdapter(amountAdapter);
 
         itemPrice = findViewById(R.id.add_item_price_auto_complete);
-        ArrayAdapter<String> priceAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, namePredictions);
-        itemPrice.setAdapter(categoryAdapter);
+        ArrayAdapter<String> priceAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, pricePredictions);
+        itemPrice.setAdapter(priceAdapter);
 
 
 
@@ -116,6 +122,9 @@ public class AddItemActivity extends AppCompatActivity {
                 itemCategoryString = getString(R.string.addItemAct_defaultCategoryName);
             } else {
                 itemCategoryString = itemCategory.getText().toString();
+                if(!categoryPredictions.contains(itemCategoryString)){
+                    myDb.addCategoryPrediction(itemCategoryString);
+                }
             }
 
             // default value for amount (-> null)
@@ -124,6 +133,9 @@ public class AddItemActivity extends AppCompatActivity {
                 itemAmountString = getString(R.string.addItemAct_defaultAmount);
             } else {
                 itemAmountString = itemAmount.getText().toString();
+                if(!amountPredictions.contains(itemAmountString)){
+                    myDb.addAmountPrediction(itemAmountString);
+                }
             }
 
             // default value for amount (-> "")
@@ -131,7 +143,11 @@ public class AddItemActivity extends AppCompatActivity {
             if (itemPrice.getText().toString().equals("")) {
                 itemPriceString = " ";
             } else {
+                if(!pricePredictions.contains(itemPriceString)){
+                    myDb.addPricePrediction(itemPriceString);
+                }
                 itemPriceString = itemPriceString + "€";
+
             }
 
             // default value for priority (-> 0)
@@ -167,6 +183,33 @@ public class AddItemActivity extends AppCompatActivity {
             namePredictions.add(res.getString(1));
         }
         return namePredictions;
+    }
+
+    public ArrayList<String> getCategoryPredictions(){
+        Cursor res = myDb.getCategoryPredictions();
+        ArrayList<String> categoryPredictions = new ArrayList<>();
+        while (res.moveToNext()){
+            categoryPredictions.add(res.getString(1));
+        }
+        return categoryPredictions;
+    }
+
+    public ArrayList<String> getAmountPredictions(){
+        Cursor res = myDb.getAmountPredictions();
+        ArrayList<String> amountPredictions = new ArrayList<>();
+        while (res.moveToNext()){
+            amountPredictions.add(res.getString(1));
+        }
+        return amountPredictions;
+    }
+
+    public ArrayList<String> getPricePredictions(){
+        Cursor res = myDb.getPricePredictions();
+        ArrayList<String> pricePredictions = new ArrayList<>();
+        while (res.moveToNext()){
+            pricePredictions.add(res.getString(1));
+        }
+        return pricePredictions;
     }
 
 

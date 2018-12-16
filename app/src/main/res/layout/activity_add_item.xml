@@ -87,6 +87,7 @@
         android:ems="10"
         android:hint="@string/actAddItem_amountHint"
         android:inputType="textPersonName"
+        android:completionThreshold="1"
         android:imeOptions="actionNext"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -106,6 +107,7 @@
         android:ems="10"
         android:hint="@string/actAddItem_priceHint"
         android:inputType="number|numberSigned|numberDecimal"
+        android:completionThreshold="1"
         android:imeOptions="actionDone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -116,7 +118,7 @@
 
     <CheckBox
         android:id="@+id/addItemPriorityCheckBox"
-        android:layout_width="126dp"
+        android:layout_width="125dp"
         android:layout_height="wrap_content"
         android:text="@string/actAddItem_checkBoxText"
         android:textSize="18sp"
