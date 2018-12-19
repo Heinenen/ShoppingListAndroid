@@ -67,22 +67,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         db.execSQL("CREATE TABLE "
                 + TABLE4_NAME + " ("
-                + COL_4_1 + "INTEGER PRIMARY KEY, "
+                + COL_4_1 + " INTEGER PRIMARY KEY, "
                 + COL_4_2 + " TEXT)");
 
         db.execSQL("CREATE TABLE "
                 + TABLE5_NAME + " ("
-                + COL_5_1 + "INTEGER PRIMARY KEY, "
+                + COL_5_1 + " INTEGER PRIMARY KEY, "
                 + COL_5_2 + " TEXT)");
 
         db.execSQL("CREATE TABLE "
                 + TABLE6_NAME + " ("
-                + COL_6_1 + "INTEGER PRIMARY KEY, "
+                + COL_6_1 + " INTEGER PRIMARY KEY, "
                 + COL_6_2 + " TEXT)");
 
         db.execSQL("CREATE TABLE "
                 + TABLE7_NAME + " ("
-                + COL_7_1 + "INTEGER PRIMARY KEY, "
+                + COL_7_1 + " INTEGER PRIMARY KEY, "
                 + COL_7_2 + " TEXT)");
     }
 
@@ -249,5 +249,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public int deleteItem(String itemID){
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete(TABLE2_NAME, COL_2_1 + "= ?", new String[]{itemID});
+    }
+
+    public int deleteNamePrediction(String id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(TABLE4_NAME, COL_4_1 + "= ?", new String[]{id});
+    }
+
+    public int deleteCategoryPrediction(String id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(TABLE5_NAME, COL_5_1 + "= ?", new String[]{id});
+    }
+
+    public int deleteAmountPrediction(String id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(TABLE6_NAME, COL_6_1 + "= ?", new String[]{id});
+    }
+
+    public int deletePricePrediction(String id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(TABLE7_NAME, COL_7_1 + "= ?", new String[]{id});
     }
 }

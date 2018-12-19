@@ -29,6 +29,11 @@
         android:icon="@drawable/ic_sort_white_24dp"
         app:showAsAction="always" />
 
+    <item
+        android:id="@+id/action_manage_suggestions"
+        android:title="Suggestions"
+        app:showAsAction="never" />
+
 
 
     <!--

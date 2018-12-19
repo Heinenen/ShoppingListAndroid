@@ -21,8 +21,8 @@
         <activity
             android:name=".ItemsActivity"
             android:label="@string/addItemAct_title"
-            android:windowSoftInputMode="adjustNothing"
-            android:parentActivityName=".ShoppingListsActivity" />
+            android:parentActivityName=".ShoppingListsActivity"
+            android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".AddShoppingListActivity"
             android:label="@string/shoppingListsAct_title"
@@ -30,7 +30,7 @@
         <activity
             android:name=".AddItemActivity"
             android:label="@string/addItemAct_title"
-            android:parentActivityName=".ItemsActivity" >
+            android:parentActivityName=".ItemsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="smg.shoppinglistapp.ItemsActivity" />
@@ -38,15 +38,18 @@
         <activity
             android:name=".EditShoppingListActivity"
             android:label="@string/editShoppingListAct_title"
-            android:parentActivityName=".ShoppingListsActivity"/>
+            android:parentActivityName=".ShoppingListsActivity" />
         <activity
             android:name=".EditItemActivity"
             android:label="@string/editItemAct_title"
-            android:parentActivityName=".ItemsActivity" >
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value="smg.shoppinglistapp.ItemsActivity" />
+            android:parentActivityName=".ItemsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="smg.shoppinglistapp.ItemsActivity" />
         </activity>
+        <activity
+            android:name=".SuggestionsActivity"
+            android:parentActivityName=".ItemsActivity"></activity>
     </application>
 
 </manifest>

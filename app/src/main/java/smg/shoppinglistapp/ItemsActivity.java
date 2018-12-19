@@ -32,8 +32,8 @@ import smg.models.Item;
 
 public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInterface, PopupMenu.OnMenuItemClickListener, ActionBarAdapter.Listener {
 
-    // TODO make item suggestions in addItem
-    // TODO make item suggestions in Search
+    // TODO improve item suggestions in addItem
+    // TODO make item suggestions in Search??
 
     private static final String KEY_SEARCH_MODE = "searchMode";
     private static final String KEY_SHOPPING_LIST = "shoppingList";
@@ -487,6 +487,10 @@ public class ItemsActivity extends AppCompatActivity implements ItemsAdapterInte
             case R.id.action_sort_items:
                 showSortPopup(findViewById(R.id.action_sort_items));
                 return true;
+
+            case R.id.action_manage_suggestions:
+                Intent intent = new Intent(ItemsActivity.this, SuggestionsActivity.class);
+                startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }
