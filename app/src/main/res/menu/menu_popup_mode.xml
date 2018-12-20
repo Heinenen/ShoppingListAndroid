@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/mode_popup_name"
+        android:title="@string/popup_name" />
+
+    <item
+        android:id="@+id/mode_popup_category"
+        android:title="@string/popup_category" />
+
+    <item
+        android:id="@+id/mode_popup_amount"
+        android:title="Amount" />
+
+    <item
+        android:id="@+id/mode_popup_price"
+        android:title="Price" />
+
+</menu>

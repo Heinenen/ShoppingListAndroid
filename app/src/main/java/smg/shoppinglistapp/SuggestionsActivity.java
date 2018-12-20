@@ -10,6 +10,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.PopupMenu;
 
 import java.util.ArrayList;
 
@@ -18,9 +20,9 @@ import smg.databasehelpers.DatabaseHelper;
 import smg.interfaces.SuggestionsAdapterInterface;
 import smg.models.Suggestion;
 
-public class SuggestionsActivity extends AppCompatActivity implements SuggestionsAdapterInterface {
+public class SuggestionsActivity extends AppCompatActivity implements SuggestionsAdapterInterface, PopupMenu.OnMenuItemClickListener {
 
-    // TODO use mode, till now only deleting name suggestions works
+    // TODO replace strings with res-strings
 
     private DatabaseHelper myDb;
     private SuggestionsAdapter mAdapter;
@@ -35,8 +37,6 @@ public class SuggestionsActivity extends AppCompatActivity implements Suggestion
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_suggestions);
 
-        setTitle("Suggestions");
-
         android.support.v7.widget.Toolbar mToolbar = findViewById(R.id.suggestions_toolbar);
         setSupportActionBar(mToolbar);
 
@@ -45,10 +45,11 @@ public class SuggestionsActivity extends AppCompatActivity implements Suggestion
         }
 
         this.myDb = new DatabaseHelper(SuggestionsActivity.this);
-        this.suggestions = getSuggestionsFromSQL();
+        this.mode = 0;
+        this.suggestions = getNameSuggestionsFromSQL();
+        setTitle("Names");
         this.mAdapter = new SuggestionsAdapter(SuggestionsActivity.this, this, suggestions);
         this.deleteButtonVisible = false;
-        this.mode = 0;
 
         RecyclerView recyclerView = findViewById(R.id.suggestions_recycler_view);
         recyclerView.setAdapter(mAdapter);
@@ -69,21 +70,85 @@ public class SuggestionsActivity extends AppCompatActivity implements Suggestion
         invalidateOptionsMenu();
     }
 
-    public ArrayList<Suggestion> getSuggestionsFromSQL(){
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch(item.getItemId()){
+            case R.id.mode_popup_name:
+                mode = 0;
+                setTitle("Names");
+                suggestions = getNameSuggestionsFromSQL();
+                mAdapter.setSuggestions(suggestions);
+                mAdapter.refreshRowIndices();
+                mAdapter.notifyDataSetChanged();
+                return true;
+
+            case R.id.mode_popup_category:
+                mode = 1;
+                setTitle("Categories");
+                suggestions = getCategorySuggestionsFromSQL();
+                mAdapter.setSuggestions(suggestions);
+                mAdapter.refreshRowIndices();
+                mAdapter.notifyDataSetChanged();
+                return true;
+
+            case R.id.mode_popup_amount:
+                mode = 2;
+                setTitle("Amounts");
+                suggestions = getAmountSuggestionsFromSQL();
+                mAdapter.setSuggestions(suggestions);
+                mAdapter.refreshRowIndices();
+                mAdapter.notifyDataSetChanged();
+                return true;
+
+            case R.id.mode_popup_price:
+                mode = 3;
+                setTitle("Prices");
+                suggestions = getPriceSuggestionsFromSQL();
+                mAdapter.setSuggestions(suggestions);
+                mAdapter.refreshRowIndices();
+                mAdapter.notifyDataSetChanged();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void showManageSuggestionsPopup(View anchor){
+        PopupMenu popup = new PopupMenu(this, anchor);
+        popup.setOnMenuItemClickListener(this);
+        popup.inflate(R.menu.menu_popup_mode);
+        popup.show();
+    }
+
+    public ArrayList<Suggestion> getNameSuggestionsFromSQL(){
         ArrayList<Suggestion> temp = new ArrayList<>();
         Cursor res = myDb.getNamePredictions();
         while(res.moveToNext()){
             temp.add(new Suggestion(res.getString(0), res.getString(1)));
         }
-        res = myDb.getCategoryPredictions();
+        return temp;
+    }
+
+    public ArrayList<Suggestion> getCategorySuggestionsFromSQL(){
+        ArrayList<Suggestion> temp = new ArrayList<>();
+        Cursor res = myDb.getCategoryPredictions();
         while(res.moveToNext()){
             temp.add(new Suggestion(res.getString(0), res.getString(1)));
         }
-        res = myDb.getAmountPredictions();
+        return temp;
+    }
+
+    public ArrayList<Suggestion> getAmountSuggestionsFromSQL(){
+        ArrayList<Suggestion> temp = new ArrayList<>();
+        Cursor res = myDb.getAmountPredictions();
         while(res.moveToNext()){
             temp.add(new Suggestion(res.getString(0), res.getString(1)));
         }
-        res = myDb.getPricePredictions();
+        return temp;
+    }
+
+    public ArrayList<Suggestion> getPriceSuggestionsFromSQL(){
+        ArrayList<Suggestion> temp = new ArrayList<>();
+        Cursor res = myDb.getPricePredictions();
         while(res.moveToNext()){
             temp.add(new Suggestion(res.getString(0), res.getString(1)));
         }
@@ -130,6 +195,12 @@ public class SuggestionsActivity extends AppCompatActivity implements Suggestion
                     mAdapter.notifyDataSetChanged();
                     refreshToolbar(false);
                 }
+                return true;
+
+            case R.id.suggestions_action_mode_button:
+                showManageSuggestionsPopup(findViewById(R.id.suggestions_action_mode_button));
+                return true;
+
         }
         return super.onOptionsItemSelected(menuItem);
     }
