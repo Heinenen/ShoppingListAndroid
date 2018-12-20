@@ -13,7 +13,6 @@
 
     <!-- AddItemActivity -->
     <string name="addItemAct_title">Add new item</string>
-    <string name="addItemAct_defaultItemName">Item1</string>
     <string name="addItemAct_defaultCategoryName" translatable="false"> </string>
     <string name="addItemAct_defaultAmount" translatable="false"> </string>
 
@@ -32,6 +31,12 @@
     <!-- ShoppingListsActivity -->
     <string name="shoppingListsAct_title">Shopping lists</string>
     <string name="shoppingListAct_reallyDeleteSL">Do you really want to delete the selected shopping list(s)?</string>
+
+    <!-- SuggestionsActivity -->
+    <string name="suggestionsAct_nameTitle">Name suggestions</string>
+    <string name="suggestionsAct_categoryTitle">Category suggestions</string>
+    <string name="suggestionsAct_amountTitle">Amount suggestions</string>
+    <string name="suggestionsAct_priceTitle">Price suggestions</string>
 
 
     <!-- Strings for layouts -->
@@ -55,6 +60,9 @@
     <!-- popup menu items -->
     <string name="popup_name">Name</string>
     <string name="popup_category">Category</string>
+    <string name="popup_amount">Amount</string>
+    <string name="popup_price">Price</string>
+    <string name="popup_hint">Show …</string>
 
     <!-- Toasts -->
     <!-- adding -->

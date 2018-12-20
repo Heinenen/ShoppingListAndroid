@@ -65,7 +65,7 @@ public class ActionBarAdapter implements SearchView.OnCloseListener {
 
     public ActionBarAdapter(Activity activity, ActionBarAdapter.Listener listener, ActionBar actionBar,
                                   Toolbar toolbar) {
-        this(activity, listener, actionBar, toolbar, R.string.addItemAct_defaultItemName);
+        this(activity, listener, actionBar, toolbar, R.string.actAssShoppingList_nameHint);
     }
     public ActionBarAdapter(Activity activity, ActionBarAdapter.Listener listener, ActionBar actionBar,
                                   Toolbar toolbar, int searchHintResId) {

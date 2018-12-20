@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="addItemAct_title">Artikel hinzufügen</string>
-    <string name="addItemAct_defaultItemName">Artikel1</string>
     <string name="addShoppingListAct_title">Einkaufsliste hinzufügen</string>
     <string name="shoppingListsAct_title">Einkauflisten</string>
     <string name="actAddItem_nameHint">Name</string>
@@ -32,4 +31,11 @@
     <string name="itemAct_searchHint">Artikel suchen</string>
     <string name="shoppingListAct_reallyDeleteSL">Willst du diese Einkaufsliste(n) wirklich löschen?</string>
     <string name="save">Speichern</string>
+    <string name="suggestionsAct_nameTitle">Namensvorschläge</string>
+    <string name="suggestionsAct_categoryTitle">Kategorievorschläge</string>
+    <string name="suggestionsAct_amountTitle">Mengenvorschläge</string>
+    <string name="suggestionsAct_priceTitle">Preisvorschläge</string>
+    <string name="popup_amount">Menge</string>
+    <string name="popup_price">Preis</string>
+    <string name="popup_hint">Zeige …</string>
 </resources>

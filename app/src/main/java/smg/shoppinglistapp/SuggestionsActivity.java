@@ -22,8 +22,6 @@ import smg.models.Suggestion;
 
 public class SuggestionsActivity extends AppCompatActivity implements SuggestionsAdapterInterface, PopupMenu.OnMenuItemClickListener {
 
-    // TODO replace strings with res-strings
-
     private DatabaseHelper myDb;
     private SuggestionsAdapter mAdapter;
     private ArrayList<Suggestion> suggestions;
@@ -47,7 +45,7 @@ public class SuggestionsActivity extends AppCompatActivity implements Suggestion
         this.myDb = new DatabaseHelper(SuggestionsActivity.this);
         this.mode = 0;
         this.suggestions = getNameSuggestionsFromSQL();
-        setTitle("Names");
+        setTitle(R.string.suggestionsAct_nameTitle);
         this.mAdapter = new SuggestionsAdapter(SuggestionsActivity.this, this, suggestions);
         this.deleteButtonVisible = false;
 
@@ -75,7 +73,7 @@ public class SuggestionsActivity extends AppCompatActivity implements Suggestion
         switch(item.getItemId()){
             case R.id.mode_popup_name:
                 mode = 0;
-                setTitle("Names");
+                setTitle(R.string.suggestionsAct_nameTitle);
                 suggestions = getNameSuggestionsFromSQL();
                 mAdapter.setSuggestions(suggestions);
                 mAdapter.refreshRowIndices();
@@ -84,7 +82,7 @@ public class SuggestionsActivity extends AppCompatActivity implements Suggestion
 
             case R.id.mode_popup_category:
                 mode = 1;
-                setTitle("Categories");
+                setTitle(R.string.suggestionsAct_categoryTitle);
                 suggestions = getCategorySuggestionsFromSQL();
                 mAdapter.setSuggestions(suggestions);
                 mAdapter.refreshRowIndices();
@@ -93,7 +91,7 @@ public class SuggestionsActivity extends AppCompatActivity implements Suggestion
 
             case R.id.mode_popup_amount:
                 mode = 2;
-                setTitle("Amounts");
+                setTitle(R.string.suggestionsAct_amountTitle);
                 suggestions = getAmountSuggestionsFromSQL();
                 mAdapter.setSuggestions(suggestions);
                 mAdapter.refreshRowIndices();
@@ -102,7 +100,7 @@ public class SuggestionsActivity extends AppCompatActivity implements Suggestion
 
             case R.id.mode_popup_price:
                 mode = 3;
-                setTitle("Prices");
+                setTitle(R.string.suggestionsAct_priceTitle);
                 suggestions = getPriceSuggestionsFromSQL();
                 mAdapter.setSuggestions(suggestions);
                 mAdapter.refreshRowIndices();
